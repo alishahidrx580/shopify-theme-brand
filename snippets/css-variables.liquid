@@ -1,0 +1,115 @@
+{% doc %}
+  Emits the global design tokens for the theme as CSS custom properties on :root.
+
+  Two palettes ported verbatim from the React reference at src/styles.css:
+  the default warm-ivory light palette on :root, and the "Noir & Gold" dark
+  palette under :root[data-theme="dark"]. The active theme is applied by a
+  small inline script in layout/theme.liquid before paint to avoid FOUC.
+
+  Typography and layout tokens are theme-independent and live on :root only.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
+{% style %}
+  :root {
+    --radius: 0.125rem;
+
+    /* Surface — clean white, Dermalogica minimalist */
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.22 0 0);
+    --surface: oklch(0.97 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.22 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.22 0 0);
+
+    /* Accent — charcoal/black CTAs */
+    --primary: oklch(0.20 0 0);
+    --primary-foreground: oklch(0.99 0 0);
+    --primary-glow: oklch(0.32 0 0);
+
+    --secondary: oklch(0.95 0 0);
+    --secondary-foreground: oklch(0.22 0 0);
+
+    --muted: oklch(0.96 0 0);
+    --muted-foreground: oklch(0.45 0 0);
+
+    --accent: oklch(0.20 0 0);
+    --accent-foreground: oklch(0.99 0 0);
+
+    --destructive: oklch(0.55 0.20 27);
+    --destructive-foreground: oklch(0.96 0.01 85);
+
+    --border: oklch(0.20 0 0 / 0.14);
+    --input: oklch(0.20 0 0 / 0.18);
+    --ring: oklch(0.20 0 0 / 0.40);
+
+    --gradient-gold: linear-gradient(135deg, var(--primary), var(--primary-glow));
+    --shadow-gold: 0 24px 60px -28px color-mix(in oklab, var(--primary) 25%, transparent);
+
+    /* Typography */
+    /* Helvetica-style stack — native Helvetica on Apple, Arimo webfont elsewhere */
+    --font-display: "Helvetica Neue", Helvetica, "Arimo", Arial, sans-serif;
+    --font-sans: "Helvetica Neue", Helvetica, "Arimo", Arial, sans-serif;
+
+    /* Layout */
+    --page-max-width: 1400px;
+    --page-padding-inline: 1.5rem;
+    --page-padding-inline-lg: 2.5rem;
+    --header-height: 4rem;
+
+    /* Aliases used by the Skeleton baseline section grid utilities */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --page-width: var(--page-max-width);
+    --page-margin: var(--page-padding-inline);
+    --style-border-radius-inputs: var(--radius);
+  }
+
+  :root[data-theme="dark"] {
+    /* Surface — Noir */
+    --background: oklch(0.16 0 0);
+    --foreground: oklch(0.96 0 0);
+    --surface: oklch(0.22 0 0);
+    --card: oklch(0.22 0 0);
+    --card-foreground: oklch(0.96 0 0);
+    --popover: oklch(0.22 0 0);
+    --popover-foreground: oklch(0.96 0 0);
+
+    /* Accent — clean white CTAs on noir */
+    --primary: oklch(0.97 0 0);
+    --primary-foreground: oklch(0.16 0 0);
+    --primary-glow: oklch(0.85 0 0);
+
+    --secondary: oklch(0.28 0 0);
+    --secondary-foreground: oklch(0.96 0 0);
+
+    --muted: oklch(0.24 0 0);
+    --muted-foreground: oklch(0.70 0 0);
+
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.16 0 0);
+
+    --destructive: oklch(0.55 0.20 27);
+    --destructive-foreground: oklch(0.96 0.01 85);
+
+    --border: oklch(0.90 0 0 / 0.18);
+    --input: oklch(0.90 0 0 / 0.18);
+    --ring: oklch(0.90 0 0 / 0.45);
+
+    --shadow-gold: 0 20px 60px -20px color-mix(in oklab, var(--primary) 35%, transparent);
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --page-margin: var(--page-padding-inline-lg);
+      --header-height: 5rem;
+    }
+  }
+
+  body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+{% endstyle %}

@@ -1,0 +1,203 @@
+{%- liquid
+  assign align = section.settings.text_align | default: 'left'
+  assign show_rule = section.settings.show_rule
+-%}
+
+<section class="page-hero page-hero--{{ align }} full-width">
+  <div class="page-hero__inner" style="--max-width: {{ section.settings.max_width }}px;">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="page-hero__eyebrow" data-reveal>
+        {%- if show_rule -%}<span class="page-hero__rule" aria-hidden="true"></span>{%- endif -%}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      </span>
+    {%- endif -%}
+
+    <h1 class="page-hero__heading font-display" data-reveal data-reveal-delay="80">
+      {{- section.settings.heading_lead -}}
+      {%- if section.settings.heading_emphasis != blank %} <em>{{ section.settings.heading_emphasis }}</em>{%- endif -%}
+      {%- if section.settings.heading_tail != blank %}{{ section.settings.heading_tail }}{%- endif -%}
+    </h1>
+
+    {%- if section.settings.body != blank -%}
+      <div
+        class="page-hero__body page-hero__body--{{ section.settings.body_size }}"
+        style="--body-max-width: {{ section.settings.body_max_width }}rem;"
+        data-reveal
+        data-reveal-delay="180"
+      >{{ section.settings.body }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .page-hero {
+    width: 100%;
+    padding-top: 8rem;
+    padding-bottom: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .page-hero {
+      padding-top: 12rem;
+      padding-bottom: 2rem;
+    }
+  }
+
+  .page-hero__inner {
+    max-width: var(--max-width, 1100px);
+    margin-inline: auto;
+    padding-inline: var(--page-padding-inline);
+  }
+
+  @media (min-width: 1024px) {
+    .page-hero__inner {
+      padding-inline: var(--page-padding-inline-lg);
+    }
+  }
+
+  /* === Eyebrow with gold leading rule === */
+  .page-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .page-hero__rule {
+    display: inline-block;
+    width: 2.5rem;
+    height: 1px;
+    background-color: var(--primary);
+    flex: none;
+  }
+
+  /* === Heading === */
+  .page-hero__heading {
+    margin-top: 1.75rem;
+    font-size: clamp(2.5rem, 6.75vw, 6rem);
+    font-weight: 300;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .page-hero__heading em {
+    color: var(--primary);
+    font-style: italic;
+  }
+
+  /* === Body === */
+  .page-hero__body {
+    margin-top: 2.5rem;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: color-mix(in oklab, var(--foreground) 82%, transparent);
+    max-width: var(--body-max-width, 42rem);
+    text-wrap: pretty;
+  }
+
+  .page-hero__body--large {
+    margin-top: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .page-hero__body--large {
+      font-size: 1.25rem;
+    }
+  }
+
+  .page-hero__body > p { margin: 0; }
+  .page-hero__body > p + p { margin-top: 1.5rem; }
+
+  /* === Centered variant === */
+  .page-hero--center .page-hero__inner { text-align: center; }
+  .page-hero--center .page-hero__eyebrow { justify-content: center; }
+  .page-hero--center .page-hero__heading { margin-inline: auto; }
+  .page-hero--center .page-hero__body { margin-inline: auto; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Page hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rule",
+      "label": "Show eyebrow rule",
+      "info": "The short gold line before the eyebrow text.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading_lead",
+      "label": "Heading (lead)"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Heading (emphasis)"
+    },
+    {
+      "type": "text",
+      "id": "heading_tail",
+      "label": "Heading (after emphasis)",
+      "info": "Optional text rendered after the italic emphasis (e.g. a trailing period)."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Intro paragraph"
+    },
+    {
+      "type": "select",
+      "id": "body_size",
+      "label": "Body size",
+      "options": [
+        { "value": "default", "label": "Default (text-lg)" },
+        { "value": "large", "label": "Large (text-lg → text-xl)" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "body_max_width",
+      "label": "Body max width",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "rem",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max content width",
+      "min": 700,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "default": 1100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page hero"
+    }
+  ]
+}
+{% endschema %}

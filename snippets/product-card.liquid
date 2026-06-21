@@ -1,0 +1,229 @@
+{% doc %}
+  Renders a product card. Accepts either a `product` object (live data) or
+  a `placeholder` flag (no product yet — renders Shopify's placeholder SVG
+  with dummy copy so the home page looks finished in empty dev stores).
+
+  Hover swaps the primary image for the secondary image with a soft zoom.
+
+  Primary  = product.images[0] (the FIRST image in the product's media order)
+  Secondary = product.images[1] (the SECOND image in the product's media order)
+  This intentionally uses media ORDER, not featured_image, so the card always
+  matches the order you set by dragging images in the product's Media section.
+
+  @param {product} [product] - The product to render
+  @param {boolean} [placeholder] - Render placeholder mode
+  @param {number} [index] - 1-based index, used for placeholder variation
+  @param {boolean} [eager] - Use eager loading + high fetchpriority for the primary image
+
+  @example
+  {% render 'product-card', product: product %}
+  {% render 'product-card', placeholder: true, index: 1 %}
+{% enddoc %}
+
+{%- liquid
+  if placeholder
+    assign card_url = '#'
+    assign placeholder_index = index | default: 1
+    assign primary_slot = placeholder_index | modulo: 3 | plus: 1
+    assign secondary_slot = placeholder_index | plus: 1 | modulo: 3 | plus: 1
+    assign primary_placeholder = 'product-' | append: primary_slot
+    assign secondary_placeholder = 'product-' | append: secondary_slot
+    assign card_title = 'sections.home_featured_products.placeholder_title' | t
+    assign card_tagline = 'sections.home_featured_products.placeholder_tagline' | t
+    assign card_category = ''
+  else
+    assign card_url = product.url
+    assign card_title = product.metafields.custom.short_name | default: product.title
+    assign card_tagline = product.metafields.custom.tagline
+    assign card_category = product.metafields.custom.category | default: product.type
+
+    # === Image selection ===
+    # The card_image / card_hover_image metafields are file_reference type,
+    # whose .value resolves to an image URL string that image_url accepts.
+    # We work in URL strings throughout to avoid object-vs-string comparison
+    # bugs. Fall back to featured image / gallery when metafields are unset.
+
+    # Primary image URL
+    assign primary_url = blank
+    if product.metafields.custom.card_image.value != blank
+      assign primary_url = product.metafields.custom.card_image.value
+    elsif product.featured_image != blank
+      assign primary_url = product.featured_image
+    endif
+
+    # Secondary (hover) image URL
+    assign secondary_url = blank
+    if product.metafields.custom.card_hover_image.value != blank
+      assign secondary_url = product.metafields.custom.card_hover_image.value
+    else
+      # Fallback: first gallery image (position 2 if it exists, else position 1)
+      assign second_gallery = product.images[1] | default: product.images[0]
+      if second_gallery != blank
+        assign secondary_url = second_gallery
+      endif
+    endif
+  endif
+-%}
+
+<a href="{{ card_url }}" class="product-card">
+  <div class="product-card__media">
+    {%- if placeholder -%}
+      {{ primary_placeholder | placeholder_svg_tag: 'product-card__placeholder product-card__img product-card__img--primary' }}
+      {{ secondary_placeholder | placeholder_svg_tag: 'product-card__placeholder product-card__img product-card__img--secondary' }}
+    {%- else -%}
+      {%- if primary_url != blank -%}
+        <img
+          src="{{ primary_url | image_url: width: 800 }}"
+          srcset="{{ primary_url | image_url: width: 400 }} 400w, {{ primary_url | image_url: width: 800 }} 800w, {{ primary_url | image_url: width: 1200 }} 1200w"
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          alt="{{ product.title | escape }}"
+          width="800"
+          height="1000"
+          {% if eager %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+          decoding="async"
+          class="product-card__img product-card__img--primary"
+        >
+      {%- endif -%}
+      {%- if secondary_url != blank and secondary_url != primary_url -%}
+        <img
+          src="{{ secondary_url | image_url: width: 800 }}"
+          srcset="{{ secondary_url | image_url: width: 400 }} 400w, {{ secondary_url | image_url: width: 800 }} 800w"
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          alt=""
+          aria-hidden="true"
+          width="800"
+          height="1000"
+          loading="lazy"
+          decoding="async"
+          class="product-card__img product-card__img--secondary"
+        >
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if card_category != blank -%}
+      <span class="product-card__category eyebrow eyebrow--bare">{{ card_category }}</span>
+    {%- endif -%}
+  </div>
+
+  <div class="product-card__body">
+    <div class="product-card__text">
+      <h3 class="product-card__title font-display">{{ card_title }}</h3>
+      {%- if card_tagline != blank -%}
+        <p class="product-card__tagline">{{ card_tagline }}</p>
+      {%- endif -%}
+    </div>
+    <div class="product-card__pricing">
+      {%- unless placeholder -%}
+        <div class="product-card__price">{{ product.price | money }}</div>
+        {%- if product.compare_at_price > product.price -%}
+          <div class="product-card__compare">{{ product.compare_at_price | money }}</div>
+        {%- endif -%}
+      {%- endunless -%}
+    </div>
+  </div>
+</a>
+
+{% stylesheet %}
+  .product-card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .product-card__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: var(--surface);
+  }
+
+  .product-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-card__img--primary {
+    opacity: 1;
+    transition: opacity 0.7s ease;
+    z-index: 1;
+  }
+
+  .product-card__img--secondary {
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 0.7s ease, transform 1.2s ease;
+    z-index: 2;
+  }
+
+  .product-card:hover .product-card__img--primary,
+  .product-card:focus-visible .product-card__img--primary {
+    opacity: 0;
+  }
+
+  .product-card:hover .product-card__img--secondary,
+  .product-card:focus-visible .product-card__img--secondary {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .product-card__placeholder {
+    color: color-mix(in oklab, var(--primary) 30%, var(--surface));
+  }
+
+  .product-card__category {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: color-mix(in oklab, var(--background) 70%, transparent);
+    backdrop-filter: blur(8px);
+    padding: 0.25rem 0.625rem;
+    color: color-mix(in oklab, var(--foreground) 85%, transparent);
+  }
+
+  .product-card__body {
+    padding-top: 1.25rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .product-card__title {
+    font-size: 1.5rem;
+    line-height: 1.1;
+    color: var(--foreground);
+    transition: color 0.3s ease;
+  }
+
+  .product-card:hover .product-card__title,
+  .product-card:focus-visible .product-card__title {
+    color: var(--primary);
+  }
+
+  .product-card__tagline {
+    margin-top: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    font-style: italic;
+  }
+
+  .product-card__pricing {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .product-card__price {
+    color: var(--primary);
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .product-card__compare {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    text-decoration: line-through;
+  }
+{% endstylesheet %}

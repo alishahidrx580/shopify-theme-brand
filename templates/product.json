@@ -1,0 +1,145 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "free_shipping_override": 0,
+        "gallery_fit": "cover",
+        "gallery_ratio": "3 / 4",
+        "image_1_x": 50,
+        "image_1_y": 50,
+        "image_2_x": 50,
+        "image_2_y": 50,
+        "image_3_x": 50,
+        "image_3_y": 90,
+        "image_4_x": 50,
+        "image_4_y": 30,
+        "image_5_x": 50,
+        "image_5_y": 50,
+        "image_6_x": 50,
+        "image_6_y": 86,
+        "image_7_x": 50,
+        "image_7_y": 50,
+        "image_8_x": 50,
+        "image_8_y": 50,
+        "gallery_focal_x": 50,
+        "gallery_focal_y": 50
+      }
+    },
+    "pillars": {
+      "type": "product-pillars",
+      "settings": {
+        "stat_value": "",
+        "stat_footnote": "",
+        "eyebrow": "CONSIDERED FORMULATION",
+        "heading_lead": "Built around what your skin",
+        "heading_emphasis": "actually responds to.",
+        "intro": ""
+      }
+    },
+    "key_ingredients": {
+      "type": "product-key-ingredients",
+      "settings": {
+        "media_position": "left",
+        "eyebrow": "Cham",
+        "heading_lead": "Considered formulas.",
+        "heading_emphasis": "Quiet results.",
+        "claim": "",
+        "footnote": "<p>Every Cham formula is built around restraint — fewer ingredients, chosen precisely. This is what that looks like in practice. Made to be felt, not explained.</p>",
+        "video": "shopify://files/videos/8548f683a508415e8a43c744bd99f5b1.mp4",
+        "video_url": "",
+        "image": "shopify://shop_images/17th_jpg.jpg",
+        "autoplay": false,
+        "loop": true,
+        "show_controls": false
+      }
+    },
+    "ritual": {
+      "type": "product-ritual",
+      "settings": {
+        "eyebrow": "The Ritual",
+        "heading_lead": "How to",
+        "heading_emphasis": "apply.",
+        "body": "<p>A few unhurried moments, morning and night. The serum works with consistency — not with rushing. Let each step complete before moving to the next.</p>"
+      }
+    },
+    "sensory": {
+      "type": "product-sensory",
+      "settings": {
+        "media_position": "left",
+        "eyebrow": "The Sensory Experience",
+        "heading_lead": "How it",
+        "heading_emphasis": "feels.",
+        "body": ""
+      }
+    },
+    "pairs_with": {
+      "type": "product-pairs-with",
+      "settings": {
+        "eyebrow": "Pairs Beautifully With",
+        "heading": "Complete the ritual",
+        "products_to_show": 3,
+        "view_all_label": "View all",
+        "view_all_url": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "settings": {
+        "eyebrow": "Questions",
+        "heading_lead": "What people",
+        "heading_emphasis": "ask."
+      }
+    },
+    "regimen": {
+      "type": "product-regimen",
+      "settings": {
+        "eyebrow": "",
+        "heading_lead": "Complete your regimen",
+        "heading_emphasis": ""
+      }
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "blocks": {
+        "judge_me_reviews_review_widget_4hkKw8": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "hide_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_4hkKw8"
+      ],
+      "settings": {
+        "eyebrow": "Customer reviews",
+        "heading_lead": "Loved by skin like",
+        "heading_emphasis": "yours."
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pillars",
+    "key_ingredients",
+    "ritual",
+    "sensory",
+    "pairs_with",
+    "faq",
+    "regimen",
+    "reviews"
+  ]
+}

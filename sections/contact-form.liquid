@@ -1,0 +1,440 @@
+{%- liquid
+  assign show_rule = section.settings.show_rule
+  assign uid = section.id
+-%}
+
+<section class="contact full-width">
+  <div class="contact__inner cham-container">
+    <div class="contact__head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="contact__eyebrow">
+          {%- if show_rule -%}<span class="contact__rule" aria-hidden="true"></span>{%- endif -%}
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        </span>
+      {%- endif -%}
+      <h1 class="contact__heading font-display">
+        {{- section.settings.heading_lead -}}
+        {%- if section.settings.heading_emphasis != blank %} <em>{{ section.settings.heading_emphasis }}</em>{%- endif -%}
+        {%- if section.settings.heading_tail != blank %}{{ section.settings.heading_tail }}{%- endif -%}
+      </h1>
+      {%- if section.settings.body != blank -%}
+        <div class="contact__intro">{{ section.settings.body }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="contact__layout">
+      <div class="contact__form-col" data-reveal data-reveal-delay="120">
+        {%- form 'contact' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="contact__success" role="status">{{ section.settings.success_text }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <div class="contact__errors" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="contact__row">
+            <div class="contact__field">
+              <label for="ContactFirst-{{ uid }}">{{ section.settings.first_name_label }}</label>
+              <input
+                type="text"
+                id="ContactFirst-{{ uid }}"
+                name="contact[First name]"
+                autocomplete="given-name"
+              >
+            </div>
+            <div class="contact__field">
+              <label for="ContactLast-{{ uid }}">{{ section.settings.last_name_label }}</label>
+              <input
+                type="text"
+                id="ContactLast-{{ uid }}"
+                name="contact[Last name]"
+                autocomplete="family-name"
+              >
+            </div>
+          </div>
+
+          <div class="contact__field">
+            <label for="ContactEmail-{{ uid }}">{{ section.settings.email_label }}</label>
+            <input
+              type="email"
+              id="ContactEmail-{{ uid }}"
+              name="contact[email]"
+              autocomplete="email"
+              required
+              value="{% if form.email %}{{ form.email }}{% endif %}"
+            >
+          </div>
+
+          <div class="contact__field">
+            <label for="ContactSubject-{{ uid }}">{{ section.settings.subject_label }}</label>
+            <input
+              type="text"
+              id="ContactSubject-{{ uid }}"
+              name="contact[Subject]"
+            >
+          </div>
+
+          <div class="contact__field">
+            <label for="ContactMessage-{{ uid }}">{{ section.settings.message_label }}</label>
+            <textarea
+              id="ContactMessage-{{ uid }}"
+              name="contact[body]"
+              rows="6"
+              required
+            >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          </div>
+
+          <button type="submit" class="contact__submit">{{ section.settings.submit_label }}</button>
+        {%- endform -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <aside class="contact__info-col" data-reveal data-reveal-delay="200">
+          {%- for block in section.blocks -%}
+            <div class="contact__info" {{ block.shopify_attributes }}>
+              {%- if block.settings.label != blank -%}
+                <p class="eyebrow eyebrow--bare contact__info-label">{{ block.settings.label }}</p>
+              {%- endif -%}
+              {%- if block.settings.content != blank -%}
+                <div class="contact__info-content">{{ block.settings.content }}</div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </aside>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .contact {
+    width: 100%;
+    padding-top: 8rem;
+    padding-bottom: 6rem;
+  }
+
+  @media (min-width: 1024px) {
+    .contact {
+      padding-top: 11rem;
+      padding-bottom: 8rem;
+    }
+  }
+
+  /* Header */
+  .contact__head {
+    max-width: 44rem;
+  }
+
+  .contact__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .contact__rule {
+    display: inline-block;
+    width: 2.5rem;
+    height: 1px;
+    background-color: var(--primary);
+    flex: none;
+  }
+
+  .contact__heading {
+    margin-top: 1.5rem;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .contact__heading em {
+    color: var(--primary);
+    font-style: italic;
+  }
+
+  .contact__intro {
+    margin-top: 2rem;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: color-mix(in oklab, var(--foreground) 82%, transparent);
+    text-wrap: pretty;
+  }
+
+  .contact__intro > p { margin: 0; }
+
+  /* Layout */
+  .contact__layout {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .contact__layout {
+      margin-top: 5rem;
+      grid-template-columns: minmax(0, 1.6fr) minmax(16rem, 1fr);
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact__info-col {
+      position: sticky;
+      top: calc(var(--header-height, 0px) + 2rem);
+    }
+  }
+
+  .contact__form-col { min-width: 0; }
+  .contact__info-col { min-width: 0; }
+
+  /* Form */
+  .contact__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .contact__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .contact__field {
+    margin-top: 1.5rem;
+  }
+
+  .contact__field:first-of-type,
+  .contact__row .contact__field {
+    margin-top: 0;
+  }
+
+  .contact__row + .contact__field {
+    margin-top: 1.5rem;
+  }
+
+  .contact__field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    color: color-mix(in oklab, var(--foreground) 70%, transparent);
+  }
+
+  .contact__field input,
+  .contact__field textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--foreground);
+    background-color: transparent;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .contact__field textarea {
+    resize: vertical;
+    min-height: 9rem;
+  }
+
+  .contact__field input:focus,
+  .contact__field textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary);
+  }
+
+  .contact__submit {
+    margin-top: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.95rem 2.5rem;
+    font: inherit;
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--background);
+    background-color: var(--foreground);
+    border: 1px solid var(--foreground);
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .contact__submit:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .contact__submit:focus-visible {
+    outline: 2px solid var(--ring, var(--primary));
+    outline-offset: 2px;
+  }
+
+  .contact__success {
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.25rem;
+    background-color: color-mix(in oklab, var(--primary) 12%, transparent);
+    border-left: 2px solid var(--primary);
+    color: var(--foreground);
+    line-height: 1.5;
+  }
+
+  .contact__errors {
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.25rem;
+    border-left: 2px solid #c0392b;
+    color: #c0392b;
+    line-height: 1.5;
+  }
+
+  .contact__errors ul { margin: 0; padding-left: 1.1rem; }
+
+  /* Info column */
+  .contact__info + .contact__info {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact__info-label {
+    color: color-mix(in oklab, var(--foreground) 70%, transparent);
+  }
+
+  .contact__info-content {
+    margin-top: 0.75rem;
+    line-height: 1.7;
+    color: color-mix(in oklab, var(--foreground) 85%, transparent);
+    overflow-wrap: break-word;
+  }
+
+  .contact__info-content > p { margin: 0; }
+  .contact__info-content > p + p { margin-top: 0.35rem; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact form",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rule",
+      "label": "Show eyebrow rule",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading_lead",
+      "label": "Heading (lead)",
+      "default": "We'd love to"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Heading (emphasis)",
+      "default": "hear from you"
+    },
+    {
+      "type": "text",
+      "id": "heading_tail",
+      "label": "Heading (after emphasis)",
+      "default": "."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Intro paragraph",
+      "default": "<p>For client care, press inquiries, or collaborations — write to us. Every message is read by a human in our atelier.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Form labels"
+    },
+    {
+      "type": "text",
+      "id": "first_name_label",
+      "label": "First name label",
+      "default": "First name"
+    },
+    {
+      "type": "text",
+      "id": "last_name_label",
+      "label": "Last name label",
+      "default": "Last name"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email label",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "subject_label",
+      "label": "Subject label",
+      "default": "Subject"
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "label": "Message label",
+      "default": "Message"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Send Message"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Success message",
+      "default": "Thank you — we'll be in touch soon."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "info_block",
+      "name": "Info block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Care"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>hi@example.com</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Contact form",
+      "blocks": [
+        { "type": "info_block" }
+      ]
+    }
+  ]
+}
+{% endschema %}

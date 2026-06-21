@@ -1,0 +1,211 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "The Approach",
+        "show_rule": false,
+        "heading_lead": "Skincare,",
+        "heading_emphasis": "considered slowly.",
+        "heading_tail": "",
+        "body": "<p>We believe great skincare is the result of careful choices — not loud promises. Every Cham formulation is built around the real needs of real skin: skin that lives in Pakistan's sun, its humidity, its changing seasons. Our approach is simple: fewer ingredients, chosen well. Trust the process.</p>",
+        "body_size": "default",
+        "text_align": "left",
+        "body_max_width": 42,
+        "max_width": 1100
+      }
+    },
+    "image-band": {
+      "type": "page-image-band",
+      "settings": {
+        "image": "shopify://shop_images/Photorealistic_luxury_skincare_ingredient_still-life_202606191719.jpg",
+        "image_mobile": "shopify://shop_images/Photorealistic_luxury_skincare_ingredient_still-life_202606191719.jpg",
+        "alt": "",
+        "aspect_mobile": "16 / 9",
+        "aspect_desktop": "21 / 8",
+        "focal_x": 50,
+        "focal_y": 50,
+        "margin_top": 3
+      }
+    },
+    "principles": {
+      "type": "home-pillars",
+      "blocks": {
+        "p1": {
+          "type": "pillar",
+          "settings": {
+            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_macro_202606191946.jpg",
+            "number": "01",
+            "title": "Comfort",
+            "body": "<p>Every formula begins with feel. Lightweight, non-greasy textures designed for daily wear. In Pakistan's heat and humidity, comfort isn't a luxury — it's the starting point. A formula you enjoy using is one you'll actually use.<br/><br/><br/></p>"
+          }
+        },
+        "p2": {
+          "type": "pillar",
+          "settings": {
+            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_macro_202606191950.jpg",
+            "number": "02",
+            "title": "Balance",
+            "body": "<p>Hydration-first. Barrier-supportive. We avoid unnecessary fragrance loads and harsh actives that strip more than they give. What remains is a formula your skin can return to every morning without compromise or irritation.<br/><br/></p>"
+          }
+        },
+        "p3": {
+          "type": "pillar",
+          "settings": {
+            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_photograph__202606191952.jpg",
+            "number": "03",
+            "title": "Finish",
+            "body": "<p>A soft, even, naturally luminous finish. Not coverage — comfort made visible. The result of skin that has been given the right foundation: hydration, balance, and a little patience<br/><br/></p>"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "eyebrow": "Three Principles",
+        "show_rule": false,
+        "heading_lead": "Comfort · Balance ·",
+        "heading_emphasis": "Finish",
+        "image_aspect": "4 / 5"
+      }
+    },
+    "beliefs": {
+      "type": "page-cards-pair",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_photograph__202606192008.jpg",
+            "eyebrow": "Less, but better",
+            "title": "Considered range",
+            "body": "<p>A small, edited collection that works together. Every product earns its place — no fillers, no duplicates, no confusion. A clear routine you can build from without ever feeling overwhelmed.</p>"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Photorealistic_editorial_portrait_photograph_of_202606192011.jpg",
+            "eyebrow": "Honest claims",
+            "title": "No miracles",
+            "body": "<p>We describe only what you can see and feel. Never what happens at a cellular level. Honest, appearance-based language throughout. Individual results vary — and we respect that enough to say so.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2"
+      ],
+      "settings": {
+        "background": "surface",
+        "eyebrow": "What we believe",
+        "show_rule": false,
+        "heading_lead": "Quiet routines.",
+        "heading_emphasis": "Patient results.",
+        "image_aspect": "4 / 5"
+      }
+    },
+    "faq": {
+      "type": "page-faq",
+      "blocks": {
+        "q1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is Cham about?",
+            "answer": "<p>Cham is a skincare house developed with a research-backed approach to formulation. We focus on ingredient quality, formulation balance and skin comfort — designing products that help skin look and feel its best with consistent use.</p>"
+          }
+        },
+        "q2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is Cham's skincare philosophy?",
+            "answer": "<p>We support the skin rather than overpower it with aggressive actives or heavy textures. We focus on how ingredients work together, how formulations feel on the skin, and how they fit naturally into a daily routine.</p>"
+          }
+        },
+        "faq_item_WxajBY": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I use Cham products on sensitive or acne-prone skin?",
+            "answer": "<p>Yes. Our formulations are designed with tolerability as a priority. We avoid common irritants — synthetic fragrance, harsh exfoliants, and high-concentration essential oils. All products are dermatologist-tested. If you have a known skin condition or sensitivity, we recommend reviewing the full ingredient list on your chosen product page before use, or speaking with a dermatologist.<br/><br/></p>"
+          }
+        },
+        "faq_item_Viwz3E": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I know my Cham product is authentic?",
+            "answer": "<p>Only purchase from chambeautypk.com or our verified retail partners. Counterfeit skincare is a real concern in Pakistan — we strongly recommend avoiding unofficial resellers and unverified online listings,<br/>especially on social media marketplaces. Every genuine Cham product ships directly from us. If you have any doubt about authenticity, contact us on WhatsApp before purchase.</p>"
+          }
+        },
+        "faq_item_dhgFgx": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer Cash on Delivery (COD)?",
+            "answer": "<p>Yes, Cash on Delivery is available on all orders across Pakistan. You can also pay online via bank transfer or card. No advance payment is required for COD orders. For COD, payment is collected by the courier<br/>at your doorstep on delivery.<br/><br/><br/></p>"
+          }
+        },
+        "q3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How is Cham different from general skincare brands?",
+            "answer": "<p>Many products focus on immediate brightness or shine created by oils, silicones, or reflective films — effects that are short-lived. Cham designs formulations that emphasise hydration, comfort and a softly luminous look that grows with continued use. Individual results may vary.</p>"
+          }
+        },
+        "q4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does Cham use single hero ingredients?",
+            "answer": "<p>No. The way ingredients interact within a formulation, the quality of the base, and the overall stability all matter. We focus on ingredient synergy rather than highlighting one molecule in isolation.</p>"
+          }
+        },
+        "faq_item_eAkinR": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is Cham available across Pakistan?",
+            "answer": "<p>Yes. We deliver nationwide — Karachi, Lahore, Islamabad, Rawalpindi, Peshawar, Quetta, Faisalabad, and all major cities. Orders are dispatched within 1–2 business days. Standard delivery takes 3–5 business days depending on your location. For any delivery queries, contact us via WhatsApp.</p>"
+          }
+        },
+        "q5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where is Cham made?",
+            "answer": "<p>Cham is developed with French formulation standards, in collaboration with experienced cosmetic chemists. We work in small batches to maintain quality and consistency.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "faq_item_WxajBY",
+        "faq_item_Viwz3E",
+        "faq_item_dhgFgx",
+        "q3",
+        "q4",
+        "faq_item_eAkinR",
+        "q5"
+      ],
+      "settings": {
+        "eyebrow": "Questions",
+        "heading_lead": "What people ask",
+        "heading_emphasis": ""
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "image-band",
+    "principles",
+    "beliefs",
+    "faq"
+  ]
+}
