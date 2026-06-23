@@ -55,7 +55,6 @@
         "heading_emphasis": "Quiet results.",
         "claim": "",
         "footnote": "<p>Every Cham formula is built around restraint — fewer ingredients, chosen precisely. This is what that looks like in practice. Made to be felt, not explained.</p>",
-        "video": "shopify://files/videos/8548f683a508415e8a43c744bd99f5b1.mp4",
         "video_url": "",
         "image": "shopify://shop_images/17th_jpg.jpg",
         "autoplay": false,
@@ -110,20 +109,6 @@
     },
     "reviews": {
       "type": "product-reviews",
-      "blocks": {
-        "judge_me_reviews_review_widget_4hkKw8": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "hide_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_4hkKw8"
-      ],
       "settings": {
         "eyebrow": "Customer reviews",
         "heading_lead": "Loved by skin like",
