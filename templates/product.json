@@ -56,19 +56,10 @@
         "claim": "",
         "footnote": "<p>Every Cham formula is built around restraint — fewer ingredients, chosen precisely. This is what that looks like in practice. Made to be felt, not explained.</p>",
         "video_url": "",
-        "image": "shopify://shop_images/17th_jpg.jpg",
+        "poster_metafield": "custom.feature_poster",
         "autoplay": false,
         "loop": true,
         "show_controls": false
-      }
-    },
-    "ritual": {
-      "type": "product-ritual",
-      "settings": {
-        "eyebrow": "The Ritual",
-        "heading_lead": "How to",
-        "heading_emphasis": "apply.",
-        "body": "<p>A few unhurried moments, morning and night. The serum works with consistency — not with rushing. Let each step complete before moving to the next.</p>"
       }
     },
     "sensory": {
@@ -120,7 +111,6 @@
     "main",
     "pillars",
     "key_ingredients",
-    "ritual",
     "sensory",
     "pairs_with",
     "faq",
