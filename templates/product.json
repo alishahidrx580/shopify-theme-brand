@@ -15,6 +15,7 @@
         "free_shipping_override": 0,
         "gallery_fit": "contain",
         "gallery_ratio": "3 / 4",
+        "image_container_width": "1.45",
         "image_1_x": 50,
         "image_1_y": 50,
         "image_2_x": 50,
@@ -33,33 +34,6 @@
         "image_8_y": 50,
         "gallery_focal_x": 50,
         "gallery_focal_y": 50
-      }
-    },
-    "pillars": {
-      "type": "product-pillars",
-      "settings": {
-        "stat_value": "",
-        "stat_footnote": "",
-        "eyebrow": "CONSIDERED FORMULATION",
-        "heading_lead": "Built around what your skin",
-        "heading_emphasis": "actually responds to.",
-        "intro": ""
-      }
-    },
-    "key_ingredients": {
-      "type": "product-key-ingredients",
-      "settings": {
-        "media_position": "left",
-        "eyebrow": "Cham",
-        "heading_lead": "Considered formulas.",
-        "heading_emphasis": "Quiet results.",
-        "claim": "",
-        "footnote": "<p>Every Cham formula is built around restraint — fewer ingredients, chosen precisely. This is what that looks like in practice. Made to be felt, not explained.</p>",
-        "video_url": "",
-        "poster_metafield": "custom.feature_poster",
-        "autoplay": false,
-        "loop": true,
-        "show_controls": false
       }
     },
     "sensory": {
@@ -109,8 +83,6 @@
   },
   "order": [
     "main",
-    "pillars",
-    "key_ingredients",
     "sensory",
     "pairs_with",
     "faq",
