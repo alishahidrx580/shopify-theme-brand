@@ -33,6 +33,7 @@
 
   assign gallery_fit = section.settings.gallery_fit | default: 'cover'
   assign gallery_ratio = section.settings.gallery_ratio | default: '3 / 4'
+  assign image_container_width = section.settings.image_container_width | default: '1.45'
   assign focal_x     = section.settings.gallery_focal_x | default: 50
   assign focal_y     = section.settings.gallery_focal_y | default: 50
 
@@ -43,7 +44,7 @@
   endif
 -%}
 
-<section class="main-product full-width" data-product-section data-product-handle="{{ product.handle }}" style="--gallery-ratio: {{ gallery_ratio }};">
+<section class="main-product full-width" data-product-section data-product-handle="{{ product.handle }}" style="--gallery-ratio: {{ gallery_ratio }}; --gallery-col-width: {{ image_container_width }}fr;">
   <div class="main-product__inner cham-container">
     <div class="main-product__grid">
 
@@ -275,7 +276,7 @@
 
   @media (min-width: 1024px) {
     .main-product__grid {
-      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, var(--gallery-col-width, 1.45fr)) minmax(0, 1fr);
       grid-template-areas: "gallery info";
       column-gap: 4rem;
       align-items: start;
@@ -774,6 +775,19 @@
         { "value": "4 / 3", "label": "4:3 (landscape)" }
       ],
       "default": "3 / 4"
+    },
+    {
+      "type": "select",
+      "id": "image_container_width",
+      "label": "Image container size",
+      "info": "Controls how wide the product image column is on desktop. Use a larger size if you have fewer images.",
+      "options": [
+        { "value": "1.45", "label": "Normal (default)" },
+        { "value": "1.7",  "label": "Large" },
+        { "value": "2.0",  "label": "Extra large" },
+        { "value": "2.5",  "label": "Maximized" }
+      ],
+      "default": "1.45"
     },
     {
       "type": "header",
