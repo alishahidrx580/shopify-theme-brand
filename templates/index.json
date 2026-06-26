@@ -9,6 +9,15 @@
  */
 {
   "sections": {
+    "announcement-bar": {
+      "type": "home-announcement-bar",
+      "settings": {
+        "message_1": "100% original. Imported from UAE. Delivered across Pakistan.",
+        "message_2": "Every product is sealed, authenticated, and imported — not sourced locally.",
+        "message_3": "Dermatologist-grade skincare. Original packaging. Nationwide delivery.",
+        "rotation_ms": 4000
+      }
+    },
     "hero": {
       "type": "home-hero",
       "blocks": {
@@ -90,12 +99,85 @@
       }
     },
     "shop-by-concern": {
-      "type": "home-manifesto",
+      "type": "home-collection-list",
+      "blocks": {
+        "concern_1": {
+          "type": "concern_tile",
+          "settings": {
+            "emoji": "🔆",
+            "label": "Brightening",
+            "link": "/collections/brightening"
+          }
+        },
+        "concern_2": {
+          "type": "concern_tile",
+          "settings": {
+            "emoji": "🛡️",
+            "label": "Sensitive Skin",
+            "link": "/collections/sensitive-skin"
+          }
+        },
+        "concern_3": {
+          "type": "concern_tile",
+          "settings": {
+            "emoji": "🧴",
+            "label": "Cleansers",
+            "link": "/collections/cleansers"
+          }
+        },
+        "concern_4": {
+          "type": "concern_tile",
+          "settings": {
+            "emoji": "☀️",
+            "label": "SPF & Sun",
+            "link": "/collections/spf"
+          }
+        },
+        "concern_5": {
+          "type": "concern_tile",
+          "settings": {
+            "emoji": "👁️",
+            "label": "Eye Care",
+            "link": "/collections/eye-care"
+          }
+        },
+        "concern_6": {
+          "type": "concern_tile",
+          "settings": {
+            "emoji": "🌙",
+            "label": "Night Treatment",
+            "link": "/collections/night-treatment"
+          }
+        },
+        "concern_7": {
+          "type": "concern_tile",
+          "settings": {
+            "emoji": "💧",
+            "label": "Anti-Aging",
+            "link": "/collections/anti-aging"
+          }
+        },
+        "concern_8": {
+          "type": "concern_tile",
+          "settings": {
+            "emoji": "✨",
+            "label": "Oily & Acne",
+            "link": "/collections/oily-acne"
+          }
+        }
+      },
+      "block_order": [
+        "concern_1",
+        "concern_2",
+        "concern_3",
+        "concern_4",
+        "concern_5",
+        "concern_6",
+        "concern_7",
+        "concern_8"
+      ],
       "settings": {
-        "eyebrow": "",
-        "show_rule": false,
-        "heading": "<p>Shop by Skin Concern</p>",
-        "body": "<p><a href=\"/collections/brightening\">🔆 Brightening</a> · <a href=\"/collections/sensitive-skin\">🛡️ Sensitive Skin</a> · <a href=\"/collections/cleansers\">🧴 Cleansers</a> · <a href=\"/collections/spf\">☀️ SPF & Sun</a> · <a href=\"/collections/eye-care\">👁️ Eye Care</a> · <a href=\"/collections/night-treatment\">🌙 Night Treatment</a> · <a href=\"/collections/anti-aging\">💧 Anti-Aging</a> · <a href=\"/collections/oily-acne\">✨ Oily & Acne</a></p>"
+        "heading": "Shop by Skin Concern"
       }
     },
     "new-in": {
@@ -110,78 +192,138 @@
       }
     },
     "brand-logos": {
-      "type": "home-marquee",
+      "type": "home-brand-logos",
       "blocks": {
         "brand_1": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "La Roche-Posay"
+            "name": "La Roche-Posay"
           }
         },
         "brand_2": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "CeraVe"
+            "name": "CeraVe"
           }
         },
         "brand_3": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "Bioderma"
+            "name": "Bioderma"
           }
         },
         "brand_4": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "No7"
+            "name": "No7"
           }
         },
         "brand_5": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "Cetaphil"
+            "name": "Cetaphil"
           }
         },
         "brand_6": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "Aveeno"
+            "name": "Aveeno"
           }
         },
         "brand_7": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "Avène"
+            "name": "Avène"
           }
         },
         "brand_8": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "COSRX"
+            "name": "COSRX"
           }
         },
         "brand_9": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "ACM"
+            "name": "ACM"
           }
         },
         "brand_10": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "Dermalogica"
+            "name": "Dermalogica"
           }
         },
         "brand_11": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "ISDIN"
+            "name": "ISDIN"
           }
         },
         "brand_12": {
-          "type": "marquee_item",
+          "type": "brand",
           "settings": {
-            "text": "Uriage"
+            "name": "Uriage"
+          }
+        },
+        "brand_13": {
+          "type": "brand",
+          "settings": {
+            "name": "Medicube"
+          }
+        },
+        "brand_14": {
+          "type": "brand",
+          "settings": {
+            "name": "Soap & Glory"
+          }
+        },
+        "brand_15": {
+          "type": "brand",
+          "settings": {
+            "name": "Johnson's & Johnson's"
+          }
+        },
+        "brand_16": {
+          "type": "brand",
+          "settings": {
+            "name": "Mustela"
+          }
+        },
+        "brand_17": {
+          "type": "brand",
+          "settings": {
+            "name": "Boots"
+          }
+        },
+        "brand_18": {
+          "type": "brand",
+          "settings": {
+            "name": "Boots Collagen"
+          }
+        },
+        "brand_19": {
+          "type": "brand",
+          "settings": {
+            "name": "Boots Everyday"
+          }
+        },
+        "brand_20": {
+          "type": "brand",
+          "settings": {
+            "name": "Boots Glow"
+          }
+        },
+        "brand_21": {
+          "type": "brand",
+          "settings": {
+            "name": "Boots Sheet Mask"
+          }
+        },
+        "brand_22": {
+          "type": "brand",
+          "settings": {
+            "name": "Derma"
           }
         }
       },
@@ -197,7 +339,17 @@
         "brand_9",
         "brand_10",
         "brand_11",
-        "brand_12"
+        "brand_12",
+        "brand_13",
+        "brand_14",
+        "brand_15",
+        "brand_16",
+        "brand_17",
+        "brand_18",
+        "brand_19",
+        "brand_20",
+        "brand_21",
+        "brand_22"
       ],
       "settings": {
         "scroll_seconds": 80
@@ -344,6 +496,7 @@
     }
   },
   "order": [
+    "announcement-bar",
     "hero",
     "shop-by-concern",
     "new-in",
