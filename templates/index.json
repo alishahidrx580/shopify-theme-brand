@@ -188,7 +188,8 @@
         "heading_emphasis": "",
         "products_to_show": 6,
         "view_all_label": "View All New In →",
-        "view_all_url": "/collections/new-arrivals"
+        "view_all_url": "/collections/new-arrivals",
+        "collection": "489844801764"
       }
     },
     "brand-logos": {
@@ -363,7 +364,8 @@
         "heading_emphasis": "",
         "products_to_show": 6,
         "view_all_label": "View All Brightening →",
-        "view_all_url": "/collections/brightening"
+        "view_all_url": "/collections/brightening",
+        "collection": "489844834532"
       }
     },
     "ticker": {
@@ -440,7 +442,8 @@
         "heading_emphasis": "",
         "products_to_show": 6,
         "view_all_label": "View All Sensitive Skin →",
-        "view_all_url": "/collections/sensitive-skin"
+        "view_all_url": "/collections/sensitive-skin",
+        "collection": "489844867300"
       }
     },
     "trust-strip": {
