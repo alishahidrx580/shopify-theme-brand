@@ -1,0 +1,148 @@
+{% schema %}
+{
+  "name": "Shop by Concern",
+  "tag": "section",
+  "class": "home-collection-list",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Skin Concern"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "concern_tile",
+      "name": "Concern Tile",
+      "settings": [
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji / Icon",
+          "default": "🔆"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Brightening"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Collection Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Shop by Concern",
+      "blocks": [
+        { "type": "concern_tile", "settings": { "emoji": "🔆", "label": "Brightening", "link": "/collections/brightening" } },
+        { "type": "concern_tile", "settings": { "emoji": "🛡️", "label": "Sensitive Skin", "link": "/collections/sensitive-skin" } },
+        { "type": "concern_tile", "settings": { "emoji": "🧴", "label": "Cleansers", "link": "/collections/cleansers" } },
+        { "type": "concern_tile", "settings": { "emoji": "☀️", "label": "SPF & Sun", "link": "/collections/spf" } },
+        { "type": "concern_tile", "settings": { "emoji": "👁️", "label": "Eye Care", "link": "/collections/eye-care" } },
+        { "type": "concern_tile", "settings": { "emoji": "🌙", "label": "Night Treatment", "link": "/collections/night-treatment" } },
+        { "type": "concern_tile", "settings": { "emoji": "💧", "label": "Anti-Aging", "link": "/collections/anti-aging" } },
+        { "type": "concern_tile", "settings": { "emoji": "✨", "label": "Oily & Acne", "link": "/collections/oily-acne" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .home-collection-list {
+    background: var(--color-surface, #F5F5F5);
+    padding: 48px 0;
+  }
+  .home-collection-list__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .home-collection-list__heading {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-primary, #0B1F3A);
+    margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+  .home-collection-list__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 768px) {
+    .home-collection-list__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+  }
+  @media (max-width: 480px) {
+    .home-collection-list__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+  }
+  .home-collection-list__tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border: 1px solid rgba(11,31,58,0.08);
+    border-radius: 8px;
+    padding: 20px 12px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--color-primary, #0B1F3A);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    aspect-ratio: 1 / 1;
+  }
+  .home-collection-list__tile:hover {
+    box-shadow: 0 4px 16px rgba(11,31,58,0.12);
+    transform: translateY(-2px);
+  }
+  .home-collection-list__emoji {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  @media (max-width: 480px) {
+    .home-collection-list__emoji { font-size: 1.4rem; }
+  }
+  .home-collection-list__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+</style>
+
+{%- if section.settings.heading != blank -%}
+  <div class="home-collection-list__inner">
+    <h2 class="home-collection-list__heading">{{ section.settings.heading }}</h2>
+  </div>
+{%- endif -%}
+
+<div class="home-collection-list__inner">
+  <div class="home-collection-list__grid">
+    {%- for block in section.blocks -%}
+      {%- assign tile_url = block.settings.link | default: '/collections/all' -%}
+      <a href="{{ tile_url }}" class="home-collection-list__tile" {{ block.shopify_attributes }}>
+        {%- if block.settings.emoji != blank -%}
+          <span class="home-collection-list__emoji" aria-hidden="true">{{ block.settings.emoji }}</span>
+        {%- endif -%}
+        <span class="home-collection-list__label">{{ block.settings.label }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
