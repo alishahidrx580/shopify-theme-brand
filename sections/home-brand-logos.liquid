@@ -1,0 +1,127 @@
+{% schema %}
+{
+  "name": "Brand Logos Strip",
+  "tag": "section",
+  "class": "home-brand-logos",
+  "settings": [
+    {
+      "type": "range",
+      "id": "scroll_seconds",
+      "label": "Scroll duration (seconds)",
+      "min": 30,
+      "max": 120,
+      "step": 5,
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Brand name",
+          "default": "Brand Name"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [
+    {
+      "name": "Brand Logos Strip",
+      "blocks": [
+        { "type": "brand", "settings": { "name": "La Roche-Posay" } },
+        { "type": "brand", "settings": { "name": "CeraVe" } },
+        { "type": "brand", "settings": { "name": "Bioderma" } },
+        { "type": "brand", "settings": { "name": "No7" } },
+        { "type": "brand", "settings": { "name": "Cetaphil" } },
+        { "type": "brand", "settings": { "name": "Aveeno" } },
+        { "type": "brand", "settings": { "name": "Avène" } },
+        { "type": "brand", "settings": { "name": "COSRX" } },
+        { "type": "brand", "settings": { "name": "ACM" } },
+        { "type": "brand", "settings": { "name": "Dermalogica" } },
+        { "type": "brand", "settings": { "name": "ISDIN" } },
+        { "type": "brand", "settings": { "name": "Uriage" } },
+        { "type": "brand", "settings": { "name": "Medicube" } },
+        { "type": "brand", "settings": { "name": "Soap & Glory" } },
+        { "type": "brand", "settings": { "name": "Johnson's & Johnson's" } },
+        { "type": "brand", "settings": { "name": "Mustela" } },
+        { "type": "brand", "settings": { "name": "Boots" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .home-brand-logos {
+    background: #FFFFFF;
+    padding: 32px 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(11,31,58,0.08);
+    border-bottom: 1px solid rgba(11,31,58,0.08);
+  }
+  .home-brand-logos__track-wrapper {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .home-brand-logos__track {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    animation: brandScroll var(--brand-scroll-duration, 80s) linear infinite;
+    will-change: transform;
+  }
+  @keyframes brandScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .home-brand-logos__track:hover {
+    animation-play-state: paused;
+  }
+  .home-brand-logos__item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 40px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(11,31,58,0.35);
+    white-space: nowrap;
+    transition: color 0.2s ease;
+    text-decoration: none;
+  }
+  .home-brand-logos__item:hover {
+    color: rgba(11,31,58,0.7);
+  }
+  .home-brand-logos__separator {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(11,31,58,0.2);
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+</style>
+
+{%- assign scroll_dur = section.settings.scroll_seconds | default: 80 -%}
+
+<div class="home-brand-logos__track-wrapper">
+  <div class="home-brand-logos__track" style="--brand-scroll-duration: {{ scroll_dur }}s;">
+    {%- comment -%} First pass {%- endcomment -%}
+    {%- for block in section.blocks -%}
+      <span class="home-brand-logos__item" {{ block.shopify_attributes }}>{{ block.settings.name }}</span>
+      <span class="home-brand-logos__separator" aria-hidden="true"></span>
+    {%- endfor -%}
+    {%- comment -%} Duplicate for seamless loop {%- endcomment -%}
+    {%- for block in section.blocks -%}
+      <span class="home-brand-logos__item" aria-hidden="true">{{ block.settings.name }}</span>
+      <span class="home-brand-logos__separator" aria-hidden="true"></span>
+    {%- endfor -%}
+  </div>
+</div>
