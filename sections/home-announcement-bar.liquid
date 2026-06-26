@@ -1,0 +1,95 @@
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "tag": "div",
+  "class": "home-announcement-bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "message_1",
+      "label": "Message 1",
+      "default": "100% original. Imported from UAE. Delivered across Pakistan."
+    },
+    {
+      "type": "text",
+      "id": "message_2",
+      "label": "Message 2",
+      "default": "Every product is sealed, authenticated, and imported — not sourced locally."
+    },
+    {
+      "type": "text",
+      "id": "message_3",
+      "label": "Message 3",
+      "default": "Dermatologist-grade skincare. Original packaging. Nationwide delivery."
+    },
+    {
+      "type": "range",
+      "id": "rotation_ms",
+      "label": "Rotation speed (ms)",
+      "min": 2000,
+      "max": 8000,
+      "step": 500,
+      "default": 4000
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}
+
+{%- assign messages = section.settings.message_1 | append: '|||' | append: section.settings.message_2 | append: '|||' | append: section.settings.message_3 -%}
+{%- assign message_arr = messages | split: '|||' -%}
+
+<style>
+  .home-announcement-bar {
+    background-color: var(--color-primary, #0B1F3A);
+    color: var(--color-on-primary, #FFFFFF);
+    text-align: center;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .home-announcement-bar__messages {
+    position: relative;
+    height: 1.2em;
+  }
+  .home-announcement-bar__msg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .home-announcement-bar__msg.is-active {
+    opacity: 1;
+  }
+</style>
+
+<div class="home-announcement-bar__messages" id="announcement-bar-{{ section.id }}">
+  {%- for msg in message_arr -%}
+    <span class="home-announcement-bar__msg{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}">
+      {{- msg | strip -}}
+    </span>
+  {%- endfor -%}
+</div>
+
+<script>
+(function() {
+  var bar = document.getElementById('announcement-bar-{{ section.id }}');
+  if (!bar) return;
+  var msgs = bar.querySelectorAll('.home-announcement-bar__msg');
+  var current = 0;
+  var delay = {{ section.settings.rotation_ms | default: 4000 }};
+  setInterval(function() {
+    msgs[current].classList.remove('is-active');
+    current = (current + 1) % msgs.length;
+    msgs[current].classList.add('is-active');
+  }, delay);
+})();
+</script>
