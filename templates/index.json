@@ -74,357 +74,284 @@
         "kb_zoom_to": 110,
         "kb_duration_s": 14,
         "kb_preset_mobile": "whisper",
-        "eyebrow": "Developed with French Formulation Standards",
-        "heading_lead": "Intelligent Skincare.",
+        "eyebrow": "",
+        "heading_lead": "The Real Thing.",
         "heading_break": true,
-        "heading_emphasis": "Radiance revealed.",
-        "body": "<p>Precisely formulated to support the skin's natural recovery rhythms. Three products. One quiet result.<br/><br/><br/></p>",
-        "cta_primary_label": "Begin the ritual →",
+        "heading_emphasis": "Finally in Pakistan.",
+        "body": "<p>Dermatologist-recommended skincare, imported from UAE in sealed original packaging. No replicas. No guesswork.</p>",
+        "cta_primary_label": "Shop All Products",
         "cta_primary_url": "/collections/all",
-        "cta_secondary_label": "The science behind CHAM",
-        "cta_secondary_url": "/pages/research-and-philosophy",
+        "cta_secondary_label": "Why We Started The Edit →",
+        "cta_secondary_url": "/pages/our-story",
         "min_height_svh": 72,
         "min_height_px": 480,
         "min_height_svh_mobile": 80,
         "min_height_px_mobile": 520
       }
     },
-    "featured-products": {
-      "type": "home-featured-products",
-      "settings": {
-        "eyebrow": "The Collection",
-        "heading_lead": "Three formulations",
-        "heading_emphasis": "Each with a purpose",
-        "collection": "",
-        "products_to_show": 3,
-        "view_all_label": "View all",
-        "view_all_url": "/collections/all"
-      }
-    },
-    "marquee": {
-      "type": "home-marquee",
-      "blocks": {
-        "item_1": {
-          "type": "marquee_item",
-          "settings": {
-            "text": "Considered Formulation"
-          }
-        },
-        "item_2": {
-          "type": "marquee_item",
-          "settings": {
-            "text": "French Standards"
-          }
-        },
-        "item_3": {
-          "type": "marquee_item",
-          "settings": {
-            "text": "Quiet Radiance"
-          }
-        },
-        "item_4": {
-          "type": "marquee_item",
-          "settings": {
-            "text": "Made for Real Skin"
-          }
-        }
-      },
-      "block_order": [
-        "item_1",
-        "item_2",
-        "item_3",
-        "item_4"
-      ],
-      "settings": {
-        "scroll_seconds": 70
-      }
-    },
-    "manifesto": {
+    "shop-by-concern": {
       "type": "home-manifesto",
       "settings": {
-        "eyebrow": "A different approach",
+        "eyebrow": "",
         "show_rule": false,
-        "heading": "<p>Skincare that works <em>with your skin</em><br/></p>",
-        "body": "<p><br/>Most skincare treats the surface. CHAM formulates differently — around how skin already wants to behave. Our products support the skin's natural recovery signals, so what emerges is real radiance. Not a finish. Not a filter.<br/><br/></p>",
-        "image": "shopify://shop_images/Reframe_and_recompose_this_16_9_202605231715.jpg",
-        "video_url": "",
-        "media_position": "right",
-        "aspect_desktop": "3 / 4",
-        "aspect_mobile": "4 / 5",
-        "focal_x": 50,
-        "focal_y": 50,
-        "signature": "",
-        "show_ornament": false
+        "heading": "<p>Shop by Skin Concern</p>",
+        "body": "<p><a href=\"/collections/brightening\">🔆 Brightening</a> · <a href=\"/collections/sensitive-skin\">🛡️ Sensitive Skin</a> · <a href=\"/collections/cleansers\">🧴 Cleansers</a> · <a href=\"/collections/spf\">☀️ SPF & Sun</a> · <a href=\"/collections/eye-care\">👁️ Eye Care</a> · <a href=\"/collections/night-treatment\">🌙 Night Treatment</a> · <a href=\"/collections/anti-aging\">💧 Anti-Aging</a> · <a href=\"/collections/oily-acne\">✨ Oily & Acne</a></p>"
       }
     },
-    "split-texture": {
-      "type": "home-image-text",
+    "new-in": {
+      "type": "home-featured-products",
       "settings": {
-        "layout_style": "fullbleed",
-        "padding_size": "default",
-        "image": "shopify://shop_images/Here_s_the_same_prompt_adjusted_202605231931.jpg",
-        "image_side": "left",
-        "image_frame": "natural",
-        "image_position": "center center",
-        "background": "surface",
-        "eyebrow": "Skincare, refined",
-        "heading_lead": "Formulated for",
-        "heading_emphasis": "natural radiance",
-        "body": "<p>Each product is precision-crafted with a clear intent. Together, they work to make skin smoother, more even, and naturally luminous day after day.</p>",
-        "cta_label": "Our Philosophy",
-        "cta_url": "shopify://pages/science",
-        "cta_style": "outline"
+        "eyebrow": "Just Arrived",
+        "heading_lead": "New In",
+        "heading_emphasis": "",
+        "products_to_show": 6,
+        "view_all_label": "View All New In →",
+        "view_all_url": "/collections/new-arrivals"
       }
     },
-    "pillars": {
+    "brand-logos": {
+      "type": "home-marquee",
+      "blocks": {
+        "brand_1": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "La Roche-Posay"
+          }
+        },
+        "brand_2": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "CeraVe"
+          }
+        },
+        "brand_3": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Bioderma"
+          }
+        },
+        "brand_4": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "No7"
+          }
+        },
+        "brand_5": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Cetaphil"
+          }
+        },
+        "brand_6": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Aveeno"
+          }
+        },
+        "brand_7": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Avène"
+          }
+        },
+        "brand_8": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "COSRX"
+          }
+        },
+        "brand_9": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "ACM"
+          }
+        },
+        "brand_10": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Dermalogica"
+          }
+        },
+        "brand_11": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "ISDIN"
+          }
+        },
+        "brand_12": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Uriage"
+          }
+        }
+      },
+      "block_order": [
+        "brand_1",
+        "brand_2",
+        "brand_3",
+        "brand_4",
+        "brand_5",
+        "brand_6",
+        "brand_7",
+        "brand_8",
+        "brand_9",
+        "brand_10",
+        "brand_11",
+        "brand_12"
+      ],
+      "settings": {
+        "scroll_seconds": 80
+      }
+    },
+    "brightening": {
+      "type": "home-featured-products",
+      "settings": {
+        "eyebrow": "Most Wanted",
+        "heading_lead": "Brightening",
+        "heading_emphasis": "",
+        "products_to_show": 6,
+        "view_all_label": "View All Brightening →",
+        "view_all_url": "/collections/brightening"
+      }
+    },
+    "ticker": {
+      "type": "home-marquee",
+      "blocks": {
+        "tick_1": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Imported from UAE"
+          }
+        },
+        "tick_2": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Original Sealed Packaging"
+          }
+        },
+        "tick_3": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Dermatologist Brands"
+          }
+        },
+        "tick_4": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Delivered Across Pakistan"
+          }
+        },
+        "tick_5": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "No Replicas. Ever."
+          }
+        },
+        "tick_6": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Batch Codes Intact"
+          }
+        },
+        "tick_7": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Nationwide Delivery"
+          }
+        },
+        "tick_8": {
+          "type": "marquee_item",
+          "settings": {
+            "text": "Original Sealed Packaging"
+          }
+        }
+      },
+      "block_order": [
+        "tick_1",
+        "tick_2",
+        "tick_3",
+        "tick_4",
+        "tick_5",
+        "tick_6",
+        "tick_7",
+        "tick_8"
+      ],
+      "settings": {
+        "scroll_seconds": 60
+      }
+    },
+    "sensitive-skin": {
+      "type": "home-featured-products",
+      "settings": {
+        "eyebrow": "For Reactive Skin",
+        "heading_lead": "Sensitive Skin",
+        "heading_emphasis": "",
+        "products_to_show": 6,
+        "view_all_label": "View All Sensitive Skin →",
+        "view_all_url": "/collections/sensitive-skin"
+      }
+    },
+    "trust-strip": {
       "type": "home-pillars",
       "blocks": {
-        "p1": {
+        "t1": {
           "type": "pillar",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_macro_202606191946.jpg",
             "number": "01",
-            "title": "Comfort",
-            "body": "<p>Textures designed to feel weightless and kind on every skin type. No heaviness, no residue.</p>"
+            "title": "Directly Imported",
+            "body": "<p>Purchased in person from licensed UAE pharmacies. Not from local distributors. From the shelf, sealed, shipped to Pakistan.</p>"
           }
         },
-        "p2": {
+        "t2": {
           "type": "pillar",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_macro_202606191950.jpg",
             "number": "02",
-            "title": "Balance",
-            "body": "<p>Hydration, barrier and pH supported in equilibrium — never stripped or overstimulated.</p>"
+            "title": "Sealed on Arrival",
+            "body": "<p>Original manufacturer packaging. Tamper-evident seals intact. Batch codes visible. If broken on arrival, we replace it.</p>"
           }
         },
-        "p3": {
+        "t3": {
           "type": "pillar",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_photograph__202606191952.jpg",
             "number": "03",
-            "title": "Finish",
-            "body": "<p>A soft, even, naturally luminous look that comes from skin that simply feels good.</p>"
+            "title": "Dermatologist Brands",
+            "body": "<p>ACM, CeraVe, La Roche-Posay, Bioderma, Avène, ISDIN, Uriage, Dermalogica, No7, COSRX and more. Pharmacy-grade. Dermatologist-recommended. Not influencer brands.</p>"
           }
         }
       },
       "block_order": [
-        "p1",
-        "p2",
-        "p3"
+        "t1",
+        "t2",
+        "t3"
       ],
       "settings": {
-        "eyebrow": "Composition Principles",
+        "eyebrow": "",
         "show_rule": false,
-        "heading_lead": "Three principles",
-        "heading_emphasis": "One result",
-        "image_aspect": "4 / 5"
-      }
-    },
-    "split-intel-skincare": {
-      "type": "home-image-text",
-      "settings": {
-        "layout_style": "contained",
-        "padding_size": "default",
-        "image": "shopify://shop_images/edit_this_image_make_her_202606121921.jpg",
-        "image_side": "left",
-        "image_frame": "natural",
-        "image_position": "center center",
-        "background": "surface",
-        "eyebrow": "Intelligent Skincare",
-        "heading_lead": "A different",
-        "heading_emphasis": "approach to skincare.",
-        "body": "<p>Most skincare focuses only on the surface — adding shine, stripping oils, or overstimulating skin. Cham takes a different approach, formulating around how skin already wants to behave.</p>",
-        "cta_label": "",
-        "cta_url": "",
-        "cta_style": "outline"
-      }
-    },
-    "split-intel-formulation": {
-      "type": "home-image-text",
-      "settings": {
-        "layout_style": "contained",
-        "padding_size": "default",
-        "image": "shopify://shop_images/Prompt_Recreate_this_reference_image_as_202605231941.jpg",
-        "image_side": "right",
-        "image_frame": "natural",
-        "image_position": "center center",
-        "background": "default",
-        "eyebrow": "Intelligent Formulation",
-        "heading_lead": "Skin responds better when",
-        "heading_emphasis": "approached naturally.",
-        "body": "<p>Skin looks its best when it is supported, hydrated, and treated with restraint. Our formulations are built around this single idea to complement your skin's natural ability and reveal a softer, calmer, more radiant appearance.</p>",
-        "cta_label": "",
-        "cta_url": "",
-        "cta_style": "outline"
-      }
-    },
-    "cover-beyond": {
-      "type": "home-cover-cta",
-      "settings": {
-        "image": "shopify://shop_images/Prompt_Recreate_this_reference_image_as_202605231949.jpg",
-        "position_x": 50,
-        "position_y": 50,
-        "position_x_mobile": 50,
-        "position_y_mobile": 50,
-        "eyebrow": "Beyond Cosmetics",
-        "heading_lead": "Each product activates a",
-        "heading_emphasis": "specific skin function.",
-        "heading_tail": "",
-        "body": "<p>Together, they create visible brightness, smoother texture and long-term glow.</p>",
-        "cta_label": "",
-        "cta_url": "",
-        "align": "end",
-        "height_svh": 60,
-        "min_height_px": 460,
-        "overlay_strength": 70,
-        "height_svh_mobile": 65,
-        "min_height_px_mobile": 420,
-        "overlay_strength_mobile": 75
-      }
-    },
-    "split-not-cosmetic": {
-      "type": "home-image-text",
-      "settings": {
-        "layout_style": "contained",
-        "padding_size": "default",
-        "image": "shopify://shop_images/Prompt__Recreate_this_reference_image_202605232000.jpg",
-        "image_side": "left",
-        "image_frame": "natural",
-        "image_position": "center center",
-        "background": "default",
-        "eyebrow": "Not Just Cosmetic",
-        "heading_lead": "Skincare is not just cosmetic.",
-        "heading_emphasis": "It's biological.",
-        "body": "<p>When skincare works with the skin's internal signals, calm replaces stress and glow becomes a natural outcome.</p>",
-        "cta_label": "",
-        "cta_url": "",
-        "cta_style": "outline"
-      }
-    },
-    "split-gift": {
-      "type": "home-image-text",
-      "settings": {
-        "layout_style": "contained",
-        "padding_size": "compact",
-        "image": "shopify://shop_images/Prompt_Create_a_hyper-realistic_4K_editorial_202605232006.jpg",
-        "image_side": "left",
-        "image_frame": "portrait",
-        "image_position": "center center",
-        "background": "surface",
-        "eyebrow": "The Gift",
-        "heading_lead": "The Gift of",
-        "heading_emphasis": "Quiet Radiance",
-        "body": "<p>Considered formulations, presented in keepsake packaging. For the people whose skin you would want to look as quietly luminous as your own.<br/></p>",
-        "cta_label": "Build a gift",
-        "cta_url": "/pages/gifts",
-        "cta_style": "solid"
-      }
-    },
-    "cover-ritual": {
-      "type": "home-cover-cta",
-      "settings": {
-        "image": "shopify://shop_images/Prompt_Recreate_this_reference_image_as_202605232010.jpg",
-        "position_x": 50,
-        "position_y": 50,
-        "image_mobile": "shopify://shop_images/Reframe_and_recompose_this_16_9_202605232043.jpg",
-        "position_x_mobile": 50,
-        "position_y_mobile": 73,
-        "eyebrow": "The Ritual",
-        "heading_lead": "Skincare that",
-        "heading_emphasis": "works with",
-        "heading_tail": "your skin — not on it.",
-        "body": "",
-        "cta_label": "Begin the Ritual",
-        "cta_url": "/collections/all",
-        "align": "center",
-        "height_svh": 80,
-        "min_height_px": 520,
-        "overlay_strength": 100,
-        "height_svh_mobile": 65,
-        "min_height_px_mobile": 420,
-        "overlay_strength_mobile": 75
-      }
-    },
-    "faq": {
-      "type": "home-faq",
-      "blocks": {
-        "q1": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What is Cham about?",
-            "answer": "<p>Cham is a skincare company developed with a research-backed approach grounded in skin biology and formulation science. We focus on formulation balance, skin comfort, and long-term radiance — not just surface shine.</p>"
-          }
-        },
-        "q2": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How does science guide your formulation?",
-            "answer": "<p>Skin is one of the body's most responsive organs, closely linked to the immune and sensory systems. Inflammation, hydration balance, barrier function and recovery are all influenced by cellular signaling within the skin. Decades of skin-biology research into how cells communicate and maintain balance inform how we approach modern formulation.</p>"
-          }
-        },
-        "q3": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What is Cham's skincare philosophy?",
-            "answer": "<p>We support skin balance rather than overpowering it with aggressive actives or heavy textures. Our focus is on how ingredients work together, how formulations feel, and how they align with natural skin processes over time.</p>"
-          }
-        },
-        "q4": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How is Cham different from general skincare brands?",
-            "answer": "<p>Many products create immediate brightness through oils, silicones or reflective films — effects that are often short-lived. Cham emphasises hydration balance, barrier support and calm skin conditions, alongside an instant feel of comfort.</p>"
-          }
-        },
-        "q5": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Does Cham use single hero ingredients?",
-            "answer": "<p>No. Skin response depends on how ingredients interact within a formulation, the quality of base materials and overall stability. We focus on synergy and integrity, not isolating one ingredient.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "q1",
-        "q2",
-        "q3",
-        "q4",
-        "q5"
-      ],
-      "settings": {
-        "eyebrow": "Learn More",
-        "heading_lead": "Frequently",
-        "heading_emphasis": "asked.",
-        "cta_label": "The Science",
-        "cta_url": "/pages/science"
+        "heading_lead": "",
+        "heading_emphasis": ""
       }
     },
     "newsletter": {
       "type": "home-newsletter",
       "settings": {
-        "eyebrow": "Letters from Cham",
-        "heading_lead": "Receive our notes on skin, formulation and the slow pursuit of a quiet glow.",
-        "heading_emphasis": "",
+        "eyebrow": "",
+        "heading_lead": "Get the edit before it sells out.",
+        "heading_emphasis": "New arrivals and restocks, straight to your inbox.",
         "submit_label": "Subscribe",
         "success_heading": "You're on the list",
-        "success_text": "Thank you — you'll hear from us soon."
+        "success_text": "We never share your details. Unsubscribe anytime."
       }
     }
   },
   "order": [
     "hero",
-    "featured-products",
-    "marquee",
-    "manifesto",
-    "split-texture",
-    "pillars",
-    "split-intel-skincare",
-    "split-intel-formulation",
-    "cover-beyond",
-    "split-not-cosmetic",
-    "split-gift",
-    "cover-ritual",
-    "faq",
+    "shop-by-concern",
+    "new-in",
+    "brand-logos",
+    "brightening",
+    "ticker",
+    "sensitive-skin",
+    "trust-strip",
     "newsletter"
   ]
 }
