@@ -9,42 +9,43 @@
   Typography and layout tokens are theme-independent and live on :root only.
 
   @example
-  {% render 'css-variables' %}
+  {%- render 'css-variables' -%}
 {% enddoc %}
 
 {% style %}
   :root {
     --radius: 0.125rem;
 
-    /* Surface — clean white, Dermalogica minimalist */
+    /* Surface — The Edit brand: white backgrounds, navy text */
     --background: oklch(1 0 0);
-    --foreground: oklch(0.22 0 0);
+    --foreground: oklch(0.21 0.058 258);
     --surface: oklch(0.97 0 0);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.22 0 0);
+    --card-foreground: oklch(0.21 0.058 258);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.22 0 0);
+    --popover-foreground: oklch(0.21 0.058 258);
 
-    /* Accent — charcoal/black CTAs */
+    /* Primary — Navy #0B1F3A */
     --primary: oklch(0.21 0.058 258);
     --primary-foreground: oklch(0.99 0 0);
     --primary-glow: oklch(0.30 0.05 258);
 
-    --secondary: oklch(0.95 0 0);
-    --secondary-foreground: oklch(0.22 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.21 0.058 258);
 
-    --muted: oklch(0.96 0 0);
-    --muted-foreground: oklch(0.45 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.40 0.03 258);
 
+    /* Accent — Gold #C9A84C */
     --accent: oklch(0.72 0.12 78);
     --accent-foreground: oklch(0.21 0.058 258);
 
     --destructive: oklch(0.55 0.20 27);
     --destructive-foreground: oklch(0.96 0.01 85);
 
-    --border: oklch(0.20 0 0 / 0.14);
-    --input: oklch(0.20 0 0 / 0.18);
-    --ring: oklch(0.20 0 0 / 0.40);
+    --border: oklch(0.21 0.058 258 / 0.14);
+    --input: oklch(0.21 0.058 258 / 0.18);
+    --ring: oklch(0.21 0.058 258 / 0.40);
 
     --gradient-gold: linear-gradient(135deg, var(--primary), var(--primary-glow));
     --shadow-gold: 0 24px 60px -28px color-mix(in oklab, var(--primary) 25%, transparent);
@@ -95,21 +96,8 @@
     --destructive: oklch(0.55 0.20 27);
     --destructive-foreground: oklch(0.96 0.01 85);
 
-    --border: oklch(0.90 0 0 / 0.18);
-    --input: oklch(0.90 0 0 / 0.18);
-    --ring: oklch(0.90 0 0 / 0.45);
-
-    --shadow-gold: 0 20px 60px -20px color-mix(in oklab, var(--primary) 35%, transparent);
-  }
-
-  @media (min-width: 1024px) {
-    :root {
-      --page-margin: var(--page-padding-inline-lg);
-      --header-height: 5rem;
-    }
-  }
-
-  body {
-    transition: background-color 0.3s ease, color 0.3s ease;
+    --border: oklch(0.97 0 0 / 0.10);
+    --input: oklch(0.97 0 0 / 0.15);
+    --ring: oklch(0.97 0 0 / 0.40);
   }
 {% endstyle %}
