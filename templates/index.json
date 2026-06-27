@@ -24,10 +24,8 @@
         "hero_image_pHnHmi": {
           "type": "hero_image",
           "settings": {
-            "image": "shopify://shop_images/Good_thinking___if_Nano_202605231602.jpg",
             "position_x": 50,
             "position_y": 1,
-            "image_mobile": "shopify://shop_images/need_this_image_for_9_16_202605231659.jpg",
             "position_x_mobile": 50,
             "position_y_mobile": 40
           }
@@ -35,10 +33,8 @@
         "hero_image_h474QN": {
           "type": "hero_image",
           "settings": {
-            "image": "shopify://shop_images/Here_s_the_updated_prompt_with_202605231524.jpg",
             "position_x": 50,
             "position_y": 55,
-            "image_mobile": "shopify://shop_images/transform_this_image_for_9_16_202605231704.jpg",
             "position_x_mobile": 50,
             "position_y_mobile": 66
           }
@@ -46,10 +42,8 @@
         "hero_image_MG9Trz": {
           "type": "hero_image",
           "settings": {
-            "image": "shopify://shop_images/Prompt__Transform_this_reference_image_202605231347_7bf9eb8f-d871-4bc0-b3db-e60a209cf369.jpg",
             "position_x": 50,
             "position_y": 0,
-            "image_mobile": "shopify://shop_images/Reframe_and_recompose_this_16_9_202605231713.jpg",
             "position_x_mobile": 50,
             "position_y_mobile": 50
           }
@@ -57,10 +51,8 @@
         "hero_image_cVJWxQ": {
           "type": "hero_image",
           "settings": {
-            "image": "shopify://shop_images/Woman_with_a_glowing_skin.jpg",
             "position_x": 50,
             "position_y": 4,
-            "image_mobile": "shopify://shop_images/Reframe_and_recompose_this_16_9_202605231715.jpg",
             "position_x_mobile": 50,
             "position_y_mobile": 50
           }
@@ -98,98 +90,16 @@
         "min_height_px_mobile": 520
       }
     },
-    "shop-by-concern": {
-      "type": "home-collection-list",
-      "blocks": {
-        "concern_1": {
-          "type": "concern_tile",
-          "settings": {
-            "emoji": "🔆",
-            "label": "Brightening",
-            "link": "/collections/brightening"
-          }
-        },
-        "concern_2": {
-          "type": "concern_tile",
-          "settings": {
-            "emoji": "🛡️",
-            "label": "Sensitive Skin",
-            "link": "/collections/sensitive-skin"
-          }
-        },
-        "concern_3": {
-          "type": "concern_tile",
-          "settings": {
-            "emoji": "🧴",
-            "label": "Cleansers",
-            "link": "/collections/cleansers"
-          }
-        },
-        "concern_4": {
-          "type": "concern_tile",
-          "settings": {
-            "emoji": "☀️",
-            "label": "SPF & Sun",
-            "link": "/collections/spf"
-          }
-        },
-        "concern_5": {
-          "type": "concern_tile",
-          "settings": {
-            "emoji": "👁️",
-            "label": "Eye Care",
-            "link": "/collections/eye-care"
-          }
-        },
-        "concern_6": {
-          "type": "concern_tile",
-          "settings": {
-            "emoji": "🌙",
-            "label": "Night Treatment",
-            "link": "/collections/night-treatment"
-          }
-        },
-        "concern_7": {
-          "type": "concern_tile",
-          "settings": {
-            "emoji": "💧",
-            "label": "Anti-Aging",
-            "link": "/collections/anti-aging"
-          }
-        },
-        "concern_8": {
-          "type": "concern_tile",
-          "settings": {
-            "emoji": "✨",
-            "label": "Oily & Acne",
-            "link": "/collections/oily-acne"
-          }
-        }
-      },
-      "block_order": [
-        "concern_1",
-        "concern_2",
-        "concern_3",
-        "concern_4",
-        "concern_5",
-        "concern_6",
-        "concern_7",
-        "concern_8"
-      ],
-      "settings": {
-        "heading": "Shop by Skin Concern"
-      }
-    },
     "new-in": {
       "type": "home-featured-products",
       "settings": {
         "eyebrow": "Just Arrived",
         "heading_lead": "New In",
         "heading_emphasis": "",
+        "collection": "489844801764",
         "products_to_show": 6,
         "view_all_label": "View All New In →",
-        "view_all_url": "/collections/new-arrivals",
-        "collection": "489844801764"
+        "view_all_url": "/collections/new-arrivals"
       }
     },
     "brand-logos": {
@@ -362,10 +272,10 @@
         "eyebrow": "Most Wanted",
         "heading_lead": "Brightening",
         "heading_emphasis": "",
+        "collection": "489844834532",
         "products_to_show": 6,
         "view_all_label": "View All Brightening →",
-        "view_all_url": "/collections/brightening",
-        "collection": "489844834532"
+        "view_all_url": "/collections/brightening"
       }
     },
     "ticker": {
@@ -440,10 +350,10 @@
         "eyebrow": "For Reactive Skin",
         "heading_lead": "Sensitive Skin",
         "heading_emphasis": "",
+        "collection": "489844867300",
         "products_to_show": 6,
         "view_all_label": "View All Sensitive Skin →",
-        "view_all_url": "/collections/sensitive-skin",
-        "collection": "489844867300"
+        "view_all_url": "/collections/sensitive-skin"
       }
     },
     "trust-strip": {
@@ -483,7 +393,8 @@
         "eyebrow": "",
         "show_rule": false,
         "heading_lead": "",
-        "heading_emphasis": ""
+        "heading_emphasis": "",
+        "image_aspect": "4 / 5"
       }
     },
     "newsletter": {
@@ -501,7 +412,6 @@
   "order": [
     "announcement-bar",
     "hero",
-    "shop-by-concern",
     "new-in",
     "brand-logos",
     "brightening",
