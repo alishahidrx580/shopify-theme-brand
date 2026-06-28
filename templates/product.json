@@ -38,6 +38,7 @@
     },
     "sensory": {
       "type": "product-sensory",
+      "disabled": true,
       "settings": {
         "media_position": "left",
         "eyebrow": "The Sensory Experience",
