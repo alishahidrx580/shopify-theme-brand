@@ -12,7 +12,8 @@
     "main": {
       "type": "main-product",
       "custom_css": [
-        "h2 {font-size: 32px; }"
+        "h2 {font-size: 32px;}",
+        ".main-product__tile, .main-product__tile img {background-color: #ffffff !important; }"
       ],
       "settings": {
         "free_shipping_override": 0,
