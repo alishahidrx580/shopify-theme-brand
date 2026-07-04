@@ -67,7 +67,8 @@
 
     {%- if collection.products_count > 0 -%}
       <div class="main-collection__grid" data-collection-grid>
-        {%- for product in collection.products -%}
+        {%- paginate collection.products by 250 -%}
+              {%- for product in collection.products -%}
           {%- liquid
             # Build a space-separated list of all categories this product belongs to.
             # Categories are collected from three sources, all lowercased:
@@ -144,6 +145,7 @@
             {%- render 'product-card', product: product, eager: eager -%}
           </div>
         {%- endfor -%}
+      {%- endpaginate -%}
       </div>
     {%- else -%}
       <p class="main-collection__empty">{{ 'sections.main_collection.no_products' | t }}</p>
