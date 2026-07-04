@@ -12,9 +12,29 @@
     "main": {
       "type": "page",
       "settings": {}
+    },
+    "home_image_text_CjPz7G": {
+      "type": "home-image-text",
+      "name": "t:sections.home_image_text.presets_default",
+      "settings": {
+        "layout_style": "contained",
+        "padding_size": "default",
+        "image_side": "left",
+        "image_frame": "natural",
+        "image_position": "center center",
+        "background": "default",
+        "eyebrow": "OUR PROMISE TO PAKISTAN",
+        "heading_lead": "No fakes. No replicas.",
+        "heading_emphasis": "Just the real thing, from the UAE.",
+        "body": "<p>If you have shopped for beauty and skincare online in Pakistan, you already know the problem: too many sellers pass off fake replicas as the real brand, and you only find out after it is too late. THE EDIT exists to end that guessing game. Every product in our catalogue is sourced directly from licensed pharmacies in the UAE and imported to Pakistan through us, so you always receive a 100% genuine item, exactly as the brand made it. No local repacking, no unauthorized middlemen, no copies. Just authentic products, imported directly, and a promise you can trust every time you shop with us.</p>",
+        "cta_label": "Shop 100% Genuine Products",
+        "cta_url": "shopify://collections",
+        "cta_style": "outline"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "home_image_text_CjPz7G"
   ]
 }
