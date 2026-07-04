@@ -31,10 +31,99 @@
         "cta_url": "shopify://collections",
         "cta_style": "outline"
       }
+    },
+    "home_brand_logos_J7hYdb": {
+      "type": "home-brand-logos",
+      "blocks": {
+        "brand_VxPW7P": {
+          "type": "brand",
+          "settings": {
+            "name": "La Roche-Posay"
+          }
+        },
+        "brand_kQgNCC": {
+          "type": "brand",
+          "settings": {
+            "name": "CeraVe"
+          }
+        },
+        "brand_3m3LGM": {
+          "type": "brand",
+          "settings": {
+            "name": "ISDIN"
+          }
+        },
+        "brand_3a7nbW": {
+          "type": "brand",
+          "settings": {
+            "name": "COSRX"
+          }
+        },
+        "brand_nEtArG": {
+          "type": "brand",
+          "settings": {
+            "name": "Medicube"
+          }
+        },
+        "brand_MTqXeD": {
+          "type": "brand",
+          "settings": {
+            "name": "Dermalogica"
+          }
+        },
+        "brand_MaEDA3": {
+          "type": "brand",
+          "settings": {
+            "name": "ISDIN"
+          }
+        },
+        "brand_djb8Uq": {
+          "type": "brand",
+          "settings": {
+            "name": "Dermalogica"
+          }
+        },
+        "brand_FRTq4Q": {
+          "type": "brand",
+          "settings": {
+            "name": "Avène"
+          }
+        },
+        "brand_BLYKgT": {
+          "type": "brand",
+          "settings": {
+            "name": "ACM"
+          }
+        },
+        "brand_tWzhY3": {
+          "type": "brand",
+          "settings": {
+            "name": "Aveeno"
+          }
+        }
+      },
+      "block_order": [
+        "brand_VxPW7P",
+        "brand_kQgNCC",
+        "brand_3m3LGM",
+        "brand_3a7nbW",
+        "brand_nEtArG",
+        "brand_MTqXeD",
+        "brand_MaEDA3",
+        "brand_djb8Uq",
+        "brand_FRTq4Q",
+        "brand_BLYKgT",
+        "brand_tWzhY3"
+      ],
+      "name": "Brand Logos Strip",
+      "settings": {
+        "scroll_seconds": 80
+      }
     }
   },
   "order": [
     "main",
-    "home_image_text_CjPz7G"
+    "home_image_text_CjPz7G",
+    "home_brand_logos_J7hYdb"
   ]
 }
