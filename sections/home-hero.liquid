@@ -80,6 +80,11 @@
   assign min_height_svh_mobile = section.settings.min_height_svh_mobile | default: section.settings.min_height_svh
   assign min_height_px_mobile = section.settings.min_height_px_mobile | default: section.settings.min_height_px
 
+  # ===== Overlay opacity (merchant-adjustable) =====
+  # Slider is 0-100 (%); convert to a 0.0-1.0 decimal for the CSS custom property.
+  assign overlay_opacity_raw = section.settings.overlay_opacity | default: 70
+  assign overlay_opacity = overlay_opacity_raw | times: 1.0 | divided_by: 100.0
+
   # Determine first/initial DESKTOP image for SSR (LCP-friendly).
   assign initial_image = section.settings.image
   assign initial_pos_x = section.settings.position_x | default: 50
@@ -126,6 +131,7 @@
     --kb-zoom-from-m: {{ kb_zoom_from_m }};
     --kb-zoom-to-m: {{ kb_zoom_to_m }};
     --kb-duration-m: {{ kb_duration_s_m }}s;
+    --overlay-opacity: {{ overlay_opacity }};
   "
   data-rotation-ms="{{ rotation_seconds | times: 1000 }}"
   data-fade-ms="{{ fade_ms }}"
@@ -338,20 +344,22 @@
   }
 
   /* FIXED: replaced oklch()-with-alpha gradient (unreliable in compiled
-     Liquid stylesheets) with a plain rgba() gradient, strengthened to
-     pure black at higher opacity. Darkest at the bottom where the text
+     Liquid stylesheets) with a plain rgba()/calc() gradient driven by the
+     --overlay-opacity custom property (set from the "Cover image opacity"
+     slider in the theme editor). Darkest at the bottom where the text
      block sits (home-hero__inner is bottom-anchored), easing up through
      the middle, with a slight lift near the very top to keep the
-     eyebrow/nav readable too. */
+     eyebrow/nav readable too. Each stop is proportional to the merchant's
+     chosen opacity so the gradient shape stays consistent at any setting. */
   .home-hero__overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.65) 40%,
-      rgba(0, 0, 0, 0.3) 65%,
-      rgba(0, 0, 0, 0.5) 100%
+      rgba(0, 0, 0, calc(var(--overlay-opacity, 0.7) * 1)) 0%,
+      rgba(0, 0, 0, calc(var(--overlay-opacity, 0.7) * 0.68)) 40%,
+      rgba(0, 0, 0, calc(var(--overlay-opacity, 0.7) * 0.32)) 65%,
+      rgba(0, 0, 0, calc(var(--overlay-opacity, 0.7) * 0.53)) 100%
     );
     z-index: 1;
   }
@@ -753,6 +761,21 @@
       "unit": "%",
       "default": 50,
       "info": "0 = top, 50 = center, 100 = bottom."
+    },
+    {
+      "type": "header",
+      "content": "Cover image overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Cover image opacity (darkness)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70,
+      "info": "Darkens the image behind the text so it stays readable. 0% = no darkening (image at full brightness), 100% = maximum darkening. Increase this if the heading, body text, or buttons are hard to read against a bright photo."
     },
     {
       "type": "header",
