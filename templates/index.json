@@ -358,6 +358,18 @@
         "view_all_url": "/collections/sensitive-skin"
       }
     },
+    "home_featured_products_DYV4wg": {
+      "type": "home-featured-products",
+      "settings": {
+        "eyebrow": "Sun Protection",
+        "heading_lead": "SPF & Sun",
+        "heading_emphasis": "",
+        "collection": "spf",
+        "products_to_show": 6,
+        "view_all_label": "View All SPF & Sun →",
+        "view_all_url": "shopify://collections/spf"
+      }
+    },
     "trust-strip": {
       "type": "home-pillars",
       "blocks": {
@@ -419,6 +431,7 @@
     "brightening",
     "ticker",
     "sensitive-skin",
+    "home_featured_products_DYV4wg",
     "trust-strip",
     "newsletter"
   ]
