@@ -24,8 +24,12 @@
       {%- endfor -%}
     </nav>
 
-    <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ 'general.brand.name' | t }}">
-      {{ 'logo.svg' | inline_asset_content }}
+    <!-- FIXED: replaced the broken {{ 'logo.svg' | inline_asset_content }}
+         (rendering as clipped "THE ED>") with a plain text wordmark using
+         the theme's existing font-display serif class. This removes the
+         dependency on the malformed SVG asset entirely. -->
+    <a href="{{ routes.root_url }}" class="header__logo font-display" aria-label="{{ 'general.brand.name' | t }}">
+      THE EDIT
     </a>
 
     <div class="header__right">
@@ -76,8 +80,10 @@
 
 <div id="mobile-menu" class="mobile-menu" data-mobile-menu hidden>
   <div class="mobile-menu__top">
-    <a href="{{ routes.root_url }}" class="mobile-menu__logo" aria-label="{{ 'general.brand.name' | t }}">
-      {{ 'logo.svg' | inline_asset_content }}
+    <!-- FIXED: same text-based wordmark swap applied to the mobile menu logo
+         for consistency. -->
+    <a href="{{ routes.root_url }}" class="mobile-menu__logo font-display" aria-label="{{ 'general.brand.name' | t }}">
+      THE EDIT
     </a>
     <button
       type="button"
@@ -189,16 +195,23 @@
     justify-self: center;
     color: var(--primary-foreground);
     display: inline-flex;
+    align-items: center;
   }
 
-  .header__logo svg {
-    height: 1.25rem;
-    width: auto;
+  /* FIXED: logo is now a text wordmark, not an inline SVG, so we style the
+     text directly instead of sizing an <svg> child. Letter-spacing and
+     uppercase give it the same wordmark feel as the old vector logo. */
+  .header__logo {
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   @media (min-width: 1024px) {
-    .header__logo svg {
-      height: 1.5rem;
+    .header__logo {
+      font-size: 1.25rem;
     }
   }
 
@@ -294,9 +307,13 @@
     display: inline-flex;
   }
 
-  .mobile-menu__logo svg {
-    height: 1.25rem;
-    width: auto;
+  /* FIXED: mobile logo text styling to match the desktop wordmark swap. */
+  .mobile-menu__logo {
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .mobile-menu__close {
