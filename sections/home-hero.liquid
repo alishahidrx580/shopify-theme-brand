@@ -369,32 +369,6 @@
     padding-bottom: 3rem;
   }
 
-  /* FIXED: guaranteed-contrast scrim directly behind the text content.
-     This is independent of the full-bleed overlay above — even if that
-     gradient were ever thin or absent over a bright part of the photo,
-     this dedicated dark panel behind the text block ensures the text
-     always sits on a solid dark background. */
-  .home-hero__content {
-    position: relative;
-    display: inline-block;
-    max-width: 100%;
-    padding: 1.5rem 1.75rem;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.55) 0%,
-      rgba(0, 0, 0, 0.7) 100%
-    );
-    border-radius: 4px;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-  }
-
-  @media (min-width: 768px) {
-    .home-hero__content {
-      padding: 2rem 2.5rem;
-    }
-  }
-
   @media (min-width: 768px) {
     .home-hero__inner {
       padding-bottom: 5rem;
