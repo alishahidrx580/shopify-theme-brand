@@ -2,8 +2,12 @@
   <div class="footer__inner">
     <div class="footer__grid">
       <div class="footer__brand">
-        <a href="{{ routes.root_url }}" class="footer__logo" aria-label="{{ 'general.brand.name' | t }}">
-          {{ 'logo.svg' | inline_asset_content }}
+        <!-- FIXED: replaced the broken {{ 'logo.svg' | inline_asset_content }}
+             (rendering as clipped "THE ED>") with a plain text wordmark using
+             the theme's existing font-display serif class, matching the same
+             fix already applied to the header. -->
+        <a href="{{ routes.root_url }}" class="footer__logo font-display" aria-label="{{ 'general.brand.name' | t }}">
+          THE EDIT
         </a>
         <p class="footer__tagline font-display">
           {{ section.settings.brand_tagline_lead }}
@@ -80,14 +84,20 @@
                   <li><a href="{{ link.url }}" class="footer__link">{{ link.title }}</a></li>
                 {%- endfor -%}
               {%- else -%}
+                {%- comment -%}
+                  FIXED: previously auto-listed every product (then every
+                  collection) with no reliable limit, which either blew out
+                  the footer height or listed things inconsistently. Now the
+                  fallback is simply "All Products" — clean, minimal, safe
+                  regardless of catalogue size. Set a real Shop menu in
+                  Layout above (Footer → Layout → Shop menu → Select) to add
+                  more links here (categories, New In, Best Sellers, etc.).
+                {%- endcomment -%}
                 <li>
                   <a href="{{ routes.all_products_collection_url }}" class="footer__link">
                     {{ 'sections.footer.shop_all_label' | t }}
                   </a>
                 </li>
-                {%- for product in collections.all.products -%}
-                  <li><a href="{{ product.url }}" class="footer__link">{{ product.title }}</a></li>
-                {%- endfor -%}
               {%- endif -%}
             </ul>
           </div>
@@ -161,9 +171,16 @@
     margin-bottom: 1.5rem;
   }
 
-  .footer__logo svg {
-    height: 2rem;
-    width: auto;
+  /* FIXED: logo is now a text wordmark, not an inline SVG. Sized and
+     letter-spaced to read as a proper wordmark, matching the header's
+     equivalent fix. Slightly larger than the header version since the
+     footer logo traditionally has more visual weight. */
+  .footer__logo {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .footer__tagline {
@@ -350,7 +367,8 @@
     {
       "type": "link_list",
       "id": "menu_shop",
-      "label": "t:labels.linklist_shop"
+      "label": "t:labels.linklist_shop",
+      "info": "If left empty, the Shop column shows only an \"All Products\" link. Set a menu here to add more links (categories, New In, Best Sellers, etc.)."
     },
     {
       "type": "link_list",
