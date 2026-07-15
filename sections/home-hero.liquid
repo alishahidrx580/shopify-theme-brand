@@ -338,19 +338,20 @@
   }
 
   /* FIXED: replaced oklch()-with-alpha gradient (unreliable in compiled
-     Liquid stylesheets) with a plain rgba() gradient. Darkest at the
-     bottom where the text block sits (home-hero__inner is bottom-anchored),
-     easing up through the middle, with a slight lift near the very top
-     to keep the eyebrow/nav readable too. */
+     Liquid stylesheets) with a plain rgba() gradient, strengthened to
+     pure black at higher opacity. Darkest at the bottom where the text
+     block sits (home-hero__inner is bottom-anchored), easing up through
+     the middle, with a slight lift near the very top to keep the
+     eyebrow/nav readable too. */
   .home-hero__overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(10, 10, 20, 0.92) 0%,
-      rgba(10, 10, 20, 0.55) 35%,
-      rgba(10, 10, 20, 0.25) 60%,
-      rgba(10, 10, 20, 0.45) 100%
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.65) 40%,
+      rgba(0, 0, 0, 0.3) 65%,
+      rgba(0, 0, 0, 0.5) 100%
     );
     z-index: 1;
   }
@@ -368,6 +369,32 @@
     padding-bottom: 3rem;
   }
 
+  /* FIXED: guaranteed-contrast scrim directly behind the text content.
+     This is independent of the full-bleed overlay above — even if that
+     gradient were ever thin or absent over a bright part of the photo,
+     this dedicated dark panel behind the text block ensures the text
+     always sits on a solid dark background. */
+  .home-hero__content {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    padding: 1.5rem 1.75rem;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+    border-radius: 4px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  @media (min-width: 768px) {
+    .home-hero__content {
+      padding: 2rem 2.5rem;
+    }
+  }
+
   @media (min-width: 768px) {
     .home-hero__inner {
       padding-bottom: 5rem;
@@ -382,11 +409,11 @@
   }
 
   .home-hero__eyebrow {
-    color: var(--primary-glow);
+    /* FIXED: forced to a bright gold-white with !important so no other
+       theme rule (e.g. a global .eyebrow style) can silently override it. */
+    color: #F0D9A8 !important;
     margin-bottom: 1rem;
     font-size: 0.625rem;
-    /* FIXED: added text-shadow so the eyebrow stays legible even over
-       lighter patches of the background image. */
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   }
 
@@ -405,11 +432,11 @@
     /* Mobile-first: smaller, more compact. */
     font-size: clamp(2.25rem, 11vw, 3.25rem);
     line-height: 1;
-    color: #fff;
+    /* FIXED: forced pure white with !important so no other theme rule
+       (e.g. a global h1 or .font-display color) can silently override it. */
+    color: #ffffff !important;
     max-width: 64rem;
     margin: 0;
-    /* FIXED: dual text-shadow (soft wide + tight dark) guarantees contrast
-       against any part of the product photo, independent of the overlay. */
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.6);
   }
 
@@ -421,18 +448,29 @@
   }
 
   .home-hero__heading em {
-    color: var(--primary-glow);
+    /* FIXED: var(--primary-glow) was resolving to a dark color, making
+       this text invisible against the dark scrim panel. Forced to a
+       warm gold that matches the brand's other gold accents (logo,
+       CTA button) and stays legible on dark. */
+    color: #D4AE6E !important;
     font-style: italic;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.6);
   }
 
   .home-hero__body {
     margin-top: 1.25rem;
     max-width: 28rem;
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.92);
+    /* FIXED: forced near-white with !important so no other theme rule can
+       silently override it. */
+    color: rgba(255, 255, 255, 0.95) !important;
     line-height: 1.6;
-    /* FIXED: added text-shadow for legibility over the photo. */
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+  }
+
+  .home-hero__body p,
+  .home-hero__body * {
+    color: inherit !important;
   }
 
   @media (min-width: 768px) {
@@ -496,9 +534,10 @@
     text-transform: uppercase;
     letter-spacing: 0.22em;
     font-size: 0.6875rem;
-    color: rgba(255, 255, 255, 0.95);
+    /* FIXED: forced near-white with !important so no other theme rule
+       (e.g. a global .gold-link color) can silently override it. */
+    color: rgba(255, 255, 255, 0.95) !important;
     transition: color 0.3s ease;
-    /* FIXED: added text-shadow so the secondary CTA reads clearly too. */
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   }
 
