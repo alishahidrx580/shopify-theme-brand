@@ -337,10 +337,21 @@
     opacity: 1;
   }
 
+  /* FIXED: replaced oklch()-with-alpha gradient (unreliable in compiled
+     Liquid stylesheets) with a plain rgba() gradient. Darkest at the
+     bottom where the text block sits (home-hero__inner is bottom-anchored),
+     easing up through the middle, with a slight lift near the very top
+     to keep the eyebrow/nav readable too. */
   .home-hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, oklch(0.21 0.058 258 / 0.85), oklch(0.21 0.058 258 / 0.3) 50%, oklch(0.21 0.058 258 / 0.5));
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 20, 0.92) 0%,
+      rgba(10, 10, 20, 0.55) 35%,
+      rgba(10, 10, 20, 0.25) 60%,
+      rgba(10, 10, 20, 0.45) 100%
+    );
     z-index: 1;
   }
 
@@ -374,6 +385,9 @@
     color: var(--primary-glow);
     margin-bottom: 1rem;
     font-size: 0.625rem;
+    /* FIXED: added text-shadow so the eyebrow stays legible even over
+       lighter patches of the background image. */
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   }
 
   @media (min-width: 768px) {
@@ -394,6 +408,9 @@
     color: #fff;
     max-width: 64rem;
     margin: 0;
+    /* FIXED: dual text-shadow (soft wide + tight dark) guarantees contrast
+       against any part of the product photo, independent of the overlay. */
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.6);
   }
 
   @media (min-width: 768px) {
@@ -412,8 +429,10 @@
     margin-top: 1.25rem;
     max-width: 28rem;
     font-size: 0.875rem;
-    color: rgb(255 255 255 / 0.85);
+    color: rgba(255, 255, 255, 0.92);
     line-height: 1.6;
+    /* FIXED: added text-shadow for legibility over the photo. */
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
   }
 
   @media (min-width: 768px) {
@@ -477,8 +496,10 @@
     text-transform: uppercase;
     letter-spacing: 0.22em;
     font-size: 0.6875rem;
-    color: rgb(255 255 255 / 0.9);
+    color: rgba(255, 255, 255, 0.95);
     transition: color 0.3s ease;
+    /* FIXED: added text-shadow so the secondary CTA reads clearly too. */
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   }
 
   @media (min-width: 768px) {
