@@ -358,6 +358,66 @@
         "view_all_url": "/collections/sensitive-skin"
       }
     },
+    "home_featured_products_HVxpQk": {
+      "type": "home-featured-products",
+      "settings": {
+        "eyebrow": "Wash Away Impurities",
+        "heading_lead": "Cleansers",
+        "heading_emphasis": "",
+        "collection": "cleansers",
+        "products_to_show": 6,
+        "view_all_label": "View All Cleansers →",
+        "view_all_url": "shopify://collections/cleansers"
+      }
+    },
+    "home_featured_products_6cwC8T": {
+      "type": "home-featured-products",
+      "settings": {
+        "eyebrow": "Clear Skin Solutions",
+        "heading_lead": "Oily & Acne",
+        "heading_emphasis": "",
+        "collection": "oily-acne",
+        "products_to_show": 6,
+        "view_all_label": "View All Oily & Acne →",
+        "view_all_url": "shopify://collections/oily-acne"
+      }
+    },
+    "home_featured_products_JXqdg4": {
+      "type": "home-featured-products",
+      "settings": {
+        "eyebrow": "Repair While You Sleep",
+        "heading_lead": "Night Treatment",
+        "heading_emphasis": "",
+        "collection": "night-treatment",
+        "products_to_show": 6,
+        "view_all_label": "View All Night Treatment →",
+        "view_all_url": "shopify://collections/night-treatment"
+      }
+    },
+    "home_featured_products_W3dFeN": {
+      "type": "home-featured-products",
+      "settings": {
+        "eyebrow": "Brighten Tired Eyes",
+        "heading_lead": "Eye Care",
+        "heading_emphasis": "",
+        "collection": "eye-care",
+        "products_to_show": 6,
+        "view_all_label": "View All Eye Care →",
+        "view_all_url": "shopify://collections/eye-care"
+      }
+    },
+    "home_featured_products_HNDweb": {
+      "type": "home-featured-products",
+      "settings": {
+        "eyebrow": "Turn Back Time",
+        "heading_lead": "Anti-Aging",
+        "heading_emphasis": "",
+        "collection": "anti-aging",
+        "products_to_show": 6,
+        "view_all_label": "View All Anti-Aging →",
+        "view_all_url": "shopify://collections/anti-aging"
+      }
+    },
     "home_featured_products_DYV4wg": {
       "type": "home-featured-products",
       "settings": {
@@ -431,6 +491,11 @@
     "brightening",
     "ticker",
     "sensitive-skin",
+    "home_featured_products_HVxpQk",
+    "home_featured_products_6cwC8T",
+    "home_featured_products_JXqdg4",
+    "home_featured_products_W3dFeN",
+    "home_featured_products_HNDweb",
     "home_featured_products_DYV4wg",
     "trust-strip",
     "newsletter"
