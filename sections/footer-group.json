@@ -20,8 +20,8 @@
         "instagram_url": "https://www.instagram.com/chamskincare.official",
         "facebook_url": "https://www.facebook.com/profile.php?id=61589720247501",
         "youtube_url": "https://www.youtube.com/@Cham-skincare/shorts",
-        "menu_shop": "shop",
-        "menu_brand": "brand",
+        "menu_shop": "main-menu",
+        "menu_brand": "",
         "menu_account": "customer-account-main-menu"
       }
     },
