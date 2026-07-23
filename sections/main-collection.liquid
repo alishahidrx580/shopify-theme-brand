@@ -398,11 +398,11 @@
       function applyFilter(value) {
         let visible = 0;
         items.forEach((item) => {
-          // Each item carries a space-separated list of categories it belongs to,
-          // already lowercased server-side. A product matches a filter if the
-          // filter value appears as a whole word in that list.
+          // Each item carries a comma-separated list of categories it belongs to,
+                    // already lowercased server-side. A product matches a filter if the
+                              // filter value appears as one of those comma-separated entries.
           const catsAttr = item.getAttribute('data-categories') || '';
-          const cats = catsAttr.split(/\s+/).filter(Boolean);
+const cats = catsAttr.split(',').map(s => s.trim()).filter(Boolean);
           const match = value === 'all' || cats.indexOf(value) !== -1;
           if (match) {
             item.removeAttribute('data-hidden');
