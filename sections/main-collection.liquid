@@ -166,7 +166,14 @@
             class="main-collection__item"
             data-collection-item
             data-categories="{{ cat_list | escape }}"
-              data-debug-metafields="{{ product.metafields | json | escape }}"
+              data-debug-metafields="{% liquid
+                assign mf_debug = ''
+                for ns in product.metafields
+                  for f in ns[1]
+                    assign mf_debug = mf_debug | append: ns[0] | append: '.' | append: f[0] | append: '=' | append: f[1] | append: ' | '
+                  endfor
+                endfor
+              %}{{ mf_debug | escape }}"
             data-reveal
             data-reveal-delay="{{ forloop.index0 | times: 80 }}"
           >
