@@ -25,146 +25,196 @@
       {%- endif -%}
       <h1 class="main-collection__heading font-display">
         {{- section.settings.heading_lead -}}
-        {%- if section.settings.heading_emphasis != blank %} <em>{{ section.settings.heading_emphasis }}</em>{%- endif -%}
+        {%- if section.settings.heading_emphasis != blank %}
+          <em>{{ section.settings.heading_emphasis }}</em>
+        {%- endif -%}
         {%- if section.settings.heading_tail != blank -%}{{ section.settings.heading_tail }}{%- endif -%}
       </h1>
       {%- if section.settings.body != blank -%}
         <div class="main-collection__body">{{ section.settings.body }}</div>
       {%- endif -%}
     </header>
-{%- if collection.products_count > 0 -%}
-  {%- if show_search or show_sort -%}
-  <div class="main-collection__toolbar" data-reveal data-reveal-delay="80">
-  {%- if show_search -%}
-  <form class="main-collection__search" role="search" action="{{ routes.search_url }}" method="get">
-  <input type="hidden" name="type" value="product">
-  <label class="main-collection__visually-hidden" for="CollectionSearch">Search products</label>
-  <input type="search" name="q" id="CollectionSearch" class="main-collection__search-input" placeholder="Search products&#8230;" value="">
-  <button type="submit" class="main-collection__search-submit" aria-label="Search">Search</button>
-  </form>
-  {%- endif -%}
-  {%- if show_sort -%}
-  <form class="main-collection__sort" action="{{ request.path }}" method="get" data-collection-sort-form>
-  <label class="main-collection__visually-hidden" for="CollectionSortBy">Sort by</label>
-  <select name="sort_by" id="CollectionSortBy" class="main-collection__sort-select" data-collection-sort>
-  <option value="manual" {% if collection.sort_by == blank or collection.sort_by == 'manual' %}selected{% endif %}>Featured</option>
-  <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Most Popular</option>
-  <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
-  <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
-  <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
-  </select>
-  <button type="submit" class="main-collection__visually-hidden">Apply sort</button>
-  </form>
-  {%- endif -%}
-  </div>
-  {%- endif -%}
-    {%- if show_filters and collection.products_count > 0 -%}
-      <div class="main-collection__filter-bar" data-reveal data-reveal-delay="100">
-        <div class="main-collection__filters" role="tablist" aria-label="Filter by category">
-          <button
-            type="button"
-            class="main-collection__filter is-active"
-            data-filter
-            data-filter-value="all"
-            role="tab"
-            aria-selected="true"
-          >{{ all_label }}</button>
-          {%- for cat in categories -%}
-            {%- assign cat_trimmed = cat | strip -%}
-            {%- if cat_trimmed != blank -%}
-              <button
-                type="button"
-                class="main-collection__filter"
-                data-filter
-                data-filter-value="{{ cat_trimmed | downcase | escape }}"
-                role="tab"
-                aria-selected="false"
-              >{{ cat_trimmed }}</button>
-            {%- endif -%}
-          {%- endfor -%}
+    {%- if collection.products_count > 0 -%}
+      {%- if show_search or show_sort -%}
+        <div class="main-collection__toolbar" data-reveal data-reveal-delay="80">
+          {%- if show_search -%}
+            <form class="main-collection__search" role="search" action="{{ routes.search_url }}" method="get">
+              <input type="hidden" name="type" value="product">
+              <label class="main-collection__visually-hidden" for="CollectionSearch">Search products</label>
+              <input
+                type="search"
+                name="q"
+                id="CollectionSearch"
+                class="main-collection__search-input"
+                placeholder="Search products&#8230;"
+                value=""
+              >
+              <button type="submit" class="main-collection__search-submit" aria-label="Search">Search</button>
+            </form>
+          {%- endif -%}
+          {%- if show_sort -%}
+            <form class="main-collection__sort" action="{{ request.path }}" method="get" data-collection-sort-form>
+              <label class="main-collection__visually-hidden" for="CollectionSortBy">Sort by</label>
+              <select name="sort_by" id="CollectionSortBy" class="main-collection__sort-select" data-collection-sort>
+                <option
+                  value="manual"
+                  {% if collection.sort_by == blank or collection.sort_by == 'manual' %}
+                    selected
+                  {% endif %}
+                >
+                  Featured
+                </option>
+                <option
+                  value="best-selling"
+                  {% if collection.sort_by == 'best-selling' %}
+                    selected
+                  {% endif %}
+                >
+                  Most Popular
+                </option>
+                <option
+                  value="best-selling"
+                  {% if collection.sort_by == 'best-selling' %}
+                    selected
+                  {% endif %}
+                >
+                  Best Selling
+                </option>
+                <option
+                  value="price-descending"
+                  {% if collection.sort_by == 'price-descending' %}
+                    selected
+                  {% endif %}
+                >
+                  Price: High to Low
+                </option>
+                <option
+                  value="price-ascending"
+                  {% if collection.sort_by == 'price-ascending' %}
+                    selected
+                  {% endif %}
+                >
+                  Price: Low to High
+                </option>
+              </select>
+              <button type="submit" class="main-collection__visually-hidden">Apply sort</button>
+            </form>
+          {%- endif -%}
         </div>
-        <span
-          class="main-collection__count"
-          data-collection-count
-          data-singular="{{ 'sections.main_collection.item_singular' | t }}"
-          data-plural="{{ 'sections.main_collection.item_plural' | t }}"
-        >{{ initial_count_text }}</span>
-      </div>
+      {%- endif -%}
+      {%- if show_filters and collection.products_count > 0 -%}
+        <div class="main-collection__filter-bar" data-reveal data-reveal-delay="100">
+          <div class="main-collection__filters" role="tablist" aria-label="Filter by category">
+            <button
+              type="button"
+              class="main-collection__filter is-active"
+              data-filter
+              data-filter-value="all"
+              role="tab"
+              aria-selected="true"
+            >
+              {{ all_label }}
+            </button>
+            {%- for cat in categories -%}
+              {%- assign cat_trimmed = cat | strip -%}
+              {%- if cat_trimmed != blank -%}
+                <button
+                  type="button"
+                  class="main-collection__filter"
+                  data-filter
+                  data-filter-value="{{ cat_trimmed | downcase | escape }}"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  {{ cat_trimmed }}
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          <span
+            class="main-collection__count"
+            data-collection-count
+            data-singular="{{ 'sections.main_collection.item_singular' | t }}"
+            data-plural="{{ 'sections.main_collection.item_plural' | t }}"
+          >
+            {{- initial_count_text -}}
+          </span>
+        </div>
+      {%- endif -%}
     {%- endif -%}
-  {%- endif -%}
     {%- if collection.products_count > 0 -%}
       <div class="main-collection__grid" data-collection-grid>
         {%- paginate collection.products by 250 -%}
-              {%- for product in collection.products -%}
-          {%- liquid
-            # Build a space-separated list of all categories this product belongs to.
-            # Categories are collected from three sources, all lowercased:
-            #   1. Tags starting with "category:" (e.g. "category:face") → "face"
-            #      Tags also match the plain category name (e.g. tag "Face" → "face")
-            #   2. The custom.category metafield (single string OR list of strings)
-            #   3. The built-in Product type
-            # A product can match multiple categories — useful for "face and body" items.
+          {%- for product in collection.products -%}
+            {%- liquid
+              # Build a space-separated list of all categories this product belongs to.
+              # Categories are collected from three sources, all lowercased:
+              #   1. Tags starting with "category:" (e.g. "category:face") → "face"
+              #      Tags also match the plain category name (e.g. tag "Face" → "face")
+              #   2. The custom.category metafield (single string OR list of strings)
+              #   3. The built-in Product type
+              # A product can match multiple categories — useful for "face and body" items.
 
-                  assign cat_list = ''
+              assign cat_list = ''
 
-                        # --- Category matching based on Shopify's real Product Category (taxonomy) ---
-                              # Falls back to Product Type when Category is blank.
-                                    # Many raw taxonomy category names are merged into a smaller, friendlier set
-                                          # of filter labels (defined in the section's filter_categories setting).
-                                                assign raw_category = ''
-                                                      if product.category
-                                                              assign raw_category = product.category.name
-                                                                    endif
-                                                                          if raw_category == blank and product.type != blank
-                                                                                  assign raw_category = product.type
-                                                                                        endif
-                                                                                              assign raw_category_lower = raw_category | downcase | strip
+              # --- Category matching based on Shopify's real Product Category (taxonomy) ---
+              # Falls back to Product Type when Category is blank.
+              # Many raw taxonomy category names are merged into a smaller, friendlier set
+              # of filter labels (defined in the section's filter_categories setting).
+              assign raw_category = ''
+              if product.category
+                assign raw_category = product.category.name
+              endif
+              if raw_category == blank and product.type != blank
+                assign raw_category = product.type
+              endif
+              assign raw_category_lower = raw_category | downcase | strip
 
-                                                                                                    case raw_category_lower
-                                                                                                            when 'face moisturizers', 'face primers'
-                                                                                                                      assign cat_list = 'face moisturizers'
-                                                                                                                              when 'facial cleansers', 'makeup removers'
-                                                                                                                                        assign cat_list = 'facial cleansers'
-                                                                                                                                                when 'sunscreen'
-                                                                                                                                                          assign cat_list = 'sunscreen'
-                                                                                                                                                                  when 'lotions & moisturizers', 'body balms', 'hand creams', 'anti-perspirant'
-                                                                                                                                                                            assign cat_list = 'body care'
-                                                                                                                                                                                    when 'face serums'
-                                                                                                                                                                                              assign cat_list = 'face serums'
-                                                                                                                                                                                                      when 'eye creams'
-                                                                                                                                                                                                                assign cat_list = 'eye creams'
-                                                                                                                                                                                                                        when 'toners'
-                                                                                                                                                                                                                                  assign cat_list = 'toners'
-                                                                                                                                                                                                                                          when 'anti-aging skin care'
-                                                                                                                                                                                                                                                    assign cat_list = 'anti-aging skin care'
-                                                                                                                                                                                                                                                            when 'skin care masks & peels'
-                                                                                                                                                                                                                                                                      assign cat_list = 'skin care masks & peels'
-                                                                                                                                                                                                                                                                              when 'acne treatments & kits', 'acne spot treatments'
-                                                                                                                                                                                                                                                                                        assign cat_list = 'acne treatments'
-                                                                                                                                                                                                                                                                                                when 'lip balms'
-                                                                                                                                                                                                                                                                                                          assign cat_list = 'lip balms'
-                                                                                                                                                                                                                                                                                                                  when 'body wash', 'bar soap'
-                                                                                                                                                                                                                                                                                                                            assign cat_list = 'body wash & soap'
-                                                                                                                                                                                                                                                                                                                                    else
-                                                                                                                                                                                                                                                                                                                                              assign cat_list = raw_category_lower
-                                                                                                                                                                                                                                                                                                                                                    endcase
+              case raw_category_lower
+                when 'face moisturizers', 'face primers'
+                  assign cat_list = 'face moisturizers'
+                when 'facial cleansers', 'makeup removers'
+                  assign cat_list = 'facial cleansers'
+                when 'sunscreen'
+                  assign cat_list = 'sunscreen'
+                when 'lotions & moisturizers', 'body balms', 'hand creams', 'anti-perspirant'
+                  assign cat_list = 'body care'
+                when 'face serums'
+                  assign cat_list = 'face serums'
+                when 'eye creams'
+                  assign cat_list = 'eye creams'
+                when 'toners'
+                  assign cat_list = 'toners'
+                when 'anti-aging skin care'
+                  assign cat_list = 'anti-aging skin care'
+                when 'skin care masks & peels'
+                  assign cat_list = 'skin care masks & peels'
+                when 'acne treatments & kits', 'acne spot treatments'
+                  assign cat_list = 'acne treatments'
+                when 'lip balms'
+                  assign cat_list = 'lip balms'
+                when 'body wash', 'bar soap'
+                  assign cat_list = 'body wash & soap'
+                else
+                  assign cat_list = raw_category_lower
+              endcase
 
-            assign eager = false
-            if forloop.index0 < 3
-              assign eager = true
-            endif
-          -%}
-          <div
-            class="main-collection__item"
-            data-collection-item
-            data-categories="{{ cat_list | escape }}"
-                                                                                                  data-reveal
-            data-reveal-delay="{{ forloop.index0 | times: 80 }}"
-          >
-            {%- render 'product-card', product: product, eager: eager -%}
-          </div>
-        {%- endfor -%}
-      {%- endpaginate -%}
+              assign eager = false
+              if forloop.index0 < 3
+                assign eager = true
+              endif
+            -%}
+            <div
+              class="main-collection__item"
+              data-collection-item
+              data-categories="{{ cat_list | escape }}"
+              data-reveal
+              data-reveal-delay="{{ forloop.index0 | times: 80 }}"
+            >
+              {%- render 'product-card', product: product, eager: eager -%}
+            </div>
+          {%- endfor -%}
+        {%- endpaginate -%}
       </div>
     {%- else -%}
       <p class="main-collection__empty">{{ 'sections.main_collection.no_products' | t }}</p>
@@ -399,10 +449,13 @@
         let visible = 0;
         items.forEach((item) => {
           // Each item carries a comma-separated list of categories it belongs to,
-                    // already lowercased server-side. A product matches a filter if the
-                              // filter value appears as one of those comma-separated entries.
+          // already lowercased server-side. A product matches a filter if the
+          // filter value appears as one of those comma-separated entries.
           const catsAttr = item.getAttribute('data-categories') || '';
-const cats = catsAttr.split(',').map(s => s.trim()).filter(Boolean);
+          const cats = catsAttr
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean);
           const match = value === 'all' || cats.indexOf(value) !== -1;
           if (match) {
             item.removeAttribute('data-hidden');
@@ -434,7 +487,6 @@ const cats = catsAttr.split(',').map(s => s.trim()).filter(Boolean);
           if (form) form.submit();
         });
       }
-
     });
   })();
 {% endjavascript %}
@@ -486,16 +538,16 @@ const cats = catsAttr.split(',').map(s => s.trim()).filter(Boolean);
     },
 
     {
-    "type": "checkbox",
-    "id": "show_search",
-    "label": "Show search bar",
-    "default": true
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search bar",
+      "default": true
     },
     {
-    "type": "checkbox",
-    "id": "show_sort",
-    "label": "Show sort dropdown",
-    "default": true
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show sort dropdown",
+      "default": true
     },
     {
       "type": "text",
