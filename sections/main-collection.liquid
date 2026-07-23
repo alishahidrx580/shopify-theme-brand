@@ -105,93 +105,49 @@
             #   3. The built-in Product type
             # A product can match multiple categories — useful for "face and body" items.
 
-            assign cat_list = ''
+                  assign cat_list = ''
 
-            # --- 1. Tags ---
-            for tag in product.tags
-              assign tag_lower = tag | downcase | strip
-              if tag_lower contains 'category:'
-                assign tag_value = tag_lower | remove_first: 'category:' | strip
-                if tag_value != blank
-                  assign cat_list = cat_list | append: ' ' | append: tag_value
-                endif
-              else
-                # Allow plain tags that match a configured category name to count too.
-                # e.g. a product tagged "Face" matches the "Face" filter.
-                for cat in categories
-                  assign cat_check = cat | strip | downcase
-                  if cat_check != blank and tag_lower == cat_check
-                    assign cat_list = cat_list | append: ' ' | append: tag_lower
-                  endif
-                endfor
-              endif
-            endfor
+                        # --- Category matching based on Shopify's real Product Category (taxonomy) ---
+                              # Falls back to Product Type when Category is blank.
+                                    # Many raw taxonomy category names are merged into a smaller, friendlier set
+                                          # of filter labels (defined in the section's filter_categories setting).
+                                                assign raw_category = ''
+                                                      if product.category
+                                                              assign raw_category = product.category.name
+                                                                    endif
+                                                                          if raw_category == blank and product.type != blank
+                                                                                  assign raw_category = product.type
+                                                                                        endif
+                                                                                              assign raw_category_lower = raw_category | downcase | strip
 
-              # --- 2. Metafield (custom.category) ---
-              # Supports both single-value text and list-of-text metafields.
-              # Values are matched by whether they CONTAIN a configured category
-              # name (e.g. "Eye & Lip Treatment" contains "Treatment"), not appended
-              # verbatim - otherwise unrelated free-text pollutes the filter data.
-              assign mf = product.metafields.custom.category
-              if mf != blank
-                # If it's a list, mf.value is an array; if single, mf.value is a string.
-                if mf.value.size and mf.value.first
-                  # List type
-                  for mf_item in mf.value
-                    assign mf_val = mf_item | downcase | strip
-                    if mf_val != blank
-                      for cat in categories
-                        assign cat_check = cat | strip | downcase
-                        if cat_check != blank and mf_val contains cat_check
-                          assign cat_list = cat_list | append: ' ' | append: cat_check
-                        endif
-                      endfor
-                    endif
-                  endfor
-                else
-                  # Single string type
-                  assign mf_val = mf.value | downcase | strip
-                  if mf_val != blank
-                    for cat in categories
-                      assign cat_check = cat | strip | downcase
-                      if cat_check != blank and mf_val contains cat_check
-                        assign cat_list = cat_list | append: ' ' | append: cat_check
-                      endif
-                    endfor
-                  endif
-                endif
-              endif
-
-              # --- 3. Product type ---
-              if product.type != blank
-                assign type_val = product.type | downcase | strip
-                for cat in categories
-                  assign cat_check = cat | strip | downcase
-                  if cat_check != blank and type_val contains cat_check
-                    assign cat_list = cat_list | append: ' ' | append: cat_check
-                  endif
-                endfor
-              endif
-
-              # --- 4. Standard "Body area" category metafield (Shopify taxonomy) ---
-              # Many products carry this even when tags/custom fields aren't set up,
-              # so it's a reliable extra signal for Face / Body style filters.
-              assign body_area = product.metafields.shopify['body-area']
-              if body_area != blank and body_area.value.size
-                for ba in body_area.value
-                  assign ba_val = ba.label | downcase | strip
-                  if ba_val != blank
-                    for cat in categories
-                      assign cat_check = cat | strip | downcase
-                      if cat_check != blank and ba_val contains cat_check
-                        assign cat_list = cat_list | append: ' ' | append: cat_check
-                      endif
-                    endfor
-                  endif
-                endfor
-              endif
-
-              assign cat_list = cat_list | strip
+                                                                                                    case raw_category_lower
+                                                                                                            when 'face moisturizers', 'face primers'
+                                                                                                                      assign cat_list = 'face moisturizers'
+                                                                                                                              when 'facial cleansers', 'makeup removers'
+                                                                                                                                        assign cat_list = 'facial cleansers'
+                                                                                                                                                when 'sunscreen'
+                                                                                                                                                          assign cat_list = 'sunscreen'
+                                                                                                                                                                  when 'lotions & moisturizers', 'body balms', 'hand creams', 'anti-perspirant'
+                                                                                                                                                                            assign cat_list = 'body care'
+                                                                                                                                                                                    when 'face serums'
+                                                                                                                                                                                              assign cat_list = 'face serums'
+                                                                                                                                                                                                      when 'eye creams'
+                                                                                                                                                                                                                assign cat_list = 'eye creams'
+                                                                                                                                                                                                                        when 'toners'
+                                                                                                                                                                                                                                  assign cat_list = 'toners'
+                                                                                                                                                                                                                                          when 'anti-aging skin care'
+                                                                                                                                                                                                                                                    assign cat_list = 'anti-aging skin care'
+                                                                                                                                                                                                                                                            when 'skin care masks & peels'
+                                                                                                                                                                                                                                                                      assign cat_list = 'skin care masks & peels'
+                                                                                                                                                                                                                                                                              when 'acne treatments & kits', 'acne spot treatments'
+                                                                                                                                                                                                                                                                                        assign cat_list = 'acne treatments'
+                                                                                                                                                                                                                                                                                                when 'lip balms'
+                                                                                                                                                                                                                                                                                                          assign cat_list = 'lip balms'
+                                                                                                                                                                                                                                                                                                                  when 'body wash', 'bar soap'
+                                                                                                                                                                                                                                                                                                                            assign cat_list = 'body wash & soap'
+                                                                                                                                                                                                                                                                                                                                    else
+                                                                                                                                                                                                                                                                                                                                              assign cat_list = raw_category_lower
+                                                                                                                                                                                                                                                                                                                                                    endcase
 
             assign eager = false
             if forloop.index0 < 3
