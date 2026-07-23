@@ -166,6 +166,7 @@
             class="main-collection__item"
             data-collection-item
             data-categories="{{ cat_list | escape }}"
+              data-debug-metafields="{{ product.metafields | json | escape }}"
             data-reveal
             data-reveal-delay="{{ forloop.index0 | times: 80 }}"
           >
