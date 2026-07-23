@@ -166,12 +166,12 @@
             class="main-collection__item"
             data-collection-item
             data-categories="{{ cat_list | escape }}"
-                                          data-debug-metafields="{% liquid
+                                                        data-debug-metafields="{% liquid
                 assign mf_debug = ''
                 assign mf = product.metafields.shopify['body-area']
                 if mf != blank
                   for m in mf.value
-                    assign mf_debug = mf_debug | append: '[' | append: m.value | append: '|' | append: m.type | append: '] '
+                    assign mf_debug = mf_debug | append: 'RAW[' | append: m | append: ']LABEL[' | append: m.label | append: ']NAME[' | append: m.name | append: ']TITLE[' | append: m.title | append: '] '
                   endfor
                 endif
               %}{{ mf_debug | escape }}"
