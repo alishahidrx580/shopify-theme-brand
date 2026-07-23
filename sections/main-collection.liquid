@@ -166,17 +166,7 @@
             class="main-collection__item"
             data-collection-item
             data-categories="{{ cat_list | escape }}"
-                            data-debug-metafields="{% liquid
-                assign mf_debug = ''
-                assign keys = 'body-part,target-body-part,body-area,target-body-area,area,body_area,target_body_area'
-                assign key_list = keys | split: ','
-                for k in key_list
-                  assign mf = product.metafields.shopify[k]
-                  if mf != blank
-                    assign mf_debug = mf_debug | append: k | append: '=' | append: mf.value | append: ' || '
-                  endif
-                endfor
-              %}{{ mf_debug | escape }}"
+                            %}{{ mf_debug | escape }}"
 data-reveal
             data-reveal-delay="{{ forloop.index0 | times: 80 }}"
           >
