@@ -202,15 +202,7 @@
             class="main-collection__item"
             data-collection-item
             data-categories="{{ cat_list | escape }}"
-                                                                                                  data-debug-metafields="{% liquid
-                assign mf = product.metafields.custom.category
-                assign mf_debug = 'CUSTOMCAT[' 
-                if mf != blank
-                  assign mf_debug = mf_debug | append: mf.value
-                endif
-                assign mf_debug = mf_debug | append: ']'
-              %}{{ mf_debug | escape }}"
-data-reveal
+                                                                                                  data-reveal
             data-reveal-delay="{{ forloop.index0 | times: 80 }}"
           >
             {%- render 'product-card', product: product, eager: eager -%}
