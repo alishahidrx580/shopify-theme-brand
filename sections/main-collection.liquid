@@ -166,14 +166,24 @@
             class="main-collection__item"
             data-collection-item
             data-categories="{{ cat_list | escape }}"
-                                                        data-debug-metafields="{% liquid
+                                                                      data-debug-metafields="{% liquid
                 assign mf_debug = ''
-                assign mf = product.metafields.shopify['body-area']
-                if mf != blank
-                  for m in mf.value
-                    assign mf_debug = mf_debug | append: 'RAW[' | append: m | append: ']LABEL[' | append: m.label | append: ']NAME[' | append: m.name | append: ']TITLE[' | append: m.title | append: '] '
-                  endfor
-                endif
+                assign keys = 'body-area,skincare-product-type,product-type,skin-care-product-type,treatment-type,formulation,product-form,skin-type,skincare-concern,skin-care-concern,use,product-category,category'
+                assign key_list = keys | split: ','
+                for k in key_list
+                  assign mf = product.metafields.shopify[k]
+                  if mf != blank
+                    assign mf_debug = mf_debug | append: k | append: '=('
+                    if mf.value.size
+                      for m in mf.value
+                        assign mf_debug = mf_debug | append: m.label | append: ';'
+                      endfor
+                    else
+                      assign mf_debug = mf_debug | append: mf.value
+                    endif
+                    assign mf_debug = mf_debug | append: ') '
+                  endif
+                endfor
               %}{{ mf_debug | escape }}"
 data-reveal
             data-reveal-delay="{{ forloop.index0 | times: 80 }}"
