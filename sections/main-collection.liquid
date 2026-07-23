@@ -2,6 +2,8 @@
   assign categories_raw = section.settings.filter_categories
   assign categories = categories_raw | split: ','
   assign show_filters = section.settings.show_filters
+  assign show_search = section.settings.show_search
+  assign show_sort = section.settings.show_sort
   assign all_label = section.settings.filter_all_label
   if all_label == blank
     assign all_label = 'sections.main_collection.filter_all_label' | t
@@ -30,7 +32,32 @@
         <div class="main-collection__body">{{ section.settings.body }}</div>
       {%- endif -%}
     </header>
-
+{%- if collection.products_count > 0 -%}
+  {%- if show_search or show_sort -%}
+  <div class="main-collection__toolbar" data-reveal data-reveal-delay="80">
+  {%- if show_search -%}
+  <form class="main-collection__search" role="search" action="{{ routes.search_url }}" method="get">
+  <input type="hidden" name="type" value="product">
+  <label class="main-collection__visually-hidden" for="CollectionSearch">Search products</label>
+  <input type="search" name="q" id="CollectionSearch" class="main-collection__search-input" placeholder="Search products&#8230;" value="">
+  <button type="submit" class="main-collection__search-submit" aria-label="Search">Search</button>
+  </form>
+  {%- endif -%}
+  {%- if show_sort -%}
+  <form class="main-collection__sort" action="{{ request.path }}" method="get" data-collection-sort-form>
+  <label class="main-collection__visually-hidden" for="CollectionSortBy">Sort by</label>
+  <select name="sort_by" id="CollectionSortBy" class="main-collection__sort-select" data-collection-sort>
+  <option value="manual" {% if collection.sort_by == blank or collection.sort_by == 'manual' %}selected{% endif %}>Featured</option>
+  <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Most Popular</option>
+  <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+  <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+  <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+  </select>
+  <button type="submit" class="main-collection__visually-hidden">Apply sort</button>
+  </form>
+  {%- endif -%}
+  </div>
+  {%- endif -%}
     {%- if show_filters and collection.products_count > 0 -%}
       <div class="main-collection__filter-bar" data-reveal data-reveal-delay="100">
         <div class="main-collection__filters" role="tablist" aria-label="Filter by category">
@@ -64,7 +91,7 @@
         >{{ initial_count_text }}</span>
       </div>
     {%- endif -%}
-
+  {%- endif -%}
     {%- if collection.products_count > 0 -%}
       <div class="main-collection__grid" data-collection-grid>
         {%- paginate collection.products by 250 -%}
@@ -282,6 +309,84 @@
     color: var(--muted-foreground);
     font-size: 0.875rem;
   }
+
+  .main-collection__toolbar {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .main-collection__search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1 1 16rem;
+    max-width: 24rem;
+    border: 1px solid var(--border);
+    padding: 0.625rem 0.875rem;
+  }
+
+  .main-collection__search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    color: var(--foreground);
+    outline: none;
+  }
+
+  .main-collection__search-input::placeholder {
+    color: var(--muted-foreground);
+  }
+
+  .main-collection__search-submit {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: color-mix(in oklab, var(--foreground) 80%, transparent);
+    transition: color 0.3s ease;
+  }
+
+  .main-collection__search-submit:hover,
+  .main-collection__search-submit:focus-visible {
+    color: var(--primary);
+  }
+
+  .main-collection__sort-select {
+    border: 1px solid var(--border);
+    background-color: transparent;
+    color: var(--foreground);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 0.6875rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .main-collection__sort-select:hover,
+  .main-collection__sort-select:focus-visible {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .main-collection__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 {% endstylesheet %}
 
 {% javascript %}
@@ -330,6 +435,14 @@
           applyFilter(value);
         });
       });
+      const sortSelect = root.querySelector('[data-collection-sort]');
+      if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+          const form = sortSelect.closest('form');
+          if (form) form.submit();
+        });
+      }
+
     });
   })();
 {% endjavascript %}
@@ -378,6 +491,19 @@
       "id": "show_filters",
       "label": "t:labels.show_filters",
       "default": true
+    },
+
+    {
+    "type": "checkbox",
+    "id": "show_search",
+    "label": "Show search bar",
+    "default": true
+    },
+    {
+    "type": "checkbox",
+    "id": "show_sort",
+    "label": "Show sort dropdown",
+    "default": true
     },
     {
       "type": "text",
