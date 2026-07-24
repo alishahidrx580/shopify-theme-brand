@@ -198,6 +198,16 @@
                 else
                   assign cat_list = raw_category_lower
               endcase
+              assign cat_extra = ''
+              for coll in product.collections
+              assign coll_title_lower = coll.title | downcase | strip
+              if coll_title_lower == 'brightening' or coll_title_lower == 'sensitive skin' or coll_title_lower == 'cleansers' or coll_title_lower == 'oily & acne' or coll_title_lower == 'night treatment' or coll_title_lower == 'eye care' or coll_title_lower == 'anti-aging' or coll_title_lower == 'spf & sun'
+              assign cat_extra = cat_extra | append: ',' | append: coll_title_lower
+              endif
+              endfor
+              if cat_extra != ''
+              assign cat_list = cat_list | append: cat_extra
+              endif
 
               assign eager = false
               if forloop.index0 < 3
