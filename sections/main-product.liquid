@@ -174,6 +174,15 @@
             <span data-atc-label>{% if current_variant.available %}{{ atc_label }}{% else %}{{ sold_out_label }}{% endif %}</span>
             <span class="main-product__atc-price" data-atc-price>{{ variant_label }}</span>
           </button>
+
+          <button
+            type="submit"
+            class="main-product__buy-now"
+            data-buy-now
+            {% if current_variant.available == false %}disabled{% endif %}
+          >
+            Buy now
+          </button>
         </form>
 
         {%- if claims_list != blank and claims_list.size > 0 -%}
@@ -527,6 +536,30 @@
   .main-product__atc[data-loading="true"] { opacity: 0.7; cursor: progress; }
   .main-product__atc-price { letter-spacing: 0.08em; }
 
+  /* === Buy now (secondary, outline — sits under Add to bag) === */
+  .main-product__buy-now {
+    width: 100%;
+    min-height: 3.75rem;
+    margin-top: 0.75rem;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .main-product__buy-now:hover:not([disabled]) { background-color: var(--primary); color: var(--primary-foreground); }
+  .main-product__buy-now:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  .main-product__buy-now[disabled] { opacity: 0.5; cursor: not-allowed; }
+  .main-product__buy-now[data-loading="true"] { opacity: 0.7; cursor: progress; }
+
   /* === Claims (checkmark row, below Add to bag) === */
   .main-product__claims {
     list-style: none;
@@ -673,13 +706,20 @@
     var track       = section.querySelector('[data-gallery-track]');
     var progress    = section.querySelector('[data-gallery-progress]');
 
-    function addToCart(btn) {
+    function addToCart(btn, buyNow) {
       if (!form || btn.disabled) return;
       var fd = new FormData(form);
       btn.setAttribute('data-loading', 'true');
       fetch('/cart/add.js', { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          if (!r.ok) throw new Error('Add to cart failed');
+          return r.json();
+        })
         .then(function () {
+          if (buyNow) {
+            window.location.assign('/checkout');
+            return;
+          }
           btn.removeAttribute('data-loading');
           document.dispatchEvent(new CustomEvent('cart:refresh'));
           document.dispatchEvent(new CustomEvent('cart:open'));
@@ -693,7 +733,8 @@
     if (form) {
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        addToCart(section.querySelector('[data-atc]'));
+        var trigger = e.submitter || section.querySelector('[data-atc]');
+        addToCart(trigger, trigger.hasAttribute('data-buy-now'));
       });
     }
     var stickyAtc = section.querySelector('[data-atc-sticky]');
