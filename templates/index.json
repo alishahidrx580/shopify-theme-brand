@@ -12,8 +12,8 @@
     "announcement-bar": {
       "type": "home-announcement-bar",
       "settings": {
-        "message_1": "100% original. Imported from UAE. Delivered across Pakistan.",
-        "message_2": "Every product is sealed, authenticated, and imported — not sourced locally.",
+        "message_1": "⚡ 10% OFF ALL PRODUCTS - Limited Time Offer!",
+        "message_2": "✅ 100% Genuine Products - Sealed, Authenticated & Imported",
         "message_3": "Dermatologist-grade skincare. Original packaging. Nationwide delivery.",
         "rotation_ms": 4000
       }
