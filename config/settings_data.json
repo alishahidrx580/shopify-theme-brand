@@ -12,13 +12,12 @@
     "favicon": "shopify://shop_images/favicon.png",
     "free_shipping_threshold": 1000,
     "gift_wrap_product": "gift-wrap-handwritten-card",
-    "content_for_index": [],
-    "blocks": {
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
-        "settings": {}
-      }
-    }
+    "content_for_index": []
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".card {border-radius: 30px;}",
+      ".header.full-width {top: 36px;}"
+    ]
   }
 }
