@@ -11,6 +11,10 @@
   "sections": {
     "announcement-bar": {
       "type": "home-announcement-bar",
+      "custom_css": [
+        ".home-announcement-bar {background-color: #e0527d; color: #ffffff; font-weight: 600;}",
+        ".home-announcement-bar__msg {color: #ffffff;}"
+      ],
       "settings": {
         "message_1": "⚡ 10% OFF ALL PRODUCTS - Limited Time Offer!",
         "message_2": "✅ 100% Genuine Products - Sealed, Authenticated & Imported",
