@@ -17,7 +17,10 @@
   "platform_customizations": {
     "custom_css": [
       ".card {border-radius: 30px;}",
-      ".header.full-width {top: 36px;}"
+      ".header.full-width {top: 36px;}",
+      ".home-announcement-bar__msg {color: #ffffff; position: static !important; opacity: 1 !important; white-space: nowrap; padding-right: 80px;}",
+      ".home-announcement-bar__messages {display: flex; align-items: center; height: auto; width: max-content; white-space: nowrap; animation: marquee-scroll 15s linear infinite;}",
+      "@keyframes marquee-scroll {0% {transform: translateX(100%); } 100% {transform: translateX(-100%); }}"
     ]
   }
 }
