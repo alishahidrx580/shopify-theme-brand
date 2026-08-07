@@ -22,7 +22,8 @@
       ".home-announcement-bar__msg {color: #ffffff; position: static !important; opacity: 1 !important; white-space: nowrap; padding-right: 80px;}",
       ".home-announcement-bar__messages {display: flex; align-items: center; height: auto; width: max-content; white-space: nowrap; animation: marquee-scroll 15s linear infinite;}",
       "@keyframes marquee-scroll {0% {transform: translateX(100%); } 100% {transform: translateX(-100%); }}",
-      "@media (min-width: 768px) {.main-product__gallery {position: sticky; top: 130px; align-self: start; }}"
+      "@media (min-width: 768px) {.main-product__gallery {position: sticky; top: 130px; align-self: start; }}",
+      ".home-announcement-bar, .header.full-width {will-change: transform; transform: translateZ(0); backface-visibility: hidden; }"
     ]
   }
 }
