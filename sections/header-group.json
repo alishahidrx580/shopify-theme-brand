@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "t:general.header",
@@ -7,7 +16,20 @@
       "settings": {
         "menu": "main-menu"
       }
+    },
+    "home_announcement_bar_EAnmJA": {
+      "type": "home-announcement-bar",
+      "name": "Announcement Bar",
+      "settings": {
+        "message_1": "⚡ 10% OFF ALL PRODUCTS - Limited Time Offer!",
+        "message_2": "✅ 100% GENUINE PRODUCTS - SEALED, AUTHENTICATED & IMPORTED",
+        "message_3": "Dermatologist-grade skincare. Original packaging. Nationwide delivery.",
+        "rotation_ms": 4000
+      }
     }
   },
-  "order": ["header"]
+  "order": [
+    "header",
+    "home_announcement_bar_EAnmJA"
+  ]
 }

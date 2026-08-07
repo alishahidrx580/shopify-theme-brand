@@ -9,19 +9,6 @@
  */
 {
   "sections": {
-    "announcement-bar": {
-      "type": "home-announcement-bar",
-      "custom_css": [
-        ".home-announcement-bar {background-color: #e0527d; color: #ffffff; font-weight: 600; overflow: hidden;}",
-        ".home-announcement-bar__msg {color: #ffffff; position: static !important; opacity: 1 !important; white-space: nowrap; padding-right: 80px;}"
-      ],
-      "settings": {
-        "message_1": "⚡ 10% OFF ALL PRODUCTS - Limited Time Offer!",
-        "message_2": "✅ 100% Genuine Products - Sealed, Authenticated & Imported",
-        "message_3": "Dermatologist-grade skincare. Original packaging. Nationwide delivery.",
-        "rotation_ms": 4000
-      }
-    },
     "hero": {
       "type": "home-hero",
       "blocks": {
@@ -488,7 +475,6 @@
     }
   },
   "order": [
-    "announcement-bar",
     "hero",
     "new-in",
     "brand-logos",
