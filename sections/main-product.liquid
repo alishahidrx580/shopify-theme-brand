@@ -21,15 +21,25 @@
     assign ingredient_items = ing_norm | split: '|'
   endif
 
-  assign price_formatted  = current_variant.price | money
-  assign atc_label        = 'Add to bag'
-  assign sold_out_label   = 'products.sold_out' | t
+assign price_formatted = current_variant.price | money
+  assign atc_label       = 'Add to bag'
+    assign sold_out_label  = 'products.sold_out' | t
 
-  if product.has_only_default_variant
-    assign variant_label = price_formatted
-  else
-    assign variant_label = current_variant.title | append: ' / ' | append: price_formatted
-  endif
+      assign compare_at_price = current_variant.compare_at_price
+        if compare_at_price > current_variant.price
+            assign original_price_formatted = compare_at_price | money
+                assign discounted_price_formatted = price_formatted
+                  else
+                      assign discounted_cents = current_variant.price | times: 0.9 | round
+                          assign original_price_formatted = price_formatted
+                              assign discounted_price_formatted = discounted_cents | money
+                                endif
+
+                                  if product.has_only_default_variant
+                                      assign variant_label = discounted_price_formatted
+                                        else
+                                            assign variant_label = current_variant.title | append: ' / ' | append: discounted_price_formatted
+                                              endif
 
   assign gallery_fit = section.settings.gallery_fit | default: 'cover'
   assign gallery_ratio = section.settings.gallery_ratio | default: '3 / 4'
@@ -157,7 +167,7 @@
           <input type="hidden" name="quantity" value="1">
 
           <div class="main-product__size-line">
-            <span data-variant-label>{{ variant_label }}</span>
+<span class="main-product__price-row"><s class="main-product__price-compare">{{ original_price_formatted }}</s><span class="main-product__price-sale" data-variant-label>{{ variant_label }}</span></span> }} }}>
             {%- if volume != blank -%}
               <span class="main-product__volume">{{ volume }}</span>
             {%- endif -%}
@@ -475,6 +485,9 @@
     color: var(--muted-foreground);
     flex-shrink: 0;
   }
+  .main-product__price-row { display: inline-flex; align-items: baseline; gap: 0.5rem; }
+  .main-product__price-compare { font-size: 0.85em; color: var(--muted-foreground); text-decoration: line-through; }
+  .main-product__price-sale { color: var(--primary); font-weight: 600; }
 
   .main-product__replenishment {
     margin-top: 0.25rem;
