@@ -113,12 +113,7 @@
       {%- endif -%}
     </div>
     <div class="product-card__pricing">
-      {%- unless placeholder -%}
-        <div class="product-card__price">{{ product.price | money }}</div>
-        {%- if product.compare_at_price > product.price -%}
-          <div class="product-card__compare">{{ product.compare_at_price | money }}</div>
-        {%- endif -%}
-      {%- endunless -%}
+{%- unless placeholder -%}{%- if product.compare_at_price > product.price -%}<div class="product-card__compare">{{ product.compare_at_price | money }}</div><div class="product-card__price">{{ product.price | money }}</div>{%- else -%}{%- assign card_discounted_price = product.price | times: 0.9 | round -%}<div class="product-card__compare">{{ product.price | money }}</div><div class="product-card__price">{{ card_discounted_price | money }}</div>{%- endif -%}{%- endunless -%} %} %} }} }} %} %} }} }} %}}
     </div>
   </div>
 </a>
