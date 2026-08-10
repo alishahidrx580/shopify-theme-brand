@@ -284,14 +284,6 @@ assign price_formatted = current_variant.price | money
     }
   }
 
-  /* Mobile: clip stray horizontal overflow so no white gutter appears on scroll.
-     Uses `clip` (not `hidden`) so the vertical axis is untouched and scroll/sticky
-     behaviour elsewhere is unaffected. Desktop is excluded so the sticky image +
-     info columns keep working. */
-  @media (max-width: 1023px) {
-    .main-product { overflow-x: clip; }
-  }
-
   .main-product__grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
