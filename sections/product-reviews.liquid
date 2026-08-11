@@ -26,7 +26,7 @@
   assign avg_rounded = avg_num | round
 -%}
 
-<section class="product-reviews full-width" id="reviews">
+<section class="product-reviews full-width{% if count_num == 0 %} product-reviews--empty{% endif %}" id="reviews">
   <div class="product-reviews__inner cham-container">
     <div class="product-reviews__head" data-reveal>
       {%- if section.settings.eyebrow != blank -%}
@@ -91,6 +91,17 @@
     .product-reviews {
       padding-block: 11rem;
     }
+  }
+
+  /* Empty state (0 reviews): tighter spacing so it doesn't read as a broken/blank block */
+  .product-reviews--empty {
+  padding-block: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+  .product-reviews--empty {
+  padding-block: 4rem;
+  }
   }
 
   /* === Section head — La Mer: centered, giant serif, big star average === */
