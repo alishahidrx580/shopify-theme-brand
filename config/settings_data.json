@@ -12,7 +12,14 @@
     "favicon": "shopify://shop_images/favicon.png",
     "free_shipping_threshold": 1000,
     "gift_wrap_product": "gift-wrap-handwritten-card",
-    "content_for_index": []
+    "content_for_index": [],
+    "blocks": {
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      }
+    }
   },
   "platform_customizations": {
     "custom_css": [
@@ -24,7 +31,7 @@
       "@keyframes marquee-scroll {0% {transform: translateX(100%); } 100% {transform: translateX(-100%); }}",
       "@media (min-width: 768px) {.main-product__gallery {position: sticky; top: 130px; align-self: start; }}",
       ".home-announcement-bar,.header.full-width {will-change: transform; transform: translateZ(0); backface-visibility: hidden;}",
-      "@media (min-width: 768px) {.main-product__sticky-bar {top: 121px !important; z-index: 49 !important;}}"
+      "@media (min-width: 768px) {.main-product__sticky-bar {top: 121px !important; z-index: 49 !important; }}"
     ]
   }
 }
