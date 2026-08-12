@@ -13,7 +13,7 @@
       "type": "main-product",
       "custom_css": [
         "h2 {font-size: 32px;}",
-        ".main-product__tile, .main-product__tile img {background-color: #ffffff !important; }"
+        ".main-product__tile,.main-product__tile img {background-color: #ffffff !important;}"
       ],
       "settings": {
         "free_shipping_override": 0,
@@ -79,6 +79,20 @@
     },
     "reviews": {
       "type": "product-reviews",
+      "blocks": {
+        "judge_me_reviews_review_widget_VQc4Gn": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_VQc4Gn"
+      ],
       "settings": {
         "eyebrow": "Customer reviews",
         "heading_lead": "Loved by skin like",
