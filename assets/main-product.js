@@ -361,38 +361,3 @@
     });
   }
 })();
-
-// -------- Live viewers widget (randomized count for urgency / social proof) --------
-(function () {
-function initViewersWidget() {
-var widgets = document.querySelectorAll('[data-viewers-widget]');
-widgets.forEach(function (widget) {
-var countEl = widget.querySelector('[data-viewers-count]');
-if (!countEl || countEl.dataset.inited) return;
-countEl.dataset.inited = 'true';
-
-function randomCount() {
-return Math.floor(Math.random() * (48 - 6 + 1)) + 6;
-}
-
-countEl.textContent = randomCount();
-
-setInterval(function () {
-var current = parseInt(countEl.textContent, 10) || randomCount();
-var delta = Math.floor(Math.random() * 5) - 2;
-var next = current + delta;
-if (next < 4) next = 4 + Math.floor(Math.random() * 4);
-if (next > 60) next = 60 - Math.floor(Math.random() * 4);
-countEl.textContent = next;
-}, 15000 + Math.floor(Math.random() * 10000));
-});
-}
-
-if (document.readyState === 'loading') {
-document.addEventListener('DOMContentLoaded', initViewersWidget);
-} else {
-initViewersWidget();
-}
-
-document.addEventListener('shopify:section:load', initViewersWidget);
-})();
