@@ -138,6 +138,11 @@ assign price_formatted = current_variant.price | money
           {%- if product.metafields.judgeme.badge != blank -%}
             <a href="#reviews" class="main-product__rating">{{ product.metafields.judgeme.badge }}</a>
           {%- endif -%}
+          {%- comment -%} Live viewer count widget (adds urgency / social proof) {%- endcomment -%}
+          <p class="main-product__viewers" data-viewers-widget aria-live="polite">
+          <svg class="main-product__viewers-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span><span data-viewers-count>0</span> people are viewing this right now</span>
+          </p>
         </div>
 
         {%- if hero_statement != blank -%}
@@ -360,6 +365,25 @@ assign price_formatted = current_variant.price | money
     color: var(--muted-foreground);
     font-size: 0.75rem;
     letter-spacing: 0.02em;
+  }
+
+  .main-product__viewers {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.6rem 0 0;
+  font-size: 0.8125rem;
+  color: color-mix(in oklab, var(--foreground) 70%, transparent);
+  }
+  .main-product__viewers-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: var(--primary);
+  }
+  .main-product__viewers [data-viewers-count] {
+  font-weight: 600;
+  color: var(--foreground);
   }
 
   .main-product__gallery-track {
