@@ -778,7 +778,7 @@ assign price_formatted = current_variant.price | money
     if (stickyBar && header && 'IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-          stickyBar.classList.toggle('is-visible', !en.isIntersecting);
+          stickyBar.classList.toggle('is-visible', !en.isIntersecting && en.boundingClientRect.top < 0);
         });
       }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
       io.observe(header);
