@@ -22,11 +22,11 @@
       "toggle_theme": "Toggle light or dark theme"
     },
     "brand": {
-      "name": "Cham Skincare"
+      "name": "THE EDIT"
     },
     "meta": {
       "title": "{{ shop_name }}",
-      "description": "Skincare with intent. Precision-formulated to help skin look comfortable, even and naturally luminous."
+      "description": "Skincare without compromise. Every product on THE EDIT is purchased in person from licensed UAE pharmacies, sealed, and shipped to Pakistan. What you see is what arrives."
     }
   },
   "404": {
