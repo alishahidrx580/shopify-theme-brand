@@ -150,8 +150,8 @@ assign price_formatted = current_variant.price | money
             See more
           </button>
         {%- endif -%}
-
-        <form
+        <script src="{{ 'fomo-widgets.js' | asset_url }}" defer></script>
+        " }}">        <form
           method="post"
           action="{{ routes.cart_add_url }}"
           accept-charset="UTF-8"
