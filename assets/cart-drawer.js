@@ -242,4 +242,7 @@
       saveMessage();
     });
   }
+  // Public API: lets other scripts (e.g. the product form's Add to Bag handler)
+  // update the badge/totals and open the drawer via AJAX, without a reload.
+  window.CartDrawer = { open: open, close: close, applyCart: applyCart };
 })();
