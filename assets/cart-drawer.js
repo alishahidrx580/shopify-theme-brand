@@ -245,4 +245,21 @@
   // Public API: lets other scripts (e.g. the product form's Add to Bag handler)
   // update the badge/totals and open the drawer via AJAX, without a reload.
   window.CartDrawer = { open: open, close: close, applyCart: applyCart };
+
+  // Add-to-cart integration: the product form's inline script dispatches
+  // these custom events after a successful `/cart/add.js` POST rather than
+  // calling window.CartDrawer directly. Listen here and react by pulling
+  // fresh cart state and updating the badge/drawer via AJAX -- no reload.
+  document.addEventListener('cart:refresh', async () => {
+  try {
+  const res = await fetch('/cart.js');
+  const cart = await res.json();
+  applyCart(cart);
+  } catch (err) {
+  console.error('Cart refresh failed', err);
+  }
+  });
+  document.addEventListener('cart:open', () => {
+  open();
+  });
 })();
