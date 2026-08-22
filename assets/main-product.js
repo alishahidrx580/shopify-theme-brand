@@ -349,10 +349,14 @@
           // Buy now skips the cart drawer — straight to checkout.
           window.location.assign('/checkout');
         } else {
-          // Add to cart: reload with ?cart=open so cart-drawer.js opens it.
-          const url = new URL(window.location.href);
-          url.searchParams.set('cart', 'open');
-          window.location.assign(url.toString());
+          // Add to cart: refresh the header badge/totals and open the drawer
+          // via AJAX -- no full page reload needed.
+          const cartRes = await fetch('/cart.js');
+          const cart = await cartRes.json();
+          if (window.CartDrawer) {
+            window.CartDrawer.applyCart(cart);
+            window.CartDrawer.open();
+          }
         }
       } catch (err) {
         console.error('Add to cart failed', err);
