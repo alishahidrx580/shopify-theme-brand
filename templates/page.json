@@ -120,11 +120,27 @@
       "settings": {
         "scroll_seconds": 80
       }
+    },
+    "178750218704cf1e1e": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_AecYiP": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_AecYiP"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
     "home_image_text_CjPz7G",
-    "home_brand_logos_J7hYdb"
+    "home_brand_logos_J7hYdb",
+    "178750218704cf1e1e"
   ]
 }
