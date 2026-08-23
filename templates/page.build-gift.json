@@ -16,11 +16,28 @@
         "heading_lead": "Build a gift of",
         "heading_emphasis": "lasting radiance.",
         "intro": "<p>Choose from our edit of considered formulations. Add premium gift wrap and a handwritten note — for the people whose skin you'd like to look as quietly luminous as your own.</p>",
+        "collection": "",
         "footnote": "Complimentary shipping on orders over ₹2,500"
       }
+    },
+    "1787502317c0693bef": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_bwf8y6": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_bwf8y6"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "gift"
+    "gift",
+    "1787502317c0693bef"
   ]
 }
