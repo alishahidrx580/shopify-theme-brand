@@ -68,8 +68,14 @@
 <a href="{{ card_url }}" class="product-card">
   <div class="product-card__media">
     {%- if placeholder -%}
-      {{ primary_placeholder | placeholder_svg_tag: 'product-card__placeholder product-card__img product-card__img--primary' }}
-      {{ secondary_placeholder | placeholder_svg_tag: 'product-card__placeholder product-card__img product-card__img--secondary' }}
+      {{
+        primary_placeholder
+        | placeholder_svg_tag: 'product-card__placeholder product-card__img product-card__img--primary'
+      }}
+      {{
+        secondary_placeholder
+        | placeholder_svg_tag: 'product-card__placeholder product-card__img product-card__img--secondary'
+      }}
     {%- else -%}
       {%- if primary_url != blank -%}
         <img
@@ -79,7 +85,11 @@
           alt="{{ product.title | escape }}"
           width="800"
           height="1000"
-          {% if eager %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+          {% if eager %}
+            loading="eager" fetchpriority="high"
+          {% else %}
+            loading="lazy"
+          {% endif %}
           decoding="async"
           class="product-card__img product-card__img--primary"
         >
@@ -103,8 +113,37 @@
     {%- if card_category != blank -%}
       <span class="product-card__category eyebrow eyebrow--bare">{{ card_category }}</span>
     {%- endif -%}
+    {%- unless placeholder -%}
+      {%- if product.available -%}
+        <button
+          type="button"
+          class="product-card__quick-add"
+          data-quick-add
+          data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+          aria-label="Add {{ product.title | escape }} to bag"
+        >
+          <svg
+            class="product-card__quick-add-icon product-card__quick-add-icon--plus"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M10 3.5V16.5M3.5 10H16.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+          </svg>
+          <svg
+            class="product-card__quick-add-icon product-card__quick-add-icon--check"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      {%- endif -%}
+    {%- endunless -%}
   </div>
-
   <div class="product-card__body">
     <div class="product-card__text">
       <h3 class="product-card__title font-display">{{ card_title }}</h3>
@@ -113,7 +152,16 @@
       {%- endif -%}
     </div>
     <div class="product-card__pricing">
-{%- unless placeholder -%}{%- if product.compare_at_price > product.price -%}<div class="product-card__compare">{{ product.compare_at_price | money }}</div><div class="product-card__price">{{ product.price | money }}</div>{%- else -%}{%- assign card_discounted_price = product.price | times: 0.9 | round -%}<div class="product-card__compare">{{ product.price | money }}</div><div class="product-card__price">{{ card_discounted_price | money }}</div>{%- endif -%}{%- endunless -%}
+      {%- unless placeholder -%}
+        {%- if product.compare_at_price > product.price -%}
+          <div class="product-card__compare">{{ product.compare_at_price | money }}</div>
+          <div class="product-card__price">{{ product.price | money }}</div>
+        {%- else -%}
+          {%- assign card_discounted_price = product.price | times: 0.9 | round -%}
+          <div class="product-card__compare">{{ product.price | money }}</div>
+          <div class="product-card__price">{{ card_discounted_price | money }}</div>
+        {%- endif -%}
+      {%- endunless -%}
     </div>
   </div>
 </a>
@@ -222,4 +270,137 @@
     color: var(--muted-foreground);
     text-decoration: line-through;
   }
+
+  .product-card__quick-add {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 1px solid color-mix(in oklab, var(--foreground) 15%, transparent);
+    border-radius: var(--radius);
+    background-color: color-mix(in oklab, var(--background) 70%, transparent);
+    backdrop-filter: blur(8px);
+    color: var(--foreground);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-0.25rem);
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .product-card:hover .product-card__quick-add,
+  .product-card:focus-within .product-card__quick-add,
+  .product-card__quick-add[data-loading],
+  .product-card__quick-add[data-added] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .product-card__quick-add:hover,
+  .product-card__quick-add:focus-visible {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .product-card__quick-add:focus-visible {
+    outline: 1px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  .product-card__quick-add[data-loading] {
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  .product-card__quick-add-icon {
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+  }
+
+  .product-card__quick-add-icon--check {
+    display: none;
+  }
+
+  .product-card__quick-add[data-added] .product-card__quick-add-icon--plus {
+    display: none;
+  }
+
+  .product-card__quick-add[data-added] .product-card__quick-add-icon--check {
+    display: block;
+  }
+
+  @media (hover: none) {
+    .product-card__quick-add {
+      opacity: 1;
+      transform: translateY(0);
+      background-color: color-mix(in oklab, var(--background) 85%, transparent);
+    }
+  }
 {% endstylesheet %}
+
+{% javascript %}
+(function () {
+  if (window.__productCardQuickAddInit) return;
+  window.__productCardQuickAddInit = true;
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-quick-add]');
+    if (!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (btn.disabled || btn.hasAttribute('data-loading')) return;
+
+    var variantId = btn.getAttribute('data-variant-id');
+    var cardLink = btn.closest('.product-card');
+    if (!variantId) return;
+
+    var fd = new FormData();
+    fd.append('id', variantId);
+    fd.append('quantity', 1);
+
+    btn.setAttribute('data-loading', 'true');
+    btn.disabled = true;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      body: fd,
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    })
+      .then(function (r) {
+        if (!r.ok) {
+          return r.json().then(function (data) {
+            throw new Error((data && data.description) || 'Add to cart failed');
+          });
+        }
+        return r.json();
+      })
+      .then(function () {
+        btn.removeAttribute('data-loading');
+        btn.disabled = false;
+        btn.setAttribute('data-added', 'true');
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        document.dispatchEvent(new CustomEvent('cart:open'));
+        setTimeout(function () {
+          btn.removeAttribute('data-added');
+        }, 1500);
+      })
+      .catch(function (err) {
+        console.error('Quick add failed', err);
+        btn.removeAttribute('data-loading');
+        btn.disabled = false;
+        if (cardLink && cardLink.getAttribute('href')) {
+          window.location.assign(cardLink.getAttribute('href'));
+        }
+      });
+  });
+})();
+{% endjavascript %}
