@@ -192,21 +192,6 @@
         "heading_lead": "What people ask",
         "heading_emphasis": ""
       }
-    },
-    "1787503036e51732bf": {
-      "type": "apps",
-      "blocks": {
-        "gsc_instagram_feed_instafeed_LP7yx9": {
-          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
-          "settings": {
-            "widget_id": "GSC-rEKPvblDmLKTjeJ"
-          }
-        }
-      },
-      "block_order": [
-        "gsc_instagram_feed_instafeed_LP7yx9"
-      ],
-      "settings": {}
     }
   },
   "order": [
@@ -214,7 +199,6 @@
     "image-band",
     "principles",
     "beliefs",
-    "faq",
-    "1787503036e51732bf"
+    "faq"
   ]
 }
