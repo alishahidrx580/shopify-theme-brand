@@ -486,18 +486,18 @@
       ],
       "settings": {}
     },
-    "178748076580b62c56": {
+    "17874816673bfe4182": {
       "type": "apps",
       "blocks": {
-        "gsc_instagram_feed_instafeed_NdRH8T": {
+        "gsc_instagram_feed_instafeed_wTtKV9": {
           "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
           "settings": {
-            "widget_id": "GSC-rPijvVuIZZzqgJs"
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
           }
         }
       },
       "block_order": [
-        "gsc_instagram_feed_instafeed_NdRH8T"
+        "gsc_instagram_feed_instafeed_wTtKV9"
       ],
       "settings": {}
     }
@@ -518,6 +518,6 @@
     "trust-strip",
     "newsletter",
     "178747941860776144",
-    "178748076580b62c56"
+    "17874816673bfe4182"
   ]
 }
