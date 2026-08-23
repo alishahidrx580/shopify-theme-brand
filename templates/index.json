@@ -427,6 +427,7 @@
         "t1": {
           "type": "pillar",
           "settings": {
+            "image": "shopify://shop_images/Woman_s_hand_holding_product_202607151618.jpg",
             "number": "01",
             "title": "Directly Imported",
             "body": "<p>Purchased in person from licensed UAE pharmacies. Not from local distributors. From the shelf, sealed, shipped to Pakistan.</p>"
@@ -435,6 +436,7 @@
         "t2": {
           "type": "pillar",
           "settings": {
+            "image": "shopify://shop_images/Lait_hydratant_Cerave.jpg",
             "number": "02",
             "title": "Sealed on Arrival",
             "body": "<p>Original manufacturer packaging. Tamper-evident seals intact. Batch codes visible. If broken on arrival, we replace it.</p>"
@@ -443,6 +445,7 @@
         "t3": {
           "type": "pillar",
           "settings": {
+            "image": "shopify://shop_images/Skincare_products_arranged_on_ma__202607151538.jpg",
             "number": "03",
             "title": "Dermatologist Brands",
             "body": "<p>ACM, CeraVe, La Roche-Posay, Bioderma, Avène, ISDIN, Uriage, Dermalogica, No7, COSRX and more. Pharmacy-grade. Dermatologist-recommended. Not influencer brands.</p>"
@@ -462,28 +465,8 @@
         "image_aspect": "4 / 5"
       }
     },
-    "newsletter": {
-      "type": "home-newsletter",
-      "settings": {
-        "eyebrow": "",
-        "heading_lead": "Get the edit before it sells out.",
-        "heading_emphasis": "New arrivals and restocks, straight to your inbox.",
-        "submit_label": "Subscribe",
-        "success_heading": "You're on the list",
-        "success_text": "We never share your details. Unsubscribe anytime."
-      }
-    },
     "178747941860776144": {
       "type": "apps",
-      "blocks": {
-        "judge_me_reviews_ugc_media_grid_AnyqVX": {
-          "type": "shopify://apps/judge-me-reviews/blocks/ugc_media_grid/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_ugc_media_grid_AnyqVX"
-      ],
       "settings": {}
     },
     "17874816673bfe4182": {
@@ -516,7 +499,6 @@
     "home_featured_products_HNDweb",
     "home_featured_products_DYV4wg",
     "trust-strip",
-    "newsletter",
     "178747941860776144",
     "17874816673bfe4182"
   ]
