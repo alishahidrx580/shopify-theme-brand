@@ -18,12 +18,30 @@
         "heading_tail": "",
         "body": "<p>Each product activates a specific skin function. Together, they create visible brightness, smoother texture and long-term glow.</p>",
         "show_filters": true,
+        "show_search": true,
+        "show_sort": true,
         "filter_categories": "Brightening, Sensitive Skin, Cleansers, Oily & Acne, Night Treatment, Eye Care, Anti-Aging, SPF & Sun",
-                "filter_all_label": "All"
+        "filter_all_label": "All"
       }
+    },
+    "178750146210f7aad0": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_Vwf334": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_Vwf334"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "178750146210f7aad0"
   ]
 }
