@@ -137,21 +137,6 @@
         "cta_url": "",
         "cta_style": "outline"
       }
-    },
-    "178750276163f3435d": {
-      "type": "apps",
-      "blocks": {
-        "gsc_instagram_feed_instafeed_7YhkRp": {
-          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
-          "settings": {
-            "widget_id": "GSC-rEKPvblDmLKTjeJ"
-          }
-        }
-      },
-      "block_order": [
-        "gsc_instagram_feed_instafeed_7YhkRp"
-      ],
-      "settings": {}
     }
   },
   "order": [
@@ -162,7 +147,6 @@
     "image-ritual",
     "atelier",
     "cards",
-    "home_image_text_MH3pfh",
-    "178750276163f3435d"
+    "home_image_text_MH3pfh"
   ]
 }
