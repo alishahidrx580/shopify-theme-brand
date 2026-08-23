@@ -11,10 +11,32 @@
   "sections": {
     "main": {
       "type": "collections",
+      "settings": {
+        "eyebrow": "Discover",
+        "heading_lead": "Browse",
+        "heading_emphasis": "the collections",
+        "heading_tail": ".",
+        "body": "<p>Curated edits, themed sets and seasonal selections.</p>"
+      }
+    },
+    "1787501602287fbad3": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_DKqrtc": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_DKqrtc"
+      ],
       "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "1787501602287fbad3"
   ]
 }
