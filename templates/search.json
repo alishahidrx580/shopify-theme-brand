@@ -12,9 +12,25 @@
     "main": {
       "type": "search",
       "settings": {}
+    },
+    "1787501719d63feffd": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_4fT3BW": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_4fT3BW"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "1787501719d63feffd"
   ]
 }
