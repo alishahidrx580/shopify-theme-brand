@@ -20,9 +20,9 @@
   // Currency formatter — Cham is INR-only, no decimals (matches the React
   // formatPrice helper). The Shopify Ajax response gives prices as integer
   // paise; we divide by 100 before formatting.
-  const moneyFormatter = new Intl.NumberFormat('en-IN', {
+  const moneyFormatter = new Intl.NumberFormat('en-PK', {
     style: 'currency',
-    currency: 'INR',
+    currency: 'PKR',
     maximumFractionDigits: 0,
   });
   function formatMoney(cents) {
