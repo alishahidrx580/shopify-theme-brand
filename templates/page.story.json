@@ -118,21 +118,6 @@
         "margin_top": 6,
         "margin_bottom": 8
       }
-    },
-    "1787503210a0efd86b": {
-      "type": "apps",
-      "blocks": {
-        "gsc_instagram_feed_instafeed_WcirHa": {
-          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
-          "settings": {
-            "widget_id": "GSC-rEKPvblDmLKTjeJ"
-          }
-        }
-      },
-      "block_order": [
-        "gsc_instagram_feed_instafeed_WcirHa"
-      ],
-      "settings": {}
     }
   },
   "order": [
@@ -142,7 +127,6 @@
     "quote",
     "image-ritual",
     "atelier",
-    "cards",
-    "1787503210a0efd86b"
+    "cards"
   ]
 }
