@@ -98,6 +98,21 @@
         "heading_lead": "Loved by skin like",
         "heading_emphasis": "yours."
       }
+    },
+    "178750122637f31d8e": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_bg3GdU": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_bg3GdU"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -106,6 +121,7 @@
     "pairs_with",
     "faq",
     "regimen",
-    "reviews"
+    "reviews",
+    "178750122637f31d8e"
   ]
 }
