@@ -27,8 +27,6 @@
     "image-portrait": {
       "type": "page-image-band",
       "settings": {
-        "image": "shopify://shop_images/Edit_the_provided_image._Keep_202606141806.jpg",
-        "image_mobile": "shopify://shop_images/Edit_the_provided_image._Keep_202606141806.jpg",
         "alt": "",
         "aspect_mobile": "16 / 9",
         "aspect_desktop": "21 / 9",
@@ -60,8 +58,6 @@
     "image-ritual": {
       "type": "page-image-band",
       "settings": {
-        "image": "shopify://shop_images/Before_generating__study_both_reference_202606141819.jpg",
-        "image_mobile": "shopify://shop_images/Before_generating__study_both_reference_202606141819.jpg",
         "alt": "",
         "aspect_mobile": "16 / 9",
         "aspect_desktop": "21 / 9",
@@ -74,7 +70,6 @@
       "type": "page-video-text",
       "settings": {
         "video_url": "https://cdn.shopify.com/videos/c/o/v/8548f683a508415e8a43c744bd99f5b1.mp4",
-        "poster": "shopify://shop_images/convert_this_image_ratio_to_202606141831.jpg",
         "video_side": "right",
         "autoplay": false,
         "eyebrow": "Inside the Atelier",
@@ -92,7 +87,6 @@
         "c1": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_luxury_skincare_atelier_production_202606171941.jpg",
             "title": "Small Batches",
             "body": "<p>Produced in small, controlled batches with our partner laboratories. Smaller runs mean tighter quality control — every formula reviewed before it leaves the atelier. Consistency is not a promise here; it is a production decision.<br/><br/></p>"
           }
@@ -100,7 +94,6 @@
         "c2": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/now_chnage_hair_color_to_202606142022.jpg",
             "title": "Considered Formulation",
             "body": "<p>Each product is composed for comfort, balance and a beautiful daily feel. Not for instant transformation — because instant transformation in skincare is always borrowed time. The skin pays it back by morning.<br/><br/><br/></p>"
           }
@@ -108,7 +101,6 @@
         "c3": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/Create_a_photorealistic_luxury_skincare_202606142036.jpg",
             "title": "Quiet Beauty",
             "body": "<p>No noise. No theatre. No whitening promise, no overnight miracle. Only what skin actually needs from a daily routine — and nothing it doesn't.</p>"
           }
@@ -133,7 +125,6 @@
       "settings": {
         "layout_style": "contained",
         "padding_size": "default",
-        "image": "shopify://shop_images/Photorealistic_editorial_portrait_photograph_of_202606191712.jpg",
         "image_side": "left",
         "image_frame": "natural",
         "image_position": "center center",
@@ -146,6 +137,21 @@
         "cta_url": "",
         "cta_style": "outline"
       }
+    },
+    "178750276163f3435d": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_7YhkRp": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_7YhkRp"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -156,6 +162,7 @@
     "image-ritual",
     "atelier",
     "cards",
-    "home_image_text_MH3pfh"
+    "home_image_text_MH3pfh",
+    "178750276163f3435d"
   ]
 }

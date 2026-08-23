@@ -27,8 +27,6 @@
     "image-band": {
       "type": "page-image-band",
       "settings": {
-        "image": "shopify://shop_images/Photorealistic_luxury_skincare_ingredient_still-life_202606191719.jpg",
-        "image_mobile": "shopify://shop_images/Photorealistic_luxury_skincare_ingredient_still-life_202606191719.jpg",
         "alt": "",
         "aspect_mobile": "16 / 9",
         "aspect_desktop": "21 / 8",
@@ -43,7 +41,6 @@
         "p1": {
           "type": "pillar",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_macro_202606191946.jpg",
             "number": "01",
             "title": "Comfort",
             "body": "<p>Every formula begins with feel. Lightweight, non-greasy textures designed for daily wear. In Pakistan's heat and humidity, comfort isn't a luxury — it's the starting point. A formula you enjoy using is one you'll actually use.<br/><br/><br/></p>"
@@ -52,7 +49,6 @@
         "p2": {
           "type": "pillar",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_macro_202606191950.jpg",
             "number": "02",
             "title": "Balance",
             "body": "<p>Hydration-first. Barrier-supportive. We avoid unnecessary fragrance loads and harsh actives that strip more than they give. What remains is a formula your skin can return to every morning without compromise or irritation.<br/><br/></p>"
@@ -61,7 +57,6 @@
         "p3": {
           "type": "pillar",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_photograph__202606191952.jpg",
             "number": "03",
             "title": "Finish",
             "body": "<p>A soft, even, naturally luminous finish. Not coverage — comfort made visible. The result of skin that has been given the right foundation: hydration, balance, and a little patience<br/><br/></p>"
@@ -87,7 +82,6 @@
         "c1": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_luxury_skincare_editorial_photograph__202606192008.jpg",
             "eyebrow": "Less, but better",
             "title": "Considered range",
             "body": "<p>A small, edited collection that works together. Every product earns its place — no fillers, no duplicates, no confusion. A clear routine you can build from without ever feeling overwhelmed.</p>"
@@ -96,7 +90,6 @@
         "c2": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/Photorealistic_editorial_portrait_photograph_of_202606192011.jpg",
             "eyebrow": "Honest claims",
             "title": "No miracles",
             "body": "<p>We describe only what you can see and feel. Never what happens at a cellular level. Honest, appearance-based language throughout. Individual results vary — and we respect that enough to say so.</p>"
@@ -199,6 +192,21 @@
         "heading_lead": "What people ask",
         "heading_emphasis": ""
       }
+    },
+    "1787503036e51732bf": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_LP7yx9": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_LP7yx9"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -206,6 +214,7 @@
     "image-band",
     "principles",
     "beliefs",
-    "faq"
+    "faq",
+    "1787503036e51732bf"
   ]
 }
