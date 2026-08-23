@@ -13,11 +13,13 @@
       "type": "page-hero",
       "settings": {
         "eyebrow": "Our Story",
+        "show_rule": true,
         "heading_lead": "A quiet rebellion",
         "heading_emphasis": "against louder skincare",
         "heading_tail": ".",
         "body": "<p>Cham Beauty began in a small laboratory outside Paris, with a single conviction: skin is not a surface to be corrected — it is a system to be supported. We watched an industry pile actives on top of actives, chasing instant glow with oils, films and fillers that vanished by morning. We wanted something else. Something true.</p>",
         "body_size": "large",
+        "text_align": "left",
         "body_max_width": 48,
         "max_width": 1100
       }
@@ -25,9 +27,11 @@
     "image-portrait": {
       "type": "page-image-band",
       "settings": {
-        "image": "shopify://shop_images/portrait.jpg",
+        "alt": "",
         "aspect_mobile": "16 / 9",
         "aspect_desktop": "21 / 9",
+        "focal_x": 50,
+        "focal_y": 50,
         "margin_top": 6
       }
     },
@@ -35,6 +39,7 @@
       "type": "page-heading-text",
       "settings": {
         "eyebrow": "Origin",
+        "show_rule": true,
         "heading_lead": "Developed with French standards",
         "heading_emphasis": "",
         "body": "<p>Each Cham formula is developed in collaboration with experienced cosmetic chemists working to French formulation standards. We focus on the quality of every ingredient, the elegance of every texture, and the way each product fits into a calm, daily routine.</p><p>We do not chase hero ingredients. We compose. The base matters as much as the active. The texture matters as much as the molecule. Every detail is considered, because skin can tell.</p>",
@@ -46,15 +51,18 @@
       "settings": {
         "quote": "The most beautiful skin is the most well-spoken-to. Our work is simply to listen, then answer with precision.",
         "attribution": "— The Cham Atelier, Paris",
+        "text_align": "left",
         "margin_top": 8
       }
     },
     "image-ritual": {
       "type": "page-image-band",
       "settings": {
-        "image": "shopify://shop_images/ritual.jpg",
+        "alt": "",
         "aspect_mobile": "16 / 9",
         "aspect_desktop": "21 / 9",
+        "focal_x": 50,
+        "focal_y": 50,
         "margin_top": 6
       }
     },
@@ -62,9 +70,10 @@
       "type": "page-video-text",
       "settings": {
         "video_url": "https://cdn.shopify.com/videos/c/o/v/8548f683a508415e8a43c744bd99f5b1.mp4",
-        "poster": "shopify://shop_images/WhatsApp_Image_2026-05-12_at_6.03.00_PM.jpg",
         "video_side": "right",
+        "autoplay": false,
         "eyebrow": "Inside the Atelier",
+        "show_rule": true,
         "heading_lead": "The ritual,",
         "heading_emphasis": "in motion",
         "heading_tail": ".",
@@ -103,9 +112,27 @@
         "c3"
       ],
       "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "card_ratio": "3 / 4",
         "margin_top": 6,
         "margin_bottom": 8
       }
+    },
+    "1787503210a0efd86b": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_WcirHa": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_WcirHa"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -115,6 +142,7 @@
     "quote",
     "image-ritual",
     "atelier",
-    "cards"
+    "cards",
+    "1787503210a0efd86b"
   ]
 }
