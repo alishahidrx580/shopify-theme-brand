@@ -11,10 +11,33 @@
   "sections": {
     "main": {
       "type": "main-blog",
+      "settings": {
+        "eyebrow": "Journal",
+        "heading_lead": "Notes on skin,",
+        "heading_emphasis": "formulation and ritual",
+        "heading_tail": ".",
+        "body": "<p>Slow reading on the science, the texture, and the small daily acts that compound into quiet radiance.</p>",
+        "per_page": 9
+      }
+    },
+    "1787501767f30de978": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_9AVCMw": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_9AVCMw"
+      ],
       "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "1787501767f30de978"
   ]
 }
