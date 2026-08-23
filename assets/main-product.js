@@ -15,9 +15,9 @@
   'use strict';
 
   const PRICE_SENTINEL = '__PDP_PRICE__';
-  const moneyFormatter = new Intl.NumberFormat('en-IN', {
+  const moneyFormatter = new Intl.NumberFormat('en-PK', {
     style: 'currency',
-    currency: 'INR',
+    currency: 'PKR',
     maximumFractionDigits: 0,
   });
 
