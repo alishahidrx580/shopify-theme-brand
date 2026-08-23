@@ -54,9 +54,25 @@
         "submit_label": "Send Message",
         "success_text": "Thank you — we'll be in touch soon."
       }
+    },
+    "1787501989d79adb39": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_teefeQ": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_teefeQ"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "contact"
+    "contact",
+    "1787501989d79adb39"
   ]
 }
