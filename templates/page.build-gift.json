@@ -19,25 +19,9 @@
         "collection": "",
         "footnote": "Complimentary shipping on orders over ₹2,500"
       }
-    },
-    "1787502317c0693bef": {
-      "type": "apps",
-      "blocks": {
-        "gsc_instagram_feed_instafeed_bwf8y6": {
-          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
-          "settings": {
-            "widget_id": "GSC-rEKPvblDmLKTjeJ"
-          }
-        }
-      },
-      "block_order": [
-        "gsc_instagram_feed_instafeed_bwf8y6"
-      ],
-      "settings": {}
     }
   },
   "order": [
-    "gift",
-    "1787502317c0693bef"
+    "gift"
   ]
 }
