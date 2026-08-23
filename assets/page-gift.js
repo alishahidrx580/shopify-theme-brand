@@ -15,9 +15,9 @@
   const root = document.querySelector('[data-page-gift]');
   if (!root) return;
 
-  const moneyFormatter = new Intl.NumberFormat('en-IN', {
+  const moneyFormatter = new Intl.NumberFormat('en-PK', {
     style: 'currency',
-    currency: 'INR',
+    currency: 'PKR',
     maximumFractionDigits: 0,
   });
   const formatMoney = (cents) => moneyFormatter.format(Math.round(cents) / 100);
