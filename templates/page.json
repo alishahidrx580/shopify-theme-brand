@@ -39,67 +39,81 @@
         "brand_VxPW7P": {
           "type": "brand",
           "settings": {
-            "name": "La Roche-Posay"
+            "logo": "shopify://shop_images/preview-screenshot.png",
+            "name": "La Roche-Posay",
+            "link": ""
           }
         },
         "brand_kQgNCC": {
           "type": "brand",
           "settings": {
-            "name": "CeraVe"
+            "logo": "shopify://shop_images/image-1787578586237.png",
+            "name": "CeraVe",
+            "link": ""
           }
         },
         "brand_3m3LGM": {
           "type": "brand",
           "settings": {
-            "name": "ISDIN"
+            "name": "ISDIN",
+            "link": ""
           }
         },
         "brand_3a7nbW": {
           "type": "brand",
           "settings": {
-            "name": "COSRX"
+            "name": "COSRX",
+            "link": ""
           }
         },
         "brand_nEtArG": {
           "type": "brand",
           "settings": {
-            "name": "Medicube"
+            "logo": "shopify://shop_images/images_1_3_220x_2edb9475-a3cc-4833-b2fb-e372fc4ac30a.avif",
+            "name": "Medicube",
+            "link": ""
           }
         },
         "brand_MTqXeD": {
           "type": "brand",
           "settings": {
-            "name": "Dermalogica"
+            "name": "Dermalogica",
+            "link": ""
           }
         },
         "brand_MaEDA3": {
           "type": "brand",
           "settings": {
-            "name": "ISDIN"
+            "name": "ISDIN",
+            "link": ""
           }
         },
         "brand_djb8Uq": {
           "type": "brand",
           "settings": {
-            "name": "Dermalogica"
+            "name": "Dermalogica",
+            "link": ""
           }
         },
         "brand_FRTq4Q": {
           "type": "brand",
           "settings": {
-            "name": "Avène"
+            "name": "Avène",
+            "link": ""
           }
         },
         "brand_BLYKgT": {
           "type": "brand",
           "settings": {
-            "name": "ACM"
+            "name": "ACM",
+            "link": ""
           }
         },
         "brand_tWzhY3": {
           "type": "brand",
           "settings": {
-            "name": "Aveeno"
+            "name": "Aveeno",
+            "link": ""
           }
         }
       },
@@ -118,7 +132,8 @@
       ],
       "name": "Brand Logos Strip",
       "settings": {
-        "scroll_seconds": 80
+        "scroll_seconds": 60,
+        "pause_on_hover": true
       }
     },
     "178750218704cf1e1e": {
