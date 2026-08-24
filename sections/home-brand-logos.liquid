@@ -8,10 +8,16 @@
       "type": "range",
       "id": "scroll_seconds",
       "label": "Scroll duration (seconds)",
-      "min": 30,
-      "max": 120,
+      "min": 10,
+      "max": 60,
       "step": 5,
-      "default": 80
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
     }
   ],
   "blocks": [
@@ -20,10 +26,22 @@
       "name": "Brand",
       "settings": [
         {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Brand logo image"
+        },
+        {
           "type": "text",
           "id": "name",
           "label": "Brand name",
+          "info": "Used as alt text and as a fallback if no logo is uploaded",
           "default": "Brand Name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)",
+          "info": "e.g. link to /collections/brand-handle"
         }
       ]
     }
@@ -59,69 +77,95 @@
 <style>
   .home-brand-logos {
     background: #FFFFFF;
-    padding: 32px 0;
+    padding: 40px 0;
     overflow: hidden;
-    border-top: 1px solid rgba(11,31,58,0.08);
-    border-bottom: 1px solid rgba(11,31,58,0.08);
   }
   .home-brand-logos__track-wrapper {
     overflow: hidden;
-    white-space: nowrap;
   }
   .home-brand-logos__track {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0;
-    animation: brandScroll var(--brand-scroll-duration, 80s) linear infinite;
-    will-change: transform;
+    width: max-content;
+    animation: brandMarquee var(--brand-scroll-duration, 20s) linear 1s infinite;
+    animation-play-state: running;
   }
-  @keyframes brandScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  .home-brand-logos__track:hover {
+  .home-brand-logos[data-pause-hover="true"] .home-brand-logos__track:hover,
+  .home-brand-logos[data-pause-hover="true"] .home-brand-logos__track:focus-within {
     animation-play-state: paused;
   }
+  @keyframes brandMarquee {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+  }
   .home-brand-logos__item {
-    display: inline-flex;
+    flex: 0 0 auto;
+    display: flex;
     align-items: center;
-    padding: 0 40px;
+    justify-content: center;
+    width: 180px;
+    height: 90px;
+    padding: 0 24px;
+  }
+  .home-brand-logos__item img {
+    max-width: 100%;
+    max-height: 56px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  .home-brand-logos__item--text {
     font-size: 0.875rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: rgba(11,31,58,0.35);
+    color: rgba(11,31,58,0.4);
     white-space: nowrap;
-    transition: color 0.2s ease;
-    text-decoration: none;
   }
-  .home-brand-logos__item:hover {
-    color: rgba(11,31,58,0.7);
-  }
-  .home-brand-logos__separator {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(11,31,58,0.2);
-    vertical-align: middle;
-    flex-shrink: 0;
+  .home-brand-logos__item:focus-visible {
+    outline: 2px solid #0B1F3A;
+    outline-offset: 2px;
   }
 </style>
 
-{%- assign scroll_dur = section.settings.scroll_seconds | default: 80 -%}
+{%- assign scroll_dur = section.settings.scroll_seconds | default: 20 -%}
 
-<div class="home-brand-logos__track-wrapper">
-  <div class="home-brand-logos__track" style="--brand-scroll-duration: {{ scroll_dur }}s;">
-    {%- comment -%} First pass {%- endcomment -%}
-    {%- for block in section.blocks -%}
-      <span class="home-brand-logos__item" {{ block.shopify_attributes }}>{{ block.settings.name }}</span>
-      <span class="home-brand-logos__separator" aria-hidden="true"></span>
-    {%- endfor -%}
-    {%- comment -%} Duplicate for seamless loop {%- endcomment -%}
-    {%- for block in section.blocks -%}
-      <span class="home-brand-logos__item" aria-hidden="true">{{ block.settings.name }}</span>
-      <span class="home-brand-logos__separator" aria-hidden="true"></span>
-    {%- endfor -%}
+<div
+  class="home-brand-logos"
+  data-pause-hover="{{ section.settings.pause_on_hover }}"
+>
+  <div class="home-brand-logos__track-wrapper">
+    <div class="home-brand-logos__track" style="--brand-scroll-duration: {{ scroll_dur }}s;">
+      {%- comment -%} First pass {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" class="home-brand-logos__item{% unless block.settings.logo %} home-brand-logos__item--text{% endunless %}" {{ block.shopify_attributes }}>
+        {%- else -%}<span class="home-brand-logos__item{% unless block.settings.logo %} home-brand-logos__item--text{% endunless %}" {{ block.shopify_attributes }}>
+        {%- endif -%}
+          {%- if block.settings.logo -%}
+            <img
+              srcset="{{ block.settings.logo | image_url: width: 180 }} 1x, {{ block.settings.logo | image_url: width: 360 }} 2x"
+              src="{{ block.settings.logo | image_url: width: 180 }}"
+              alt="{{ block.settings.name | escape }}"
+              loading="lazy"
+              width="180"
+              height="90"
+            >
+          {%- else -%}
+            {{ block.settings.name }}
+          {%- endif -%}
+        {%- if block.settings.link != blank -%}</a>{%- else -%}</span>{%- endif -%}
+      {%- endfor -%}
+      {%- comment -%} Duplicate for seamless loop {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        <span class="home-brand-logos__item{% unless block.settings.logo %} home-brand-logos__item--text{% endunless %}" aria-hidden="true" tabindex="-1">
+          {%- if block.settings.logo -%}
+            <img src="{{ block.settings.logo | image_url: width: 180 }}" alt="" loading="lazy" width="180" height="90">
+          {%- else -%}
+            {{ block.settings.name }}
+          {%- endif -%}
+        </span>
+      {%- endfor -%}
+    </div>
   </div>
 </div>
