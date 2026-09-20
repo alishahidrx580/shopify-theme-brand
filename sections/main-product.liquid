@@ -171,6 +171,9 @@ assign price_formatted = current_variant.price | money
             {%- if volume != blank -%}
               <span class="main-product__volume">{{ volume }}</span>
             {%- endif -%}
+          {%- if product.handle == 'cerave-moisturizing-cream-454gm-copy' -%}
+            <a href="/products/cerave-moisturizing-cream-340gm" class="main-product__volume main-product__volume--link" style="margin-left:6px;">340g</a>
+          {%- endif -%}
           </div>
 
           <button
