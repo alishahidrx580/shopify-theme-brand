@@ -500,21 +500,28 @@ assign price_formatted = current_variant.price | money
   }
   .main-product__sizes { display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
   .main-product__volume--current {
-    border: 1px solid var(--border);
+    background: var(--foreground);
+    color: var(--background);
+    border: 1px solid var(--foreground);
     border-radius: 999px;
     padding: 0.15rem 0.6rem;
+    font-weight: 600;
   }
   .main-product__volume--link {
-    border: 1px solid var(--border);
+    background: var(--background);
+    border: 1px solid var(--primary);
+    color: var(--primary);
     border-radius: 999px;
     padding: 0.15rem 0.6rem;
     text-decoration: none;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
   .main-product__volume--link:hover,
   .main-product__volume--link:focus-visible {
-    border-color: var(--primary);
-    color: var(--primary);
+    background: var(--primary);
+    color: var(--background);
   }
   .main-product__price-row { display: inline-flex; align-items: baseline; gap: 0.5rem; }
   .main-product__price-compare { font-size: 0.85em; color: var(--muted-foreground); text-decoration: line-through; }
