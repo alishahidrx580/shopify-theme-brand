@@ -307,7 +307,7 @@
       "eyebrow_default": "Customer reviews",
       "heading_lead_default": "Loved by skin like",
       "heading_emphasis_default": "yours.",
-      "summary_html": "Based on <strong>{{ count }} verified reviews</strong> from the THE EDIT customers."
+      "summary_html": "Based on <strong>{{ count }} verified reviews</strong> from THE EDIT customers."
     },
     "main_collection": {
       "eyebrow_default": "The Collection",
