@@ -168,11 +168,20 @@ assign price_formatted = current_variant.price | money
 
           <div class="main-product__size-line">
 <span class="main-product__price-row"><s class="main-product__price-compare">{{ original_price_formatted }}</s><span class="main-product__price-sale" data-variant-label>{{ variant_label }}</span></span>
-            {%- if volume != blank -%}
-              <span class="main-product__volume">{{ volume }}</span>
-            {%- endif -%}
-          {%- if product.handle == 'cerave-moisturizing-cream-454gm-copy' -%}
-            <a href="/products/cerave-moisturizing-cream-340gm" class="main-product__volume main-product__volume--link" style="margin-left:6px;">340g</a>
+{%- assign other_sizes = product.metafields.custom.other_sizes.value -%}
+          {%- if volume != blank or other_sizes != blank -%}
+            <span class="main-product__sizes">
+              {%- if volume != blank -%}
+                <span class="main-product__volume main-product__volume--current">{{ volume }}</span>
+              {%- endif -%}
+              {%- if other_sizes != blank -%}
+                {%- for sibling in other_sizes -%}
+                  {%- if sibling != blank and sibling.handle != product.handle -%}
+                    <a href="{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}</a>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+            </span>
           {%- endif -%}
           </div>
 
@@ -488,6 +497,24 @@ assign price_formatted = current_variant.price | money
     text-transform: uppercase;
     color: var(--muted-foreground);
     flex-shrink: 0;
+  }
+  .main-product__sizes { display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+  .main-product__volume--current {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+  }
+  .main-product__volume--link {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .main-product__volume--link:hover,
+  .main-product__volume--link:focus-visible {
+    border-color: var(--primary);
+    color: var(--primary);
   }
   .main-product__price-row { display: inline-flex; align-items: baseline; gap: 0.5rem; }
   .main-product__price-compare { font-size: 0.85em; color: var(--muted-foreground); text-decoration: line-through; }
