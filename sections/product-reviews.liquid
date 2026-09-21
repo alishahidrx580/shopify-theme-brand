@@ -13,18 +13,24 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign jm_badge = product.metafields.judgeme.badge | append: ''
-  assign review_count = ''
-  assign review_avg = ''
-  if jm_badge contains 'data-number-of-reviews'
-    assign review_count = jm_badge | split: 'data-number-of-reviews="' | last | split: '"' | first
-    assign review_avg = jm_badge | split: 'data-average-rating="' | last | split: '"' | first
+  assign jm_data = product.metafields.judgeme.review_widget_data.value
+  assign count_num = 0
+  assign avg_num = 0.0
+  if jm_data.number_of_reviews > 0
+    assign count_num = jm_data.number_of_reviews | times: 1
+    assign avg_num = jm_data.average_rating | times: 1.0
+  else
+    assign jm_badge = product.metafields.judgeme.badge | append: ''
+    if jm_badge contains "itemprop='reviewCount'"
+      assign review_count = jm_badge | split: "itemprop='reviewCount' content='" | last | split: "'" | first
+      assign review_avg = jm_badge | split: "itemprop='ratingValue' content='" | last | split: "'" | first
+      assign count_num = review_count | times: 1
+      assign avg_num = review_avg | times: 1.0
+    endif
   endif
-  assign count_num = review_count | times: 1
-  assign avg_num = review_avg | times: 1.0
   assign avg_display = avg_num | round: 1
   assign avg_rounded = avg_num | round
--%}
+-%}}
 
 <section class="product-reviews full-width{% if count_num == 0 %} product-reviews--empty{% endif %}" id="reviews">
   <div class="product-reviews__inner cham-container">
