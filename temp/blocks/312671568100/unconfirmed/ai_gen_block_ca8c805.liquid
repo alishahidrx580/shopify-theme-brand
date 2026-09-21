@@ -1,6 +1,198 @@
+{% doc %}
+  @prompt
+    Create a new reusable product-page block named “Available Sizes” for separate products that represent different sizes of the same item. Place it in the product information area so it can sit below the price and above the buy buttons. For the CeraVe Moisturizing Cream family, show three rounded pill links: 50ml linking to /products/cerave-moisturizing-cream-50ml, 340gm linking to /products/cerave-moisturizing-cream-340gm, and 454gm linking to /products/cerave-moisturizing-cream-454gm. Detect the current product by its handle and render that size as selected with a dark filled background and white text; render the others as bordered clickable links. Add a small “Size” label above the row, comfortable spacing, a subtle hover background/border change and slight upward lift, clear keyboard focus styling, and responsive wrapping on mobile. Use the theme’s inherited fonts and existing foreground/background color variables so it matches the current design. Make the block reusable and configurable in the theme editor, preferably accepting a product-list metafield such as custom.available_sizes when available, while retaining the three CeraVe products as a clean fallback so it works immediately. For linked products, derive each button label from custom.volume when available, otherwise from the size at the end of the product title. Do not use variants or add-to-cart behavior; each pill must navigate to that separate product page.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign metafield_products = product.metafields.custom.available_sizes.value %}
+
+{% style %}
+  .ai-available-sizes-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    color: currentColor;
+  }
+
+  .ai-available-sizes-{{ ai_gen_id }}__label {
+    display: block;
+    margin: 0 0 10px;
+    color: currentColor;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .ai-available-sizes-{{ ai_gen_id }}__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .ai-available-sizes-{{ ai_gen_id }}__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 68px;
+    min-height: 42px;
+    padding: 9px 16px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    color: currentColor;
+    background: transparent;
+    font: inherit;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .ai-available-sizes-{{ ai_gen_id }}__link:hover {
+    background: color-mix(in srgb, currentColor 8%, transparent);
+    border-color: currentColor;
+    transform: translateY(-2px);
+  }
+
+  .ai-available-sizes-{{ ai_gen_id }}__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  .ai-available-sizes-{{ ai_gen_id }}__link--selected {
+    color: var(--color-background, #ffffff);
+    background: currentColor;
+    border-color: currentColor;
+    cursor: default;
+  }
+
+  .ai-available-sizes-{{ ai_gen_id }}__link--selected:hover {
+    color: var(--color-background, #ffffff);
+    background: currentColor;
+    transform: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-available-sizes-{{ ai_gen_id }}__list {
+      gap: 8px;
+    }
+
+    .ai-available-sizes-{{ ai_gen_id }}__link {
+      min-width: 64px;
+      padding-right: 14px;
+      padding-left: 14px;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="ai-available-sizes-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.label != blank %}
+    <span class="ai-available-sizes-{{ ai_gen_id }}__label">{{ block.settings.label | escape }}</span>
+  {% endif %}
+
+  <nav class="ai-available-sizes-{{ ai_gen_id }}__list" aria-label="{{ block.settings.label | default: 'Available sizes' | escape }}">
+    {% if metafield_products != blank %}
+      {% for size_product in metafield_products %}
+        {% assign size_volume = size_product.metafields.custom.volume.value %}
+        {% if size_volume == blank %}
+          {% assign size_title_parts = size_product.title | split: ' ' %}
+          {% assign size_volume = size_title_parts | last %}
+        {% endif %}
+        {% if size_product.handle == product.handle %}
+          <span
+            class="ai-available-sizes-{{ ai_gen_id }}__link ai-available-sizes-{{ ai_gen_id }}__link--selected"
+            aria-current="page"
+          >{{ size_volume | escape }}</span>
+        {% else %}
+          <a
+            class="ai-available-sizes-{{ ai_gen_id }}__link"
+            href="{{ size_product.url }}"
+          >{{ size_volume | escape }}</a>
+        {% endif %}
+      {% endfor %}
+    {% elsif block.settings.size_products != blank %}
+      {% for size_product in block.settings.size_products %}
+        {% assign size_volume = size_product.metafields.custom.volume.value %}
+        {% if size_volume == blank %}
+          {% assign size_title_parts = size_product.title | split: ' ' %}
+          {% assign size_volume = size_title_parts | last %}
+        {% endif %}
+        {% if size_product.handle == product.handle %}
+          <span
+            class="ai-available-sizes-{{ ai_gen_id }}__link ai-available-sizes-{{ ai_gen_id }}__link--selected"
+            aria-current="page"
+          >{{ size_volume | escape }}</span>
+        {% else %}
+          <a
+            class="ai-available-sizes-{{ ai_gen_id }}__link"
+            href="{{ size_product.url }}"
+          >{{ size_volume | escape }}</a>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {% assign fallback_product_1 = all_products['cerave-moisturizing-cream-50ml'] %}
+      {% assign fallback_product_2 = all_products['cerave-moisturizing-cream-340gm'] %}
+      {% assign fallback_product_3 = all_products['cerave-moisturizing-cream-454gm'] %}
+      {% assign fallback_products = fallback_product_1 | append: '|' | append: fallback_product_2 | append: '|' | append: fallback_product_3 | split: '|' %}
+      {% assign fallback_handles = 'cerave-moisturizing-cream-50ml,cerave-moisturizing-cream-340gm,cerave-moisturizing-cream-454gm' | split: ',' %}
+      {% assign fallback_labels = '50ml,340gm,454gm' | split: ',' %}
+      {% for fallback_handle in fallback_handles %}
+        {% assign fallback_index = forloop.index0 %}
+        {% assign fallback_product = all_products[fallback_handle] %}
+        {% assign fallback_label = fallback_labels[fallback_index] %}
+        {% if fallback_product != blank %}
+          {% if fallback_product.handle == product.handle %}
+            <span
+              class="ai-available-sizes-{{ ai_gen_id }}__link ai-available-sizes-{{ ai_gen_id }}__link--selected"
+              aria-current="page"
+            >{{ fallback_label }}</span>
+          {% else %}
+            <a
+              class="ai-available-sizes-{{ ai_gen_id }}__link"
+              href="{{ fallback_product.url }}"
+            >{{ fallback_label }}</a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </nav>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Available sizes",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Size"
+    },
+    {
+      "type": "product_list",
+      "id": "size_products",
+      "label": "Size products",
+      "limit": 20
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Available sizes"
+    }
+  ],
+  "tag": null,
+  "class": "available-sizes-block"
+}
 {% endschema %}
