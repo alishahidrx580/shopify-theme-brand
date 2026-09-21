@@ -40,6 +40,41 @@
         "gallery_focal_y": 50
       }
     },
+    "trust_info": {
+      "type": "product-trust-info",
+      "blocks": {
+        "badge_1": {
+          "type": "badge",
+          "settings": {
+            "icon": "returns",
+            "title": "Easy Returns",
+            "subtitle": "7 Day Return & Exchange Policy"
+          }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": {
+            "icon": "authentic",
+            "title": "100% Authentic",
+            "subtitle": "Genuine Products, Sourced & Sealed"
+          }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": {
+            "icon": "delivery",
+            "title": "Nationwide Delivery",
+            "subtitle": "14-21 Business Days"
+          }
+        }
+      },
+      "block_order": ["badge_1", "badge_2", "badge_3"],
+      "settings": {
+        "eyebrow": "The Cham Promise",
+        "heading": "Shop With Confidence",
+        "disclaimer_text": "We import all products directly from authorized distributors. Packaging, batch codes, and shade or formula names may vary slightly from the images shown as brands update their designs from time to time — this never affects the authenticity or quality of what you receive. Every item is 100% genuine and sealed unless listed otherwise."
+      }
+    },
     "sensory": {
       "type": "product-sensory",
       "disabled": true,
@@ -117,6 +152,7 @@
   },
   "order": [
     "main",
+    "trust_info",
     "sensory",
     "pairs_with",
     "faq",
