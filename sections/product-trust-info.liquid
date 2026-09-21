@@ -1,0 +1,229 @@
+{%- liquid
+  assign eyebrow = section.settings.eyebrow
+  assign heading = section.settings.heading
+  assign disclaimer_text = section.settings.disclaimer_text
+-%}
+
+<section class="product-trust-info full-width">
+  <div class="product-trust-info__inner cham-container">
+
+    {%- if eyebrow != blank or heading != blank -%}
+      <div class="product-trust-info__head" data-reveal>
+        {%- if eyebrow != blank -%}
+          <span class="eyebrow">{{ eyebrow }}</span>
+        {%- endif -%}
+        {%- if heading != blank -%}
+          <p class="product-trust-info__heading font-display">{{ heading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="product-trust-info__badges" data-reveal data-reveal-delay="100">
+      {%- for block in section.blocks -%}
+        <div class="product-trust-info__badge" {{ block.shopify_attributes }}>
+          <span class="product-trust-info__icon" aria-hidden="true">
+            {%- case block.settings.icon -%}
+              {%- when 'returns' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+              {%- when 'authentic' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+              {%- when 'delivery' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V6a1 1 0 0 1 1-1h10v11"/><path d="M14 9h4l3 3v4h-2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M9 18h6"/></svg>
+            {%- endcase -%}
+          </span>
+          <span class="product-trust-info__badge-text">
+            <span class="product-trust-info__badge-title">{{ block.settings.title }}</span>
+            <span class="product-trust-info__badge-subtitle">{{ block.settings.subtitle }}</span>
+          </span>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if disclaimer_text != blank -%}
+      <div class="product-trust-info__disclaimer">
+        <p><strong>Disclaimer:</strong> {{ disclaimer_text }}</p>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% stylesheet %}
+  .product-trust-info {
+    padding-block: clamp(2rem, 4vw, 3.5rem);
+    border-top: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+  }
+
+  .product-trust-info__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .product-trust-info__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .product-trust-info__heading {
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    margin: 0;
+    color: var(--foreground);
+  }
+
+  .product-trust-info__badges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .product-trust-info__badge {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+    border-radius: var(--radius);
+    background: var(--card);
+  }
+
+  .product-trust-info__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    background: var(--secondary);
+    color: var(--primary);
+  }
+
+  .product-trust-info__icon svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+
+  .product-trust-info__badge-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .product-trust-info__badge-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--foreground);
+  }
+
+  .product-trust-info__badge-subtitle {
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+
+  .product-trust-info__disclaimer {
+    max-width: 60rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .product-trust-info__disclaimer p {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+  }
+
+  .product-trust-info__disclaimer strong {
+    color: var(--foreground);
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-trust-info__badges {
+      grid-template-columns: 1fr;
+    }
+
+    .product-trust-info__badge {
+      padding: 0.875rem 1rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Trust & Delivery Info",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "The Cham Promise"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop With Confidence"
+    },
+    {
+      "type": "header",
+      "content": "Disclaimer"
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer_text",
+      "label": "Disclaimer text",
+      "default": "We import all products directly from authorized distributors. Packaging, batch codes, and shade or formula names may vary slightly from the images shown as brands update their designs from time to time — this never affects the authenticity or quality of what you receive. Every item is 100% genuine and sealed unless listed otherwise."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Trust badge",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "returns", "label": "Returns" },
+            { "value": "authentic", "label": "Authentic" },
+            { "value": "delivery", "label": "Delivery" }
+          ],
+          "default": "returns"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Easy Returns"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "7 Day Return & Exchange Policy"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust & Delivery Info",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "returns", "title": "Easy Returns", "subtitle": "7 Day Return & Exchange Policy" } },
+        { "type": "badge", "settings": { "icon": "authentic", "title": "100% Authentic", "subtitle": "Genuine Products, Sourced & Sealed" } },
+        { "type": "badge", "settings": { "icon": "delivery", "title": "Nationwide Delivery", "subtitle": "14-21 Business Days" } }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
