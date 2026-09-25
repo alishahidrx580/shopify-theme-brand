@@ -48,12 +48,12 @@
       changedRow.remove();
     } else if (changedRow) {
       const lineKey = changedRow.getAttribute('data-line-key');
-      const item = (cart.items || []).find((it) => it.key === lineKey);
+      const item = (cart.items || []).find((it) => it.key === lineKey) || (cart.items || []).find((it) => String(it.key).split(':')[0] === lineKey.split(':')[0]);
       if (item) {
         const qtyEl = changedRow.querySelector('.cart-drawer__qty-value');
         const linePriceEl = changedRow.querySelector('.cart-drawer__item-line-price');
         if (qtyEl) qtyEl.textContent = item.quantity;
-        if (linePriceEl) linePriceEl.textContent = formatMoney(item.final_line_price);
+        if (linePriceEl) linePriceEl.textContent = formatMoney(item.final_line_price); changedRow.setAttribute('data-line-key', item.key);
       }
       changedRow.removeAttribute('data-loading');
     }
@@ -71,7 +71,7 @@
       el.textContent = cart.item_count;
       el.setAttribute('data-cart-count', cart.item_count);
     });
-const dl = drawer.querySelector('.cart-drawer__applied-discounts'); if (dl) { const tot = {}; (cart.items || []).forEach((it) => (it.line_level_discount_allocations || []).forEach((a) => { const t = a.discount_application.title; tot[t] = (tot[t] || 0) + a.amount; })); (cart.cart_level_discount_applications || []).forEach((d) => { tot[d.title] = (tot[d.title] || 0) + d.total_allocated_amount; }); dl.innerHTML = ''; Object.keys(tot).forEach((t) => { const li = document.createElement('li'); li.textContent = t + ' · −' + formatMoney(tot[t]); dl.appendChild(li); }); }
+const dl = drawer.querySelector('.cart-drawer__applied-discounts'); if (dl) { const tot = {}; (cart.items || []).forEach((it) => (it.discounts || []).forEach((d) => { tot[d.title] = (tot[d.title] || 0) + d.amount; })); if (!Object.keys(tot).length) { (cart.cart_level_discount_applications || []).forEach((d) => { tot[d.title] = d.total_allocated_amount; }); } dl.innerHTML = ''; Object.keys(tot).forEach((t) => { if (!t || !isFinite(tot[t])) return; const li = document.createElement('li'); li.textContent = t + ' · −' + formatMoney(tot[t]); dl.appendChild(li); }); }
     // Empty cart needs the full empty-state markup — reload for that one case.
     if (cart.item_count === 0) {
       window.location.assign(window.location.pathname + '?cart=open');
