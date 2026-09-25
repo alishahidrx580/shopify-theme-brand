@@ -1,0 +1,259 @@
+<div class="es" id="es-root">
+<form class="es__form" action="{{ routes.search_url }}" method="get" role="search" autocomplete="off">
+<div class="es__field">
+<svg class="es__ico" viewBox="0 0 20 20" width="18" height="18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+<input class="es__input" type="search" name="q" placeholder="Search products, brands, concerns..." aria-label="Search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false">
+<button type="button" class="es__x" aria-label="Clear search" hidden>&times;</button>
+</div>
+<button type="button" class="es__cancel">Cancel</button>
+</form>
+<div class="es__panel" hidden></div>
+</div>
+<style>
+.es{position:relative;z-index:60;background:var(--background,#fff);color:var(--foreground,#111);border-bottom:1px solid color-mix(in srgb,var(--foreground,#111) 12%,transparent)}
+.es__form{display:flex;align-items:center;gap:10px;max-width:760px;margin:0 auto;padding:12px 16px}
+.es__field{position:relative;flex:1;min-width:0}
+.es__ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.6;pointer-events:none}
+.es__input{width:100%;height:46px;border:1px solid color-mix(in srgb,var(--foreground,#111) 22%,transparent);border-radius:999px;padding:0 44px;font:inherit;font-size:16px;color:inherit;background:color-mix(in srgb,var(--foreground,#111) 4%,var(--background,#fff));outline:none;-webkit-appearance:none;appearance:none}
+.es__input:focus{border-color:var(--foreground,#111);background:var(--background,#fff)}
+.es__input::-webkit-search-cancel-button,.es__input::-webkit-search-decoration{display:none}
+.es__x{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;border-radius:50%;background:color-mix(in srgb,var(--foreground,#111) 12%,transparent);color:inherit;font-size:20px;line-height:1;cursor:pointer}
+.es__cancel{display:none;border:0;background:none;color:inherit;font:inherit;font-size:15px;padding:8px 2px;cursor:pointer}
+.es__panel{position:absolute;left:50%;transform:translateX(-50%);top:100%;width:min(940px,calc(100vw - 32px));max-height:min(78vh,720px);overflow:auto;background:var(--background,#fff);border:1px solid color-mix(in srgb,var(--foreground,#111) 12%,transparent);border-top:0;border-radius:0 0 16px 16px;box-shadow:0 20px 44px rgba(0,0,0,.18);padding:18px 20px 20px}
+.es__h{margin:0 0 10px;font-size:12px;letter-spacing:.09em;text-transform:uppercase;opacity:.6}
+.es__chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.es__chip{display:inline-flex;align-items:center;padding:9px 15px;border:1px solid color-mix(in srgb,var(--foreground,#111) 20%,transparent);border-radius:999px;font-size:14px;color:inherit;text-decoration:none;background:transparent}
+.es__chip:hover,.es__chip:focus-visible{background:color-mix(in srgb,var(--foreground,#111) 8%,transparent)}
+.es__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 18px}
+.es__item{display:flex;gap:12px;align-items:center;padding:8px;border-radius:12px;color:inherit;text-decoration:none}
+.es__item:hover,.es__item:focus-visible{background:color-mix(in srgb,var(--foreground,#111) 6%,transparent)}
+.es__img{flex:0 0 78px;height:78px;border-radius:10px;overflow:hidden;background:#f3f1ed}
+.es__img img{display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.es__tx{min-width:0;display:block}
+.es__tx>*{display:block}
+.es__b{font-size:11px;letter-spacing:.09em;text-transform:uppercase;opacity:.6}
+.es__t{margin:2px 0 4px;font-size:14px;line-height:1.3;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.es__p{font-size:14px;font-weight:600}
+.es__p s{margin-left:6px;font-weight:400;font-size:12px;opacity:.55}
+.es__all{display:block;margin-top:18px;padding:15px;border-radius:999px;text-align:center;font-size:15px;text-decoration:none;background:var(--primary,#0b1f3a);color:var(--primary-foreground,#fff)}
+.es__none{margin:0 0 16px;opacity:.75}
+@media(max-width:749px){
+.es--open{position:fixed;inset:0;z-index:100000;overflow:auto;-webkit-overflow-scrolling:touch}
+.es--open .es__cancel{display:block}
+.es--open .es__panel{position:static;transform:none;width:auto;max-height:none;overflow:visible;border:0;box-shadow:none;border-radius:0;padding:8px 16px 90px}
+.es__grid{grid-template-columns:1fr}
+.es__form{padding:10px 12px}
+html.es-lock{overflow:hidden}
+}
+.main-collection__toolbar,.main-collection__filter-bar{display:none!important}
+html.es-col:not(.es-fail) .main-collection__grid:not(.er__grid){display:none!important}
+html.es-search:not(.es-fail) #main-content>*:not(.er-wrap){display:none!important}
+.er-wrap{max-width:1360px;margin:0 auto;padding:26px 20px 64px}
+.er-inline{padding:8px 0 0;max-width:none}
+.er__title{margin:0 0 6px;font-size:clamp(26px,4.4vw,42px);line-height:1.1}
+.er__count{margin:0 0 14px;font-size:15px;opacity:.7}
+.er__bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 18px}
+.er__btn,.er__sort{height:44px;border:1px solid color-mix(in srgb,var(--foreground,#111) 25%,transparent);border-radius:999px;background:var(--background,#fff);color:inherit;font:inherit;font-size:15px;padding:0 18px}
+.er__btn{display:none;cursor:pointer}
+.er__sortw{display:flex;align-items:center;gap:8px;font-size:14px}
+.er__layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:38px;align-items:start}
+.er__side{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;padding-right:6px}
+.er__sidehead,.er__foot,.er__scrim{display:none}
+.er__g{border-bottom:1px solid color-mix(in srgb,var(--foreground,#111) 12%,transparent);padding:14px 0}
+.er__g summary{display:flex;justify-content:space-between;cursor:pointer;list-style:none;font-weight:600;font-size:15px}
+.er__g summary::-webkit-details-marker{display:none}
+.er__g summary:after{content:"+";font-weight:400;font-size:20px;line-height:1}
+.er__g[open] summary:after{content:"\2212"}
+.er__opt{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:15px;cursor:pointer}
+.er__opt input{flex:none;width:19px;height:19px;margin:0;accent-color:var(--primary,#0b1f3a)}
+.er__opt em{margin-left:auto;font-style:normal;font-size:13px;opacity:.55}
+.er__opt.is-zero{opacity:.38}
+.er__chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.er__chips:empty{display:none}
+.er__chips button{border:1px solid color-mix(in srgb,var(--foreground,#111) 25%,transparent);border-radius:999px;background:color-mix(in srgb,var(--foreground,#111) 6%,transparent);color:inherit;font:inherit;font-size:13px;padding:7px 12px;cursor:pointer}
+.er__chips .er__clr{background:none;text-decoration:underline;border-color:transparent}
+.er__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 18px}
+.er__empty{grid-column:1/-1;padding:40px 0;text-align:center}
+.er__empty button{margin-top:10px;height:44px;padding:0 22px;border:0;border-radius:999px;background:var(--primary,#0b1f3a);color:var(--primary-foreground,#fff);font:inherit;cursor:pointer}
+.es__cb{margin:0 0 4px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;opacity:.6}
+.es__so{position:absolute;left:10px;bottom:10px;padding:4px 10px;border-radius:999px;font-size:11px;background:#fff;color:#111}
+@media(min-width:1200px){.er__grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:899px){
+.er-wrap{padding:16px 12px 56px}
+.er__layout{display:block}
+.er__bar{position:sticky;top:0;z-index:40;margin:0 -12px 14px;padding:10px 12px;background:var(--background,#fff);border-bottom:1px solid color-mix(in srgb,var(--foreground,#111) 10%,transparent)}
+.er__btn{display:inline-flex;align-items:center;gap:6px}
+.er__sortw{font-size:0}
+.er__sort{font-size:15px}
+.er__side{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:88vh;padding:0;display:flex;flex-direction:column;background:var(--background,#fff);border-radius:20px 20px 0 0;z-index:100002;transform:translateY(105%);transition:transform .28s ease;box-shadow:0 -12px 40px rgba(0,0,0,.25)}
+.er--open .er__side{transform:none}
+.er__sidehead{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid color-mix(in srgb,var(--foreground,#111) 12%,transparent);font-size:17px}
+.er__close{border:0;background:none;color:inherit;font-size:30px;line-height:1;cursor:pointer}
+.er__groups{flex:1;overflow:auto;padding:0 18px}
+.er__opt{padding:12px 0}
+.er__foot{display:flex;gap:10px;padding:12px 18px calc(12px + env(safe-area-inset-bottom));border-top:1px solid color-mix(in srgb,var(--foreground,#111) 12%,transparent)}
+.er__foot button{flex:1;height:48px;border-radius:999px;font:inherit;font-size:15px;cursor:pointer;border:1px solid color-mix(in srgb,var(--foreground,#111) 25%,transparent);background:none;color:inherit}
+.er__foot .er__apply{background:var(--primary,#0b1f3a);color:var(--primary-foreground,#fff);border-color:transparent;flex:1.6}
+.er__scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100001;opacity:0;pointer-events:none;transition:opacity .25s}
+.er--open .er__scrim{opacity:1;pointer-events:auto}
+.er__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 10px}
+html.es-lock2{overflow:hidden}
+}
+</style>
+<script>
+(function(){
+var d=document,H=d.documentElement,P=location.pathname.replace(/\/+$/,''),parts=P.split('/').filter(Boolean);
+if(P==='/search')H.classList.add('es-search');
+if(parts[0]==='collections'&&parts[1]&&parts[1]!=='types')H.classList.add('es-col');
+var root=d.getElementById('es-root');
+if(!root||window.__es)return;
+window.__es=1;
+setTimeout(function(){if(!window.__esOK)H.classList.add('es-fail')},9000);
+var $=function(s,c){return(c||d).querySelector(s)},$$=function(s,c){return[].slice.call((c||d).querySelectorAll(s))};
+var input=$('.es__input',root),panel=$('.es__panel',root),xb=$('.es__x',root),form=$('.es__form',root);
+var money=function(n){return'Rs.'+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var norm=function(s){return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/moisturi[sz](er|ers|ing|e)/g,'moisturiser').replace(/sun ?(screen|block)/g,'sunscreen').replace(/ageing/g,'aging').replace(/cleansing/g,'cleanser').replace(/[^a-z0-9]+/g,' ').trim()};
+var img=function(u,w){return u?u+(u.indexOf('?')>-1?'&':'?')+'width='+w:''};
+var SKIP=/^(uae imported|imported from uae|licensed pharmacy|the edit)$/;
+var SK=[['Sensitive skin',/sensitive/],['Oily skin',/oily/],['Dry skin',/dry skin/],['Acne-prone',/acne|blemish/],['All skin types',/all skin/]];
+var CN=[['Brightening',/brighten|vitamin c|pigment|dark spot|brown spot|kojic/],['Anti-aging',/anti aging|firming|wrinkle|peptide|retinol/],['Hydration',/hydrat|hyaluronic/],['Barrier repair',/barrier|ceramide/],['Dark circles',/dark circle/],['Soothing',/sooth|calming|colloidal|panthenol/],['Oil control',/oil control|sebum|salicylic/]];
+var CT=[['Sun Care',/sunscreen|spf|anthelios|fotoprotector| sun /],['Eye Care',/ eye |contour/],['Cleansers',/cleanser|wash|foam|soap|micellar|remover/],['Serums & Essences',/serum|ampoule|essence|booster|concentrate|mucin/],['Masks & Exfoliants',/mask|peel|exfol|scrub|pad /],['Toners & Mists',/toner|mist/],['Moisturisers',/lotion|cream|moisturiser|balm|gel |emulsion|fluid/]];
+var PB=[['Under Rs.10,000',0,10000],['Rs.10,000 - 20,000',10000,20000],['Rs.20,000 - 30,000',20000,30000],['Rs.30,000 & above',30000,1e9]];
+var PBL=PB.map(function(x){return x[0]});
+var GROUPS=[['v','Brand'],['c','Category'],['sk','Skin type'],['cn','Concern'],['pb','Price'],['av','Availability']];
+function pick(L,s){for(var i=0;i<L.length;i++)if(L[i][1].test(s))return L[i][0];return''}
+function prep(p){
+var v=p.variants[0]||{},pr=parseFloat(v.price)||0;
+var tg=p.tags.map(norm).filter(function(t){return!SKIP.test(t)}),ts=' '+tg.join(' ')+' ',tt=' '+norm(p.title)+' ',vn=norm(p.vendor);
+var o={h:p.handle,t:p.title,v:p.vendor,vn:vn,o:pr,p:Math.round(pr*90)/100,vid:v.id,a:p.variants.some(function(x){return x.available}),i:p.images[0]?p.images[0].src:'',j:p.images[1]?p.images[1].src:'',tn:tt,s:tt+vn+' '+ts};
+o.c=pick(CT,tt)||pick(CT,ts)||'Treatments';
+o.sk=SK.filter(function(x){return x[1].test(ts)}).map(function(x){return x[0]});
+o.cn=CN.filter(function(x){return x[1].test(o.s)}).map(function(x){return x[0]});
+o.pb=PBL[3];
+for(var k=0;k<PB.length;k++)if(o.p>=PB[k][1]&&o.p<PB[k][2]){o.pb=PB[k][0];break}
+return o}
+var DATA=null,W=[];
+function flush(){var w=W;W=[];w.forEach(function(f){f()})}
+function load(cb){
+if(DATA)return cb();
+W.push(cb);if(W.length>1)return;
+try{var s=sessionStorage.getItem('es_cat3');if(s){var o=JSON.parse(s);if(Date.now()-o.t<900000&&o.d&&o.d.length){DATA=o.d;return flush()}}}catch(e){}
+fetch('/products.json?limit=250').then(function(r){return r.json()}).then(function(j){DATA=j.products.map(prep);try{sessionStorage.setItem('es_cat3',JSON.stringify({t:Date.now(),d:DATA}))}catch(e){}flush()}).catch(function(){H.classList.add('es-fail')})}
+function score(p,q){
+var tk=norm(q).split(' ').filter(Boolean),sc=0;
+if(!tk.length)return 0;
+for(var i=0;i<tk.length;i++){
+var k=tk[i],x=0;
+if(k.length>3&&/s$/.test(k)&&!/ss$/.test(k))k=k.slice(0,-1);
+if(k.length<2){if(p.s.indexOf(' '+k+' ')>-1)x=3}
+else if(p.vn.indexOf(k)===0||p.tn.indexOf(' '+k)>-1)x=10;
+else if(p.tn.indexOf(k)>-1)x=6;
+else if(p.s.indexOf(' '+k)>-1)x=4;
+else if(p.s.indexOf(k)>-1)x=2;
+if(!x)return 0;
+sc+=x}
+if(p.tn.indexOf(' '+tk.join(' '))>-1)sc+=8;
+if(p.a)sc+=1;
+return sc}
+function search(q){var r=[];DATA.forEach(function(p,i){var s=score(p,q);if(s)r.push([s,i,p])});r.sort(function(a,b){return b[0]-a[0]||a[1]-b[1]});return r.map(function(x){return x[2]})}
+var enc=encodeURIComponent;
+function chips(q,res){
+var out=[],seen={},qn=norm(q);
+function add(l,u){var k=norm(l);if(seen[k])return;seen[k]=1;out.push({l:l,u:u})}
+res.slice(0,14).forEach(function(p){if(qn.indexOf(p.vn)<0)add(p.v,'/search?q='+enc(p.v))});
+res.slice(0,14).forEach(function(p){if(qn.indexOf(norm(p.c).slice(0,5))<0)add(p.v+' '+p.c,'/search?q='+enc(p.v)+'&c='+enc(p.c))});
+return out.slice(0,6)}
+function chipHtml(c){return'<a class="es__chip" href="'+c.u+'">'+esc(c.l)+'</a>'}
+function empty(){
+var vs={};DATA.forEach(function(p){vs[p.v]=(vs[p.v]||0)+1});
+var b=Object.keys(vs).sort(function(x,y){return vs[y]-vs[x]});
+var pop=['Vitamin C','Niacinamide','Sunscreen','Moisturiser','Cleanser','Acne','Hyaluronic acid','Eye cream'];
+return'<p class="es__h">Popular searches</p><div class="es__chips">'+pop.map(function(t){return chipHtml({l:t,u:'/search?q='+enc(t)})}).join('')+'</div><p class="es__h">Shop by brand</p><div class="es__chips">'+b.map(function(t){return chipHtml({l:t,u:'/collections/vendors?q='+enc(t)})}).join('')+'</div>'}
+function row(p){return'<a class="es__item" href="/products/'+p.h+'"><span class="es__img"><img src="'+img(p.i,160)+'" alt="" loading="lazy" width="78" height="78"></span><span class="es__tx"><span class="es__b">'+esc(p.v)+'</span><span class="es__t">'+esc(p.t)+'</span><span class="es__p">'+money(p.p)+'<s>'+money(p.o)+'</s></span></span></a>'}
+function render(){
+var q=input.value.trim();xb.hidden=!q;
+if(!DATA){panel.innerHTML='<p class="es__none">Loading...</p>';return}
+if(!q){panel.innerHTML=empty();return}
+var res=search(q),ch=chips(q,res),h='';
+if(ch.length)h+='<p class="es__h">Suggestions</p><div class="es__chips">'+ch.map(chipHtml).join('')+'</div>';
+if(res.length)h+='<p class="es__h">Products</p><div class="es__grid">'+res.slice(0,6).map(row).join('')+'</div><a class="es__all" href="/search?q='+enc(q)+'">View all results ('+res.length+')</a>';
+else h+='<p class="es__none">No results for "'+esc(q)+'". Try a brand name or a concern like "acne".</p>'+empty();
+panel.innerHTML=h}
+var mob=function(){return window.matchMedia('(max-width:749px)').matches};
+function open(){
+root.classList.add('es--open');panel.hidden=false;
+if(mob())H.classList.add('es-lock');
+load(render);render()}
+function close(){root.classList.remove('es--open');panel.hidden=true;H.classList.remove('es-lock');input.blur()}
+var tm;
+input.addEventListener('focus',open);
+input.addEventListener('click',function(){if(panel.hidden)open()});
+input.addEventListener('input',function(){clearTimeout(tm);xb.hidden=!input.value.trim();tm=setTimeout(render,90)});
+xb.addEventListener('click',function(){input.value='';render();input.focus()});
+$('.es__cancel',root).addEventListener('click',close);
+d.addEventListener('click',function(e){if(!root.contains(e.target)&&!panel.hidden)close()});
+d.addEventListener('keydown',function(e){if(e.key==='Escape'&&!panel.hidden)close()});
+form.addEventListener('submit',function(e){if(!input.value.trim())e.preventDefault()});
+(window.requestIdleCallback||function(f){setTimeout(f,1200)})(function(){load(function(){})});
+var PLUS='<svg class="product-card__quick-add-icon product-card__quick-add-icon--plus" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false"><path d="M10 3.5V16.5M3.5 10H16.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>';
+var CHK='<svg class="product-card__quick-add-icon product-card__quick-add-icon--check" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function pcard(p,i){
+return'<a href="/products/'+p.h+'" class="product-card"><div class="product-card__media"><img src="'+img(p.i,600)+'" alt="'+esc(p.t)+'" width="600" height="750" loading="'+(i<4?'eager':'lazy')+'" class="product-card__img product-card__img--primary">'+(p.j?'<img src="'+img(p.j,600)+'" alt="" width="600" height="750" loading="lazy" class="product-card__img product-card__img--secondary">':'')+'<span class="product-card__category eyebrow eyebrow--bare">'+esc(p.c)+'</span>'+(p.a?'<button type="button" class="product-card__quick-add" data-quick-add data-variant-id="'+p.vid+'" aria-label="Add '+esc(p.t)+' to bag">'+PLUS+CHK+'</button>':'<span class="es__so">Sold out</span>')+'</div><div class="product-card__body"><div class="product-card__text"><div class="es__cb">'+esc(p.v)+'</div><h3 class="product-card__title font-display">'+esc(p.t)+'</h3></div><div class="product-card__pricing"><div class="product-card__compare">'+money(p.o)+'</div><div class="product-card__price">'+money(p.p)+'</div></div></div></a>'}
+function vals(p,k){return k==='v'?[p.v]:k==='c'?[p.c]:k==='sk'?p.sk:k==='cn'?p.cn:k==='pb'?[p.pb]:[p.a?'In stock':'Out of stock']}
+function ok(p,sel,skip){for(var g in sel){if(g===skip||!sel[g].length)continue;var vs=vals(p,g);if(!sel[g].some(function(x){return vs.indexOf(x)>-1}))return false}return true}
+function build(host,base,o){
+var sel={v:[],c:[],sk:[],cn:[],pb:[],av:[]},sort='def',opts={};
+Object.keys(o.sel).forEach(function(k){sel[k]=o.sel[k]});
+GROUPS.forEach(function(g){var c={};base.forEach(function(p){vals(p,g[0]).forEach(function(x){c[x]=(c[x]||0)+1})});var ks=Object.keys(c);if(g[0]==='pb')ks.sort(function(a,b){return PBL.indexOf(a)-PBL.indexOf(b)});else if(g[0]==='av')ks.sort();else ks.sort(function(a,b){return c[b]-c[a]});opts[g[0]]=ks});
+var gh=GROUPS.map(function(g){var k=g[0],ks=opts[k];if(ks.length<2&&!sel[k].length)return'';return'<details class="er__g" data-g="'+k+'"'+(k==='v'||k==='c'||sel[k].length?' open':'')+'><summary>'+g[1]+'</summary>'+ks.map(function(x){return'<label class="er__opt"><input type="checkbox" data-g="'+k+'" data-v="'+esc(x)+'"><span>'+esc(x)+'</span><em></em></label>'}).join('')+'</details>'}).join('');
+host.innerHTML=(o.title?'<h1 class="er__title font-display">'+esc(o.title)+'</h1>':'')+'<p class="er__count" aria-live="polite"></p><div class="er__bar"><button type="button" class="er__btn" data-open>Filter<span class="er__n"></span></button><label class="er__sortw">Sort by <select class="er__sort"><option value="def">'+(o.rel?'Relevance':'Featured')+'</option><option value="pa">Price: low to high</option><option value="pd">Price: high to low</option><option value="az">Name: A-Z</option></select></label></div><div class="er__layout"><aside class="er__side" aria-label="Filters"><div class="er__sidehead"><strong>Filters</strong><button type="button" class="er__close" data-close aria-label="Close">&times;</button></div><div class="er__groups">'+gh+'</div><div class="er__foot"><button type="button" data-clear>Clear all</button><button type="button" class="er__apply" data-close>Show results</button></div></aside><div class="er__scrim" data-close></div><div class="er__main"><div class="er__chips"></div><div class="er__grid"></div></div></div>';
+function update(){
+var f=base.filter(function(p){return ok(p,sel)});
+if(sort==='pa')f.sort(function(a,b){return a.p-b.p});
+else if(sort==='pd')f.sort(function(a,b){return b.p-a.p});
+else if(sort==='az')f.sort(function(a,b){return a.t.localeCompare(b.t)});
+$$('.er__opt',host).forEach(function(l){var inp=$('input',l),g=inp.dataset.g,v=inp.dataset.v;var n=base.filter(function(p){return ok(p,sel,g)&&vals(p,g).indexOf(v)>-1}).length;inp.checked=sel[g].indexOf(v)>-1;$('em',l).textContent=n;l.classList.toggle('is-zero',!n&&!inp.checked)});
+var ch='',cnt=0;
+GROUPS.forEach(function(g){sel[g[0]].forEach(function(v){cnt++;ch+='<button type="button" data-rg="'+g[0]+'" data-rv="'+esc(v)+'">'+esc(v)+' &times;</button>'})});
+$('.er__chips',host).innerHTML=cnt?ch+'<button type="button" class="er__clr" data-clear>Clear all</button>':'';
+$('.er__n',host).textContent=cnt?' ('+cnt+')':'';
+$('.er__count',host).textContent='Results: '+f.length+(f.length===1?' product':' products');
+$('.er__apply',host).textContent='Show '+f.length+(f.length===1?' result':' results');
+$('.er__grid',host).innerHTML=f.length?f.map(pcard).join(''):'<div class="er__empty"><p>No products match these filters.</p><button type="button" data-clear>Clear filters</button></div>'}
+host.addEventListener('change',function(e){var t=e.target;
+if(t.matches('input[data-g]')){var a=sel[t.dataset.g],v=t.dataset.v,i=a.indexOf(v);if(t.checked&&i<0)a.push(v);if(!t.checked&&i>-1)a.splice(i,1);update()}
+else if(t.matches('.er__sort')){sort=t.value;update()}});
+host.addEventListener('click',function(e){var t=e.target.closest('button,.er__scrim');if(!t)return;
+if(t.hasAttribute('data-open')){host.classList.add('er--open');H.classList.add('es-lock2')}
+else if(t.hasAttribute('data-close')){host.classList.remove('er--open');H.classList.remove('es-lock2')}
+else if(t.hasAttribute('data-clear')){GROUPS.forEach(function(g){sel[g[0]]=[]});update()}
+else if(t.dataset.rg){var a=sel[t.dataset.rg];a.splice(a.indexOf(t.dataset.rv),1);update()}});
+update();window.__esOK=1}
+function mountPage(){
+var qs=new URLSearchParams(location.search),host,base,o={sel:{}};
+['v','c','sk','cn'].forEach(function(k){var x=qs.get(k);if(x)o.sel[k]=[x]});
+if(P==='/search'){
+var q=qs.get('q')||'';input.value=q;xb.hidden=!q;
+var m=$('#main-content')||$('main');
+host=d.createElement('div');host.className='er-wrap';m.insertBefore(host,m.firstChild);
+base=q?search(q):DATA.slice();o.rel=!!q;
+o.title=q?'Results for “'+q+'”':'All products';
+build(host,base,o)}
+else if(parts[0]==='collections'&&parts[1]&&$('.main-collection__grid')){
+var g=$('.main-collection__grid'),h=parts[1];
+host=d.createElement('div');host.className='er-wrap er-inline';g.parentNode.insertBefore(host,g);
+if(h==='vendors'){
+var vq=norm(qs.get('q')||'');
+base=DATA.filter(function(p){return p.vn===vq});
+if(!base.length)base=DATA.slice();
+else{var hd=$('.main-collection__heading');if(hd)hd.textContent=base[0].v}
+build(host,base,o)}
+else if(h==='all'){base=DATA.slice();build(host,base,o)}
+else fetch('/collections/'+h+'/products.json?limit=250').then(function(r){return r.json()}).then(function(j){var mp={};DATA.forEach(function(p){mp[p.h]=p});base=j.products.map(function(x){return mp[x.handle]}).filter(Boolean);build(host,base,o)}).catch(function(){H.classList.add('es-fail')})}}
+if(H.classList.contains('es-search')||H.classList.contains('es-col'))load(mountPage);
+})();
+</script>
+{% schema %}
+{"name":"Universal search","settings":[]}
+{% endschema %}

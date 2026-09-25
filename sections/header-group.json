@@ -17,6 +17,7 @@
         "menu": "main-menu"
       }
     },
+"edit_search": {"type": "edit-search", "settings": {}},
     "home_announcement_bar_EAnmJA": {
       "type": "home-announcement-bar",
       "name": "Announcement Bar",
@@ -30,6 +31,7 @@
   },
   "order": [
     "header",
+"edit_search",
     "home_announcement_bar_EAnmJA"
   ]
 }
