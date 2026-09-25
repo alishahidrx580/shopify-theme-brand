@@ -71,7 +71,7 @@
       el.textContent = cart.item_count;
       el.setAttribute('data-cart-count', cart.item_count);
     });
-
+const dl = drawer.querySelector('.cart-drawer__applied-discounts'); if (dl) { const tot = {}; (cart.items || []).forEach((it) => (it.line_level_discount_allocations || []).forEach((a) => { const t = a.discount_application.title; tot[t] = (tot[t] || 0) + a.amount; })); (cart.cart_level_discount_applications || []).forEach((d) => { tot[d.title] = (tot[d.title] || 0) + d.total_allocated_amount; }); dl.innerHTML = ''; Object.keys(tot).forEach((t) => { const li = document.createElement('li'); li.textContent = t + ' · −' + formatMoney(tot[t]); dl.appendChild(li); }); }
     // Empty cart needs the full empty-state markup — reload for that one case.
     if (cart.item_count === 0) {
       window.location.assign(window.location.pathname + '?cart=open');

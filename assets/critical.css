@@ -485,3 +485,9 @@ p:empty {
 #shop-hcaptcha-badge-container {
   display: none !important;
 }
+
+@keyframes edit-spin{to{transform:rotate(360deg)}}
+.main-product__atc[data-loading=true],.main-product__buy-now[data-loading=true],.page-gift__cta[data-loading=true],.product-regimen__atc[data-loading=true],.product-card__quick-add[data-loading]{position:relative;pointer-events:none}
+.main-product__atc[data-loading=true]::after,.main-product__buy-now[data-loading=true]::after,.page-gift__cta[data-loading=true]::after,.product-regimen__atc[data-loading=true]::after,.product-card__quick-add[data-loading]::after{content:'';display:inline-block;width:14px;height:14px;margin-left:8px;vertical-align:middle;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:edit-spin .7s linear infinite}
+.cart-drawer__item[data-loading=true]{position:relative;pointer-events:none}
+.cart-drawer__item[data-loading=true]::after{content:'';position:absolute;top:50%;left:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:edit-spin .7s linear infinite}
