@@ -9,6 +9,7 @@
  */
 {
   "sections": {
+    "brand-strip": {"type": "brand-strip", "blocks": {"b1": {"type": "brand", "settings": {"name": "CeraVe", "color": "#0b2a5b", "product": "cerave-moisturizing-lotion-473ml"}}, "b2": {"type": "brand", "settings": {"name": "La Roche-Posay", "color": "#0071ce", "product": "la-roche-posay-toleriane-ultra-fluide-moisturizer-for-sensitive-skin-40ml"}}, "b3": {"type": "brand", "settings": {"name": "Dermalogica", "color": "#1a1a1a", "product": "dermalogica-ultra-calming-cleanser"}}, "b4": {"type": "brand", "settings": {"name": "Avène", "color": "#c8102e", "product": "avene-xeracalm-a-d-lipid-replenishing-cream"}}, "b5": {"type": "brand", "settings": {"name": "ACM", "color": "#00918a", "product": "acm-duolys-eye-contour-cream"}}, "b6": {"type": "brand", "settings": {"name": "ISDIN", "color": "#f28c00", "product": "isdin-k-ox-eyes-cream-15ml"}}, "b7": {"type": "brand", "settings": {"name": "Medicube", "color": "#7a4ba8", "product": "medicube-deep-vita-c-ampoule-2-0-pack-of-3-30g"}}, "b8": {"type": "brand", "settings": {"name": "Aveeno", "color": "#4f8a2b", "product": "aveeno-daily-moisturising-body-wash"}}, "b9": {"type": "brand", "settings": {"name": "COSRX", "color": "#e8557a", "product": "cosrx-advanced-snail-96-mucin-power-essence-100ml"}}}, "block_order": ["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9"], "settings": {"eyebrow": "Shop by brand", "heading": "Find your favourite brand"}},
     "hero": {
       "type": "home-hero",
       "blocks": {
@@ -487,6 +488,7 @@
   },
   "order": [
     "hero",
+    "brand-strip",
     "new-in",
     "brand-logos",
     "brightening",
