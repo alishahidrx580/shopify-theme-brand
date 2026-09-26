@@ -46,6 +46,10 @@
     {% # Cart drawer controller %}
     <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
 
+    {% # Wishlist: card + product hearts, header badge, saved-items drawer %}
+    {{ 'wishlist.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'wishlist.js' | asset_url }}" defer></script>
+
     {% # Social, title, schema.org %}
     {% render 'meta-tags' %}
     
