@@ -10,7 +10,9 @@
 <div class="es__panel" hidden></div>
 </div>
 <style>
-.es{margin-top:var(--es-top,121px);position:relative;z-index:60;background:var(--background,#fff);color:var(--foreground,#111);border-bottom:1px solid color-mix(in srgb,var(--foreground,#111) 12%,transparent)}
+.es{position:fixed;left:0;right:0;top:var(--es-top,121px);opacity:0;pointer-events:none;transition:opacity .15s}
+.es--open{opacity:1;pointer-events:auto}
+.es{z-index:60;background:var(--background,#fff);color:var(--foreground,#111);border-bottom:1px solid color-mix(in srgb,var(--foreground,#111) 12%,transparent)}
 .es__form{display:flex;align-items:center;gap:10px;max-width:760px;margin:0 auto;padding:12px 16px}
 .es__field{position:relative;flex:1;min-width:0}
 .es__ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.6;pointer-events:none}
@@ -192,7 +194,7 @@ input.addEventListener('click',function(){if(panel.hidden)open()});
 input.addEventListener('input',function(){clearTimeout(tm);xb.hidden=!input.value.trim();tm=setTimeout(render,90)});
 xb.addEventListener('click',function(){input.value='';render();input.focus()});
 $('.es__cancel',root).addEventListener('click',close);
-d.addEventListener('click',function(e){if(!root.contains(e.target)&&!panel.hidden)close()});
+d.addEventListener('click',function(e){if(!root.contains(e.target)&&!e.target.closest('.es__hbtn')&&!panel.hidden)close()});
 d.addEventListener('keydown',function(e){if(e.key==='Escape'&&!panel.hidden)close()});
 form.addEventListener('submit',function(e){if(!input.value.trim())e.preventDefault()});
 (window.requestIdleCallback||function(f){setTimeout(f,1200)})(function(){load(function(){})});
