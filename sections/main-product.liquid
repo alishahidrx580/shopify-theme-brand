@@ -171,12 +171,12 @@ assign price_formatted = current_variant.price | money
           {%- if volume != blank or other_sizes != blank -%}
             <span class="main-product__sizes">
               {%- if volume != blank -%}
-                <span class="main-product__volume main-product__volume--current">{{ volume }}</span>
+                <span class="main-product__volume main-product__volume--current">{{ volume }}<span class="main-product__volume-price">{{ discounted_price_formatted }}</span></span>>
               {%- endif -%}
               {%- if other_sizes != blank -%}
                 {%- for sibling in other_sizes -%}
                   {%- if sibling != blank and sibling.handle != product.handle -%}
-                    <a href="{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}</a>
+                    <a href="{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}<span class="main-product__volume-price">{% if sibling.compare_at_price > sibling.price %}{{ sibling.price | money }}{% else %}{{ sibling.price | times: 0.9 | round | money }}{% endif %}</span></a>>{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}</a>
                   {%- endif -%}
                 {%- endfor -%}
               {%- endif -%}
