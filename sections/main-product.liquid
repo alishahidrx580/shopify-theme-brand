@@ -164,14 +164,14 @@ assign price_formatted = current_variant.price | money
           <input type="hidden" name="utf8" value="&#x2713;">
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
           <input type="hidden" name="quantity" value="1">
-
+<a href="{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}</a>
           <div class="main-product__size-line">
 <span class="main-product__price-row"><s class="main-product__price-compare">{{ original_price_formatted }}</s><span class="main-product__price-sale" data-variant-label>{{ variant_label }}</span></span>
 {%- assign other_sizes = product.metafields.custom.other_sizes.value -%}
           {%- if volume != blank or other_sizes != blank -%}
             <span class="main-product__sizes">
               {%- if volume != blank -%}
-                <span class="main-product__volume main-product__volume--current">{{ volume }}<span class="main-product__volume-price">{{ discounted_price_formatted }}</span></span>>
+                <span class="main-product__volume main-product__volume--current">{{ volume }}</span>>
               {%- endif -%}
               {%- if other_sizes != blank -%}
                 {%- for sibling in other_sizes -%}
