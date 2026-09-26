@@ -437,4 +437,3 @@
 
   window.Wishlist = { open: openDrawer, close: closeDrawer, read: read, toggle: toggle };
 })();
- */
