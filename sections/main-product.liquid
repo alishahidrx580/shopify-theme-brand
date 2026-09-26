@@ -164,19 +164,19 @@ assign price_formatted = current_variant.price | money
           <input type="hidden" name="utf8" value="&#x2713;">
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
           <input type="hidden" name="quantity" value="1">
-<a href="{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}</a>
+
           <div class="main-product__size-line">
 <span class="main-product__price-row"><s class="main-product__price-compare">{{ original_price_formatted }}</s><span class="main-product__price-sale" data-variant-label>{{ variant_label }}</span></span>
 {%- assign other_sizes = product.metafields.custom.other_sizes.value -%}
           {%- if volume != blank or other_sizes != blank -%}
             <span class="main-product__sizes">
               {%- if volume != blank -%}
-                <span class="main-product__volume main-product__volume--current">{{ volume }}</span>>
+                <span class="main-product__volume main-product__volume--current">{{ volume }}</span>
               {%- endif -%}
               {%- if other_sizes != blank -%}
                 {%- for sibling in other_sizes -%}
                   {%- if sibling != blank and sibling.handle != product.handle -%}
-                    <a href="{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}<span class="main-product__volume-price">{% if sibling.compare_at_price > sibling.price %}{{ sibling.price | money }}{% else %}{{ sibling.price | times: 0.9 | round | money }}{% endif %}</span></a>>{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}</a>
+                    <a href="{{ sibling.url }}" class="main-product__volume main-product__volume--link">{{ sibling.metafields.custom.volume }}</a>
                   {%- endif -%}
                 {%- endfor -%}
               {%- endif -%}
@@ -735,6 +735,32 @@ assign price_formatted = current_variant.price | money
     min-height: 3rem;
     flex: 1 1 auto;
     max-width: 22rem;
+  }
+
+  .main-product__urgency {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.625rem 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+  }
+
+  .main-product__urgency-icon {
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+  }
+
+  .main-product__urgency--sold {
+    color: var(--destructive);
+    font-weight: 600;
+  }
+
+  .main-product__urgency--viewers {
+    color: var(--muted-foreground);
+    font-weight: 500;
+    margin-top: 0.75rem;
   }
 
 {% endstylesheet %}
