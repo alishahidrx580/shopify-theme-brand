@@ -214,19 +214,34 @@
   }
 
   /* ---------------- header trigger ---------------- */
-  function injectHeaderTrigger() {
-    if (document.querySelector('[data-wishlist-trigger]')) return;
-    var cartBtn = document.querySelector('.header__cart, [data-cart-trigger]');
-    if (!cartBtn || !cartBtn.parentNode) return;
+    function injectHeaderTrigger() {
+    if (!document.querySelector('.header__wishlist')) {
+      var cartBtn = document.querySelector('.header__cart, [data-cart-trigger]');
+      if (cartBtn && cartBtn.parentNode) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'header__wishlist';
+        btn.setAttribute('data-wishlist-trigger', '');
+        btn.setAttribute('aria-label', 'Saved items');
+        btn.innerHTML = heartSvg() +
+          '<span class="header__wishlist-count" data-wishlist-count hidden>0</span>';
+        cartBtn.parentNode.insertBefore(btn, cartBtn);
+      }
+    }
 
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'header__wishlist';
-    btn.setAttribute('data-wishlist-trigger', '');
-    btn.setAttribute('aria-label', 'Saved items');
-    btn.innerHTML = heartSvg() +
-      '<span class="header__wishlist-count" data-wishlist-count hidden>0</span>';
-    cartBtn.parentNode.insertBefore(btn, cartBtn);
+    /* The header grid is `1fr auto 1fr`, so a fourth icon does not fit the icon
+       column on a phone and squashes the theme's own icons. On mobile the
+       header button is hidden (wishlist.css) and this menu entry is used. */
+    var nav = document.querySelector('.mobile-menu__nav');
+    if (nav && !nav.querySelector('.wishlist-menu-link')) {
+      var link = document.createElement('button');
+      link.type = 'button';
+      link.className = 'mobile-menu__link font-display wishlist-menu-link';
+      link.setAttribute('data-wishlist-trigger', '');
+      link.innerHTML = 'Saved' +
+        '<span class="wishlist-menu-count" data-wishlist-count hidden>0</span>';
+      nav.appendChild(link);
+    }
   }
 
   /* ---------------- drawer ---------------- */
