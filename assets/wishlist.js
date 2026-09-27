@@ -420,13 +420,29 @@
   function start() {
     decorateAll();
     /* Search results and any other async card rendering. */
-    new MutationObserver(function (mutations) {
-      var needs = mutations.some(function (m) { return m.addedNodes && m.addedNodes.length; });
-      if (needs) {
+    var pending = false;
+    var observer = new MutationObserver(function (mutations) {
+      if (pending) return;
+      var found = false;
+      for (var i = 0; i < mutations.length && !found; i++) {
+        var nodes = mutations[i].addedNodes;
+        for (var j = 0; j < nodes.length; j++) {
+          var n = nodes[j];
+          if (n.nodeType !== 1) continue;
+          if ((n.matches && n.matches('a.product-card')) || (n.querySelector && n.querySelector('a.product-card'))) { found = true; break; }
+        }
+      }
+      if (!found) return;
+      pending = true;
+      requestAnimationFrame(function () {
+        pending = false;
+        observer.disconnect();
         decorateCards(document);
         syncAll();
-      }
-    }).observe(document.body, { childList: true, subtree: true });
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {
