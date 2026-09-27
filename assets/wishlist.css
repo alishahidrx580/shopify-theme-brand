@@ -123,7 +123,7 @@
 .wishlist-drawer {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 70;
   pointer-events: none;
   visibility: hidden;
 }
