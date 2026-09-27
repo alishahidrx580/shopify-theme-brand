@@ -283,3 +283,31 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* ---------- mobile ----------
+   The header is a `1fr auto 1fr` grid, so the icon column's width is mirrored
+   on the left. A fourth icon does not fit that column on a phone and the
+   theme's own icons get squashed, so on mobile the wishlist moves into the
+   menu instead of the header. */
+@media (max-width: 1023px) {
+  .header__wishlist { display: none; }
+}
+
+.wishlist-menu-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.wishlist-menu-count {
+  color: var(--accent);
+  font-size: 0.55em;
+  vertical-align: super;
+  margin-left: 0.3em;
+}
+
+.wishlist-menu-count[hidden] { display: none; }
