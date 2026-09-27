@@ -88,9 +88,11 @@
   background: none;
   padding: 0;
   cursor: pointer;
-  color: inherit;
+  color: rgba(255, 255, 255, 0.85);
   line-height: 0;
 }
+
+.header__wishlist:hover { color: var(--accent); }
 
 .header__wishlist svg {
   width: 1.15rem;
@@ -106,19 +108,13 @@
 }
 
 .header__wishlist-count {
-  position: absolute;
-  top: -0.45rem;
-  right: -0.55rem;
-  min-width: 1.05rem;
-  height: 1.05rem;
-  padding: 0 0.25rem;
-  border-radius: 999px;
-  background: var(--primary, var(--foreground));
-  color: var(--background);
-  font-size: 0.6rem;
-  font-weight: 600;
-  line-height: 1.05rem;
-  text-align: center;
+    position: absolute;
+  top: -6px;
+  right: -8px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 10px;
 }
 
 .header__wishlist-count[hidden] { display: none; }
