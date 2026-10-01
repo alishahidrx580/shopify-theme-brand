@@ -152,6 +152,44 @@
         "gsc_instagram_feed_instafeed_bg3GdU"
       ],
       "settings": {}
+    },
+    "product_pillars_PjkQDb": {
+      "type": "product-pillars",
+      "name": "t:sections.product_pillars.name",
+      "settings": {
+        "stat_value": "",
+        "stat_footnote": "",
+        "eyebrow": "Considered Formulation",
+        "heading_lead": "Built around what your skin",
+        "heading_emphasis": "actually responds to.",
+        "intro": ""
+      }
+    },
+    "product_ritual_CaTw3n": {
+      "type": "product-ritual",
+      "name": "t:sections.product_ritual.name",
+      "settings": {
+        "eyebrow": "The Ritual",
+        "heading_lead": "How to",
+        "heading_emphasis": "apply.",
+        "body": "<p>A few unhurried minutes, twice a day. Consistency is what skin responds to.</p>"
+      }
+    },
+    "product_key_ingredients_8xX9FC": {
+      "type": "product-key-ingredients",
+      "name": "Feature media (video)",
+      "settings": {
+        "media_position": "left",
+        "eyebrow": "",
+        "heading_lead": "Shake to Rejuvenate",
+        "heading_emphasis": "",
+        "claim": "",
+        "footnote": "",
+        "poster_metafield": "custom.feature_poster",
+        "autoplay": false,
+        "loop": true,
+        "show_controls": false
+      }
     }
   },
   "order": [
@@ -162,6 +200,9 @@
     "faq",
     "regimen",
     "reviews",
-    "178750122637f31d8e"
+    "178750122637f31d8e",
+    "product_pillars_PjkQDb",
+    "product_ritual_CaTw3n",
+    "product_key_ingredients_8xX9FC"
   ]
 }
