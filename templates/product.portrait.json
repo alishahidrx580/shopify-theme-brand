@@ -40,6 +40,21 @@
         "gallery_focal_y": 50
       }
     },
+    "178750122637f31d8e": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_bg3GdU": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_bg3GdU"
+      ],
+      "settings": {}
+    },
     "product_pillars_PjkQDb": {
       "type": "product-pillars",
       "name": "t:sections.product_pillars.name",
@@ -72,6 +87,7 @@
   },
   "order": [
     "main",
+    "178750122637f31d8e",
     "product_pillars_PjkQDb",
     "product_key_ingredients_8xX9FC"
   ]
