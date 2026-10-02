@@ -57,11 +57,11 @@
       "name": "Feature media (video)",
       "settings": {
         "media_position": "left",
-        "eyebrow": "",
-        "heading_lead": "Shake to Rejuvenate",
-        "heading_emphasis": "",
+        "eyebrow": "CHAM",
+        "heading_lead": "Considered formulas.",
+        "heading_emphasis": "Quiet results.",
         "claim": "",
-        "footnote": "",
+        "footnote": "<p>Every Cham formula is built around restraint — fewer ingredients, chosen precisely. This is what that looks like in practice. Made to be felt, not explained.</p>",
         "video_url": "",
         "poster_metafield": "custom.feature_poster",
         "autoplay": false,
@@ -110,6 +110,15 @@
         "heading_emphasis": "ask."
       }
     },
+    "product_regimen_cDFkb3": {
+      "type": "product-regimen",
+      "name": "Complete your regimen",
+      "settings": {
+        "eyebrow": "",
+        "heading_lead": "Complete your regimen",
+        "heading_emphasis": ""
+      }
+    },
     "178750122637f31d8e": {
       "type": "apps",
       "blocks": {
@@ -124,15 +133,6 @@
         "gsc_instagram_feed_instafeed_bg3GdU"
       ],
       "settings": {}
-    },
-    "product_regimen_cDFkb3": {
-      "type": "product-regimen",
-      "name": "Complete your regimen",
-      "settings": {
-        "eyebrow": "",
-        "heading_lead": "Complete your regimen",
-        "heading_emphasis": ""
-      }
     }
   },
   "order": [
