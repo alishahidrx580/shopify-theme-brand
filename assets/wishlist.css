@@ -61,22 +61,25 @@
 
 /* On the product page: sits beside Add to Bag. */
 .wishlist-heart--product {
-  width: 3rem;
-  align-self: stretch;
-  min-height: 3rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  align-self: center;
   border: 1px solid var(--foreground);
   border-radius: 999px;
-  flex: 0 0 auto;
+  flex: 0 0 3.25rem;
 }
 
 .main-product__atc-row {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   gap: 0.6rem;
   width: 100%;
+  margin-top: 1.5rem;
 }
 
-.main-product__atc-row .main-product__atc { flex: 1 1 auto; }
+.main-product__atc-row .main-product__atc { flex: 1 1 auto; margin-top: 0; }
+
+.main-product__atc-row .wishlist-heart--product svg { width: 1.3rem; height: 1.3rem; }
 
 /* ---------- header trigger ---------- */
 .header__wishlist {
