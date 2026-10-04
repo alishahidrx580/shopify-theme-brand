@@ -62,8 +62,10 @@
         "heading_emphasis": "Quiet results.",
         "claim": "",
         "footnote": "<p>Every Cham formula is built around restraint — fewer ingredients, chosen precisely. This is what that looks like in practice. Made to be felt, not explained.</p>",
+        "video": "shopify://files/videos/cham video.mp4",
         "video_url": "",
         "poster_metafield": "custom.feature_poster",
+        "image": "shopify://shop_images/17th_jpg.jpg",
         "autoplay": false,
         "loop": true,
         "show_controls": false
