@@ -31,6 +31,10 @@ assign price_formatted = current_variant.price | money
                 assign discounted_price_formatted = price_formatted
                   else
                       assign discounted_cents = current_variant.price | times: 0.9 | round
+if product.tags contains 'no-discount'
+assign discounted_cents = current_variant.price
+assign hide_compare_price = true
+endif
                           assign original_price_formatted = price_formatted
                               assign discounted_price_formatted = discounted_cents | money
                                 endif
@@ -166,7 +170,7 @@ assign price_formatted = current_variant.price | money
           <input type="hidden" name="quantity" value="1">
 
           <div class="main-product__size-line">
-<span class="main-product__price-row"><s class="main-product__price-compare">{{ original_price_formatted }}</s><span class="main-product__price-sale" data-variant-label>{{ variant_label }}</span></span>
+<span class="main-product__price-row">{%- unless hide_compare_price -%}<s class="main-product__price-compare">{{ original_price_formatted }}</s>{%- endunless -%}<span class="main-product__price-sale" data-variant-label>{{ variant_label }}</span></span>
 {%- assign other_sizes = product.metafields.custom.other_sizes.value -%}
           {%- if volume != blank or other_sizes != blank -%}
             <span class="main-product__sizes">
