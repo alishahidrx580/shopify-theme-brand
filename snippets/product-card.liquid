@@ -157,8 +157,8 @@
           <div class="product-card__compare">{{ product.compare_at_price | money }}</div>
           <div class="product-card__price">{{ product.price | money }}</div>
         {%- else -%}
-          {%- assign card_discounted_price = product.price | times: 0.9 | round -%}
-          <div class="product-card__compare">{{ product.price | money }}</div>
+          {%- assign card_discounted_price = product.price | times: 0.9 | round -%}{%- if product.tags contains 'no-discount' -%}{%- assign card_discounted_price = product.price -%}{%- assign hide_card_compare = true -%}{%- endif -%}
+          {%- unless hide_card_compare -%}<div class="product-card__compare">{{ product.price | money }}</div>{%- endunless -%}
           <div class="product-card__price">{{ card_discounted_price | money }}</div>
         {%- endif -%}
       {%- endunless -%}
