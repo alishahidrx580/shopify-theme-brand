@@ -339,6 +339,60 @@
       background-color: color-mix(in oklab, var(--background) 85%, transparent);
     }
   }
+
+  /* === SEPHORA-GRADE POLISH (start) — delete this block to revert === */
+  .product-card__media {
+    aspect-ratio: 1 / 1;
+    background: #f6f6f6;
+  }
+
+  .product-card__body {
+    gap: 6px;
+    padding-top: 10px;
+  }
+
+  .product-card__title.font-display {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    letter-spacing: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 36px;
+  }
+
+  .product-card__pricing {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .product-card__price {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .product-card__compare {
+    font-size: 13px;
+    opacity: 0.55;
+    text-decoration: line-through;
+  }
+
+  .product-card__category.eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    padding: 4px 8px;
+  }
+
+  .product-card__quick-add { width: 34px; height: 34px; }
+  .wishlist-heart--card { width: 28px; height: 28px; }
+  /* === SEPHORA-GRADE POLISH (end) === */
+
 {% endstylesheet %}
 
 {% javascript %}
