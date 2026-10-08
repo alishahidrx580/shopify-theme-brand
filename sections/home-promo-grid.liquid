@@ -1,0 +1,290 @@
+{%- comment -%}
+  Home promo grid - Sephora-style row of 4 image + caption blocks.
+  Each block: image, optional black ribbon tag, title, short description, SHOP NOW link.
+  Images can be added later; a placeholder is shown until then.
+{%- endcomment -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --pgrid-gap: {{ section.settings.gap }}px;
+    --pgrid-cols: {{ section.settings.columns }};
+  }
+  .pgrid-section {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.section_bg }};
+  }
+  .pgrid-section__inner {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .pgrid-section__heading {
+    margin: 0 0 18px;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+  .pgrid {
+    display: grid;
+    grid-template-columns: repeat(var(--pgrid-cols, 4), minmax(0, 1fr));
+    gap: var(--pgrid-gap, 16px);
+  }
+  .pgrid__card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background: var(--card-bg, #ededed);
+    overflow: hidden;
+  }
+  .pgrid__media {
+    position: relative;
+    aspect-ratio: {{ section.settings.image_ratio }};
+    overflow: hidden;
+    background: #f3f3f3;
+  }
+  .pgrid__media img,
+  .pgrid__media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s ease;
+  }
+  .pgrid__card:hover .pgrid__media img { transform: scale(1.03); }
+  .pgrid__tag {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 8px 10px;
+  }
+  .pgrid__tag--top { top: 0; }
+  .pgrid__tag--bottom { bottom: 0; }
+  .pgrid__body {
+    flex: 1 1 auto;
+    background: var(--card-bg, #ededed);
+    color: var(--card-fg, #1a1a1a);
+    padding: 18px 20px 22px;
+  }
+  .pgrid__title {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .pgrid__text {
+    margin: 0 0 14px;
+    font-size: 14px;
+    line-height: 1.45;
+    opacity: .92;
+  }
+  .pgrid__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .pgrid__cta svg { width: 7px; height: 9px; flex: none; }
+  .pgrid__card:hover .pgrid__cta { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media screen and (max-width: 989px) {
+    .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media screen and (max-width: 599px) {
+    .pgrid { grid-template-columns: {% if section.settings.mobile_two_up %}repeat(2, minmax(0, 1fr)){% else %}minmax(0, 1fr){% endif %}; }
+    .pgrid__body { padding: 14px 14px 18px; }
+    .pgrid__title { font-size: 15px; }
+    .pgrid__text { font-size: 13px; }
+    .pgrid__tag { font-size: 10px; letter-spacing: 0.12em; padding: 6px 8px; }
+  }
+{% endstyle %}
+
+<div class="pgrid-section">
+  <div class="pgrid-section__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="pgrid-section__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="pgrid">
+      {%- for block in section.blocks -%}
+        {%- assign card_style = '--card-bg: ' | append: block.settings.caption_bg | append: '; --card-fg: ' | append: block.settings.caption_fg | append: ';' -%}
+
+        {%- if block.settings.link != blank -%}
+          <a class="pgrid__card" href="{{ block.settings.link }}" style="{{ card_style }}" {{ block.shopify_attributes }}>
+        {%- else -%}
+          <div class="pgrid__card" style="{{ card_style }}" {{ block.shopify_attributes }}>
+        {%- endif -%}
+
+          <div class="pgrid__media">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 1000
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '300, 450, 600, 800, 1000',
+                  sizes: '(max-width: 599px) 100vw, (max-width: 989px) 50vw, 25vw',
+                  alt: block.settings.image.alt | default: block.settings.title
+              }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'pgrid__placeholder' }}
+            {%- endif -%}
+
+            {%- if block.settings.tag != blank -%}
+              <span class="pgrid__tag pgrid__tag--{{ block.settings.tag_position }}">{{ block.settings.tag | escape }}</span>
+            {%- endif -%}
+          </div>
+
+          <div class="pgrid__body">
+            {%- if block.settings.title != blank -%}
+              <h3 class="pgrid__title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="pgrid__text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.cta != blank -%}
+              <span class="pgrid__cta">
+                {{ block.settings.cta | escape }}
+                <svg viewBox="0 0 7 9" fill="currentColor" aria-hidden="true"><path d="M0 0l7 4.5L0 9z"/></svg>
+              </span>
+            {%- endif -%}
+          </div>
+
+        {%- if block.settings.link != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Promo grid (4-up)",
+  "tag": "section",
+  "class": "section-promo-grid",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading (optional)" },
+    {
+      "type": "range", "id": "columns", "label": "Columns on desktop",
+      "min": 2, "max": 6, "step": 1, "default": 4
+    },
+    {
+      "type": "select", "id": "image_ratio", "label": "Image shape", "default": "16 / 11",
+      "options": [
+        { "value": "16 / 11", "label": "Landscape (Sephora style)" },
+        { "value": "4 / 3", "label": "Classic 4:3" },
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "3 / 4", "label": "Portrait" }
+      ]
+    },
+    { "type": "checkbox", "id": "mobile_two_up", "label": "Two per row on mobile", "default": false },
+    {
+      "type": "range", "id": "gap", "label": "Gap between cards",
+      "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16
+    },
+    {
+      "type": "range", "id": "max_width", "label": "Max content width",
+      "min": 1000, "max": 1800, "step": 20, "unit": "px", "default": 1500
+    },
+    { "type": "color", "id": "section_bg", "label": "Section background", "default": "#ffffff" },
+    {
+      "type": "range", "id": "padding_top", "label": "Padding top",
+      "min": 0, "max": 100, "step": 4, "unit": "px", "default": 24
+    },
+    {
+      "type": "range", "id": "padding_bottom", "label": "Padding bottom",
+      "min": 0, "max": 100, "step": 4, "unit": "px", "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promo",
+      "name": "Promo card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "tag", "label": "Ribbon text", "info": "Black bar over the image. Leave empty to hide." },
+        {
+          "type": "select", "id": "tag_position", "label": "Ribbon position", "default": "bottom",
+          "options": [
+            { "value": "top", "label": "Top of image" },
+            { "value": "bottom", "label": "Bottom of image" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "New arrivals" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Short supporting line goes here." },
+        { "type": "text", "id": "cta", "label": "Link label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "color", "id": "caption_bg", "label": "Caption background", "default": "#ededed" },
+        { "type": "color", "id": "caption_fg", "label": "Caption text colour", "default": "#1a1a1a" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo grid (4-up)",
+      "blocks": [
+        {
+          "type": "promo",
+          "settings": {
+            "tag": "Only at The Edit",
+            "tag_position": "top",
+            "title": "New Holiday Sets",
+            "text": "Meet the curated, limited-edition gift pairs and trios.",
+            "cta": "Shop now",
+            "caption_bg": "#ededed",
+            "caption_fg": "#1a1a1a"
+          }
+        },
+        {
+          "type": "promo",
+          "settings": {
+            "title": "Trending Mini Gifts",
+            "text": "From the brands everyone is asking for.",
+            "cta": "Shop now",
+            "caption_bg": "#2b2ddb",
+            "caption_fg": "#ffffff"
+          }
+        },
+        {
+          "type": "promo",
+          "settings": {
+            "tag": "Just in",
+            "tag_position": "bottom",
+            "title": "Just In: Body Care",
+            "text": "Hydrate with body creams and balms.",
+            "cta": "Shop now",
+            "caption_bg": "#c9e2cd",
+            "caption_fg": "#1a1a1a"
+          }
+        },
+        {
+          "type": "promo",
+          "settings": {
+            "tag": "Only at The Edit",
+            "tag_position": "bottom",
+            "title": "New Lip Liners",
+            "text": "Creamy, matte formula in 18 long-lasting shades.",
+            "cta": "Shop now",
+            "caption_bg": "#a9d5d2",
+            "caption_fg": "#1a1a1a"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
