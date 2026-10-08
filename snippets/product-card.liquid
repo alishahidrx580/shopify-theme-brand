@@ -146,6 +146,9 @@
   </div>
   <div class="product-card__body">
     <div class="product-card__text">
+      {%- if product.vendor != blank -%}
+        <p class="product-card__brand">{{ product.vendor }}</p>
+      {%- endif -%}
       <h3 class="product-card__title font-display">{{ card_title }}</h3>
       {%- if card_tagline != blank -%}
         <p class="product-card__tagline">{{ card_tagline }}</p>
@@ -392,6 +395,13 @@
   .product-card__quick-add { width: 34px; height: 34px; }
   .wishlist-heart--card { width: 28px; height: 28px; }
     .product-card__category, .product-card__category.eyebrow { display: none; }
+  .product-card { background: #fff; border: 1px solid #e3e3e3; height: 100%; }
+  .product-card__media { background: #fff; }
+  .product-card__body { padding: 12px 14px 16px; }
+  .product-card__brand { margin: 0 0 2px; font-size: 13px; line-height: 17px; font-weight: 700; }
+  .product-card__title.font-display { margin: 0; }
+  .product-card__pricing { margin-top: 8px; }
+  .product-card__price { font-size: 15px; }
 /* === SEPHORA-GRADE POLISH (end) === */
 
 {% endstylesheet %}
