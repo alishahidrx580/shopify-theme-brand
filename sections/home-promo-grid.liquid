@@ -1,7 +1,7 @@
 {%- comment -%}
-  Home promo grid - Sephora-style row of 4 image + caption blocks.
-  Each block: image, optional black ribbon tag, title, short description, SHOP NOW link.
-  Images can be added later; a placeholder is shown until then.
+  Home promo grid - Sephora-style row of 4 image + caption banners.
+  Sizing matched to sephora.com: 3:2 image, 8px gap, 16px side gutter,
+  130px caption with 24px padding, 20px/25px bold title, 14px body.
 {%- endcomment -%}
 
 {% style %}
@@ -14,20 +14,20 @@
     background: {{ section.settings.section_bg }};
   }
   .pgrid-section__inner {
-    max-width: {{ section.settings.max_width }}px;
+    {% if section.settings.full_width %}max-width: none;{% else %}max-width: {{ section.settings.max_width }}px;{% endif %}
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 {{ section.settings.gutter }}px;
   }
   .pgrid-section__heading {
-    margin: 0 0 18px;
-    font-size: 22px;
-    line-height: 1.2;
-    letter-spacing: 0.02em;
+    margin: 0 0 16px;
+    font-size: 20px;
+    line-height: 25px;
+    font-weight: 700;
   }
   .pgrid {
     display: grid;
     grid-template-columns: repeat(var(--pgrid-cols, 4), minmax(0, 1fr));
-    gap: var(--pgrid-gap, 16px);
+    gap: var(--pgrid-gap, 8px);
   }
   .pgrid__card {
     display: flex;
@@ -49,63 +49,64 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform .5s ease;
   }
-  .pgrid__card:hover .pgrid__media img { transform: scale(1.03); }
   .pgrid__tag {
     position: absolute;
     left: 0;
     right: 0;
     background: #000;
     color: #fff;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     text-align: center;
-    padding: 8px 10px;
+    padding: 9px 10px;
   }
   .pgrid__tag--top { top: 0; }
   .pgrid__tag--bottom { bottom: 0; }
   .pgrid__body {
     flex: 1 1 auto;
+    min-height: {{ section.settings.caption_height }}px;
     background: var(--card-bg, #ededed);
     color: var(--card-fg, #1a1a1a);
-    padding: 18px 20px 22px;
+    padding: 24px;
+    box-sizing: border-box;
   }
   .pgrid__title {
-    margin: 0 0 6px;
-    font-size: 17px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 25px;
     font-weight: 700;
-    line-height: 1.25;
   }
   .pgrid__text {
-    margin: 0 0 14px;
+    margin: 4px 0 0;
     font-size: 14px;
-    line-height: 1.45;
-    opacity: .92;
+    line-height: 17.5px;
+    font-weight: 400;
   }
   .pgrid__cta {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    font-size: 13px;
+    gap: 5px;
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 17.5px;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
-  .pgrid__cta svg { width: 7px; height: 9px; flex: none; }
+  .pgrid__cta svg { width: 6px; height: 8px; flex: none; }
   .pgrid__card:hover .pgrid__cta { text-decoration: underline; text-underline-offset: 3px; }
 
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 1023px) {
     .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media screen and (max-width: 599px) {
     .pgrid { grid-template-columns: {% if section.settings.mobile_two_up %}repeat(2, minmax(0, 1fr)){% else %}minmax(0, 1fr){% endif %}; }
-    .pgrid__body { padding: 14px 14px 18px; }
-    .pgrid__title { font-size: 15px; }
-    .pgrid__text { font-size: 13px; }
-    .pgrid__tag { font-size: 10px; letter-spacing: 0.12em; padding: 6px 8px; }
+    .pgrid__body { padding: 16px; min-height: 0; }
+    .pgrid__title { font-size: 16px; line-height: 20px; }
+    .pgrid__text { font-size: 13px; line-height: 16px; }
+    .pgrid__cta { font-size: 13px; margin-top: 10px; }
+    .pgrid__tag { font-size: 10px; letter-spacing: 0.08em; padding: 6px 8px; }
   }
 {% endstyle %}
 
@@ -129,11 +130,11 @@
             {%- if block.settings.image != blank -%}
               {{
                 block.settings.image
-                | image_url: width: 1000
+                | image_url: width: 1200
                 | image_tag:
                   loading: 'lazy',
-                  widths: '300, 450, 600, 800, 1000',
-                  sizes: '(max-width: 599px) 100vw, (max-width: 749px) 50vw, 25vw',
+                  widths: '300, 450, 600, 800, 1000, 1200',
+                  sizes: '(max-width: 599px) 100vw, (max-width: 1023px) 50vw, 25vw',
                   alt: block.settings.image.alt | default: block.settings.title
               }}
             {%- else -%}
@@ -155,7 +156,7 @@
             {%- if block.settings.cta != blank -%}
               <span class="pgrid__cta">
                 {{ block.settings.cta | escape }}
-                <svg viewBox="0 0 7 9" fill="currentColor" aria-hidden="true"><path d="M0 0l7 4.5L0 9z"/></svg>
+                <svg viewBox="0 0 6 8" fill="currentColor" aria-hidden="true"><path d="M0 0l6 4-6 4z"/></svg>
               </span>
             {%- endif -%}
           </div>
@@ -183,31 +184,41 @@
       "min": 2, "max": 6, "step": 1, "default": 4
     },
     {
-      "type": "select", "id": "image_ratio", "label": "Image shape", "default": "16 / 11",
+      "type": "select", "id": "image_ratio", "label": "Image shape", "default": "3 / 2",
       "options": [
-        { "value": "16 / 11", "label": "Landscape (Sephora style)" },
-        { "value": "4 / 3", "label": "Classic 4:3" },
+        { "value": "3 / 2", "label": "3:2 (Sephora)" },
+        { "value": "16 / 11", "label": "16:11" },
+        { "value": "4 / 3", "label": "4:3" },
         { "value": "1 / 1", "label": "Square" },
         { "value": "3 / 4", "label": "Portrait" }
       ]
     },
+    {
+      "type": "range", "id": "caption_height", "label": "Caption height",
+      "min": 90, "max": 200, "step": 5, "unit": "px", "default": 130
+    },
     { "type": "checkbox", "id": "mobile_two_up", "label": "Two per row on mobile", "default": false },
     {
       "type": "range", "id": "gap", "label": "Gap between cards",
-      "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16
+      "min": 0, "max": 40, "step": 1, "unit": "px", "default": 8
+    },
+    { "type": "checkbox", "id": "full_width", "label": "Full width (Sephora style)", "default": true },
+    {
+      "type": "range", "id": "gutter", "label": "Side gutter",
+      "min": 0, "max": 60, "step": 2, "unit": "px", "default": 16
     },
     {
-      "type": "range", "id": "max_width", "label": "Max content width",
+      "type": "range", "id": "max_width", "label": "Max content width", "info": "Only used when Full width is off.",
       "min": 1000, "max": 1800, "step": 20, "unit": "px", "default": 1500
     },
     { "type": "color", "id": "section_bg", "label": "Section background", "default": "#ffffff" },
     {
       "type": "range", "id": "padding_top", "label": "Padding top",
-      "min": 0, "max": 100, "step": 4, "unit": "px", "default": 24
+      "min": 0, "max": 100, "step": 2, "unit": "px", "default": 8
     },
     {
       "type": "range", "id": "padding_bottom", "label": "Padding bottom",
-      "min": 0, "max": 100, "step": 4, "unit": "px", "default": 24
+      "min": 0, "max": 100, "step": 2, "unit": "px", "default": 24
     }
   ],
   "blocks": [
@@ -215,7 +226,7 @@
       "type": "promo",
       "name": "Promo card",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Upload at 1200 x 800 px (3:2)." },
         { "type": "text", "id": "tag", "label": "Ribbon text", "info": "Black bar over the image. Leave empty to hide." },
         {
           "type": "select", "id": "tag_position", "label": "Ribbon position", "default": "bottom",
@@ -226,7 +237,7 @@
         },
         { "type": "text", "id": "title", "label": "Title", "default": "New arrivals" },
         { "type": "textarea", "id": "text", "label": "Description", "default": "Short supporting line goes here." },
-        { "type": "text", "id": "cta", "label": "Link label", "default": "Shop now" },
+        { "type": "text", "id": "cta", "label": "Link label", "default": "SHOP NOW" },
         { "type": "url", "id": "link", "label": "Link" },
         { "type": "color", "id": "caption_bg", "label": "Caption background", "default": "#ededed" },
         { "type": "color", "id": "caption_fg", "label": "Caption text colour", "default": "#1a1a1a" }
@@ -244,7 +255,7 @@
             "tag_position": "top",
             "title": "New Holiday Sets",
             "text": "Meet the curated, limited-edition gift pairs and trios.",
-            "cta": "Shop now",
+            "cta": "SHOP NOW",
             "caption_bg": "#ededed",
             "caption_fg": "#1a1a1a"
           }
@@ -254,7 +265,7 @@
           "settings": {
             "title": "Trending Mini Gifts",
             "text": "From the brands everyone is asking for.",
-            "cta": "Shop now",
+            "cta": "SHOP NOW",
             "caption_bg": "#2b2ddb",
             "caption_fg": "#ffffff"
           }
@@ -265,8 +276,8 @@
             "tag": "Just in",
             "tag_position": "bottom",
             "title": "Just In: Body Care",
-            "text": "Hydrate with body creams and balms.",
-            "cta": "Shop now",
+            "text": "Hydrate with body creams and lip balms.",
+            "cta": "SHOP NOW",
             "caption_bg": "#c9e2cd",
             "caption_fg": "#1a1a1a"
           }
@@ -278,7 +289,7 @@
             "tag_position": "bottom",
             "title": "New Lip Liners",
             "text": "Creamy, matte formula in 18 long-lasting shades.",
-            "cta": "Shop now",
+            "cta": "SHOP NOW",
             "caption_bg": "#a9d5d2",
             "caption_fg": "#1a1a1a"
           }
