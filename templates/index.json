@@ -666,12 +666,15 @@
       "settings": {
         "heading": "",
         "columns": 4,
-        "image_ratio": "16 / 11",
+        "image_ratio": "3 / 2",
+        "caption_height": 130,
         "mobile_two_up": false,
-        "gap": 16,
+        "gap": 8,
+        "full_width": true,
+        "gutter": 16,
         "max_width": 1500,
         "section_bg": "#ffffff",
-        "padding_top": 24,
+        "padding_top": 8,
         "padding_bottom": 24
       }
     }
