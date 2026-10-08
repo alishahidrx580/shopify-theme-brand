@@ -32,6 +32,27 @@
 .brand-strip__item,.brand-strip__track:not(:hover) .brand-strip__item:first-child{flex:0 0 38vw;scroll-snap-align:start;background:color-mix(in srgb,var(--brand-color) 14%,#fff)}
 .brand-strip__item:active{background:var(--brand-color)}
 }
+/* === SEPHORA-GRADE POLISH (start) — delete this block to revert === */
+.brand-strip{padding:40px 0 48px}
+.brand-strip__head{padding:0;margin-bottom:20px}
+.brand-strip__head .eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;opacity:.6}
+.brand-strip__title{font-size:clamp(1.375rem,2vw,1.625rem);line-height:1.22;font-weight:700;letter-spacing:-.01em;margin:4px 0 0}
+.brand-strip__track{display:flex;height:auto;background:transparent;gap:12px;overflow:auto hidden;scrollbar-width:none;scroll-snap-type:x proximity;scroll-behavior:smooth}
+.brand-strip__track::-webkit-scrollbar{display:none}
+.brand-strip__item{flex:0 0 auto;width:132px;min-width:0;height:auto;scroll-snap-align:start}
+.brand-strip__media{display:block;width:132px;height:132px;min-height:0;padding:0;background:#f6f6f6;overflow:hidden}
+.brand-strip__media img{width:100%;height:100%;object-fit:contain;transform:scale(1);transition:transform .35s ease}
+.brand-strip__item:hover img,.brand-strip__item:focus-visible img{transform:scale(1.06)}
+.brand-strip__label{display:block;height:auto;padding:8px 0 0;background:transparent;font-size:12px;line-height:16px;font-weight:600;letter-spacing:.02em;text-align:center}
+.brand-strip__item:active{background:transparent}
+@media (max-width:749px){
+  .brand-strip{padding:32px 0 40px}
+  .brand-strip__track{height:auto}
+  .brand-strip__item,.brand-strip__track:not(:hover) .brand-strip__item:first-child{flex:0 0 auto;width:112px}
+  .brand-strip__media{width:112px;height:112px}
+}
+/* === SEPHORA-GRADE POLISH (end) === */
+
 </style>
 
 {% schema %}
