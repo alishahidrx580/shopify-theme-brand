@@ -9,7 +9,6 @@
  */
 {
   "sections": {
-    "brand-strip": {"type": "brand-strip", "blocks": {"b1": {"type": "brand", "settings": {"name": "CeraVe", "color": "#0b2a5b", "product": "cerave-moisturizing-lotion-473ml"}}, "b2": {"type": "brand", "settings": {"name": "La Roche-Posay", "color": "#0071ce", "product": "la-roche-posay-toleriane-ultra-fluide-moisturizer-for-sensitive-skin-40ml"}}, "b3": {"type": "brand", "settings": {"name": "Dermalogica", "color": "#1a1a1a", "product": "dermalogica-ultra-calming-cleanser"}}, "b4": {"type": "brand", "settings": {"name": "Avène", "color": "#c8102e", "product": "avene-xeracalm-a-d-lipid-replenishing-cream"}}, "b5": {"type": "brand", "settings": {"name": "ACM", "color": "#00918a", "product": "acm-duolys-eye-contour-cream"}}, "b6": {"type": "brand", "settings": {"name": "ISDIN", "color": "#f28c00", "product": "isdin-k-ox-eyes-cream-15ml"}}, "b7": {"type": "brand", "settings": {"name": "Medicube", "color": "#7a4ba8", "product": "medicube-deep-vita-c-ampoule-2-0-pack-of-3-30g"}}, "b8": {"type": "brand", "settings": {"name": "Aveeno", "color": "#4f8a2b", "product": "aveeno-daily-moisturising-body-wash"}}, "b9": {"type": "brand", "settings": {"name": "COSRX", "color": "#e8557a", "product": "cosrx-advanced-snail-96-mucin-power-essence-100ml"}}}, "block_order": ["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9"], "settings": {"eyebrow": "Shop by brand", "heading": "Find your favourite brand"}},
     "hero": {
       "type": "home-hero",
       "blocks": {
@@ -84,6 +83,98 @@
         "min_height_px_mobile": 520
       }
     },
+    "brand-strip": {
+      "type": "brand-strip",
+      "blocks": {
+        "b1": {
+          "type": "brand",
+          "settings": {
+            "name": "CeraVe",
+            "color": "#0b2a5b",
+            "product": "cerave-moisturizing-lotion-473ml"
+          }
+        },
+        "b2": {
+          "type": "brand",
+          "settings": {
+            "name": "La Roche-Posay",
+            "color": "#0071ce",
+            "product": "la-roche-posay-toleriane-ultra-fluide-moisturizer-for-sensitive-skin-40ml"
+          }
+        },
+        "b3": {
+          "type": "brand",
+          "settings": {
+            "name": "Dermalogica",
+            "color": "#1a1a1a",
+            "product": "dermalogica-ultra-calming-cleanser"
+          }
+        },
+        "b4": {
+          "type": "brand",
+          "settings": {
+            "name": "Avène",
+            "color": "#c8102e",
+            "product": "avene-xeracalm-a-d-lipid-replenishing-cream"
+          }
+        },
+        "b5": {
+          "type": "brand",
+          "settings": {
+            "name": "ACM",
+            "color": "#00918a",
+            "product": "acm-duolys-eye-contour-cream"
+          }
+        },
+        "b6": {
+          "type": "brand",
+          "settings": {
+            "name": "ISDIN",
+            "color": "#f28c00",
+            "product": "isdin-k-ox-eyes-cream-15ml"
+          }
+        },
+        "b7": {
+          "type": "brand",
+          "settings": {
+            "name": "Medicube",
+            "color": "#7a4ba8",
+            "product": "medicube-deep-vita-c-ampoule-2-0-pack-of-3-30g"
+          }
+        },
+        "b8": {
+          "type": "brand",
+          "settings": {
+            "name": "Aveeno",
+            "color": "#4f8a2b",
+            "product": "aveeno-daily-moisturising-body-wash"
+          }
+        },
+        "b9": {
+          "type": "brand",
+          "settings": {
+            "name": "COSRX",
+            "color": "#e8557a",
+            "product": "cosrx-advanced-snail-96-mucin-power-essence-100ml"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9"
+      ],
+      "settings": {
+        "eyebrow": "Shop by brand",
+        "heading": "Find your favourite brand"
+      }
+    },
     "new-in": {
       "type": "home-featured-products",
       "settings": {
@@ -102,133 +193,155 @@
         "brand_1": {
           "type": "brand",
           "settings": {
-            "name": "La Roche-Posay"
+            "name": "La Roche-Posay",
+            "link": ""
           }
         },
         "brand_2": {
           "type": "brand",
           "settings": {
-            "name": "CeraVe"
+            "name": "CeraVe",
+            "link": ""
           }
         },
         "brand_3": {
           "type": "brand",
           "settings": {
-            "name": "Bioderma"
+            "name": "Bioderma",
+            "link": ""
           }
         },
         "brand_4": {
           "type": "brand",
           "settings": {
-            "name": "No7"
+            "name": "No7",
+            "link": ""
           }
         },
         "brand_5": {
           "type": "brand",
           "settings": {
-            "name": "Cetaphil"
+            "name": "Cetaphil",
+            "link": ""
           }
         },
         "brand_6": {
           "type": "brand",
           "settings": {
-            "name": "Aveeno"
+            "name": "Aveeno",
+            "link": ""
           }
         },
         "brand_7": {
           "type": "brand",
           "settings": {
-            "name": "Avène"
+            "name": "Avène",
+            "link": ""
           }
         },
         "brand_8": {
           "type": "brand",
           "settings": {
-            "name": "COSRX"
+            "name": "COSRX",
+            "link": ""
           }
         },
         "brand_9": {
           "type": "brand",
           "settings": {
-            "name": "ACM"
+            "name": "ACM",
+            "link": ""
           }
         },
         "brand_10": {
           "type": "brand",
           "settings": {
-            "name": "Dermalogica"
+            "name": "Dermalogica",
+            "link": ""
           }
         },
         "brand_11": {
           "type": "brand",
           "settings": {
-            "name": "ISDIN"
+            "name": "ISDIN",
+            "link": ""
           }
         },
         "brand_12": {
           "type": "brand",
           "settings": {
-            "name": "Uriage"
+            "name": "Uriage",
+            "link": ""
           }
         },
         "brand_13": {
           "type": "brand",
           "settings": {
-            "name": "Medicube"
+            "name": "Medicube",
+            "link": ""
           }
         },
         "brand_14": {
           "type": "brand",
           "settings": {
-            "name": "Soap & Glory"
+            "name": "Soap & Glory",
+            "link": ""
           }
         },
         "brand_15": {
           "type": "brand",
           "settings": {
-            "name": "Johnson's & Johnson's"
+            "name": "Johnson's & Johnson's",
+            "link": ""
           }
         },
         "brand_16": {
           "type": "brand",
           "settings": {
-            "name": "Mustela"
+            "name": "Mustela",
+            "link": ""
           }
         },
         "brand_17": {
           "type": "brand",
           "settings": {
-            "name": "Boots"
+            "name": "Boots",
+            "link": ""
           }
         },
         "brand_18": {
           "type": "brand",
           "settings": {
-            "name": "Boots Collagen"
+            "name": "Boots Collagen",
+            "link": ""
           }
         },
         "brand_19": {
           "type": "brand",
           "settings": {
-            "name": "Boots Everyday"
+            "name": "Boots Everyday",
+            "link": ""
           }
         },
         "brand_20": {
           "type": "brand",
           "settings": {
-            "name": "Boots Glow"
+            "name": "Boots Glow",
+            "link": ""
           }
         },
         "brand_21": {
           "type": "brand",
           "settings": {
-            "name": "Boots Sheet Mask"
+            "name": "Boots Sheet Mask",
+            "link": ""
           }
         },
         "brand_22": {
           "type": "brand",
           "settings": {
-            "name": "Derma"
+            "name": "Derma",
+            "link": ""
           }
         }
       },
@@ -257,7 +370,8 @@
         "brand_22"
       ],
       "settings": {
-        "scroll_seconds": 80
+        "scroll_seconds": 80,
+        "pause_on_hover": true
       }
     },
     "brightening": {
@@ -484,6 +598,81 @@
         "gsc_instagram_feed_instafeed_wTtKV9"
       ],
       "settings": {}
+    },
+    "home_promo_grid_Pw9z4C": {
+      "type": "home-promo-grid",
+      "blocks": {
+        "promo_P3GyHh": {
+          "type": "promo",
+          "settings": {
+            "tag": "Only at The Edit",
+            "tag_position": "top",
+            "title": "New Holiday Sets",
+            "text": "Meet the curated, limited-edition gift pairs and trios.",
+            "cta": "Shop now",
+            "link": "",
+            "caption_bg": "#ededed",
+            "caption_fg": "#1a1a1a"
+          }
+        },
+        "promo_bHKLQe": {
+          "type": "promo",
+          "settings": {
+            "tag": "",
+            "tag_position": "bottom",
+            "title": "Trending Mini Gifts",
+            "text": "From the brands everyone is asking for.",
+            "cta": "Shop now",
+            "link": "",
+            "caption_bg": "#2b2ddb",
+            "caption_fg": "#ffffff"
+          }
+        },
+        "promo_DdNFUz": {
+          "type": "promo",
+          "settings": {
+            "tag": "Just in",
+            "tag_position": "bottom",
+            "title": "Just In: Body Care",
+            "text": "Hydrate with body creams and balms.",
+            "cta": "Shop now",
+            "link": "",
+            "caption_bg": "#c9e2cd",
+            "caption_fg": "#1a1a1a"
+          }
+        },
+        "promo_d83Q4k": {
+          "type": "promo",
+          "settings": {
+            "tag": "Only at The Edit",
+            "tag_position": "bottom",
+            "title": "New Lip Liners",
+            "text": "Creamy, matte formula in 18 long-lasting shades.",
+            "cta": "Shop now",
+            "link": "",
+            "caption_bg": "#a9d5d2",
+            "caption_fg": "#1a1a1a"
+          }
+        }
+      },
+      "block_order": [
+        "promo_P3GyHh",
+        "promo_bHKLQe",
+        "promo_DdNFUz",
+        "promo_d83Q4k"
+      ],
+      "name": "Promo grid (4-up)",
+      "settings": {
+        "heading": "",
+        "columns": 4,
+        "image_ratio": "16 / 11",
+        "mobile_two_up": false,
+        "gap": 16,
+        "max_width": 1500,
+        "section_bg": "#ffffff",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
     }
   },
   "order": [
@@ -502,6 +691,7 @@
     "home_featured_products_DYV4wg",
     "trust-strip",
     "178747941860776144",
-    "17874816673bfe4182"
+    "17874816673bfe4182",
+    "home_promo_grid_Pw9z4C"
   ]
 }
