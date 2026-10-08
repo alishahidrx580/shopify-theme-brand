@@ -10,6 +10,7 @@
 {
   "sections": {
     "hero": {
+      "disabled": true,
       "type": "home-hero",
       "blocks": {
         "hero_image_pHnHmi": {
@@ -676,7 +677,7 @@
     }
   },
   "order": [
-    "hero",
+    "home_promo_grid_Pw9z4C",
     "brand-strip",
     "new-in",
     "brand-logos",
@@ -692,6 +693,6 @@
     "trust-strip",
     "178747941860776144",
     "17874816673bfe4182",
-    "home_promo_grid_Pw9z4C"
+    "hero"
   ]
 }
