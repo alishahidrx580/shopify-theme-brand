@@ -12,7 +12,7 @@
       </div>
       {%- if section.settings.view_all_label != blank -%}
         <a href="{{ section.settings.view_all_url | default: routes.all_products_collection_url }}" class="home-featured__view-all gold-link" data-reveal>
-          {{ section.settings.view_all_label }} →
+          {{ section.settings.view_all_label | strip | remove_last: "→" | strip }} →
         </a>
       {%- endif -%}
     </div>
