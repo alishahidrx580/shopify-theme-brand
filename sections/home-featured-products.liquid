@@ -17,6 +17,7 @@
       {%- endif -%}
     </div>
 
+    <div class="home-featured__rail">
     <div class="home-featured__grid">
       {%- assign limit = section.settings.products_to_show -%}
       {%- assign products_collection = section.settings.collection -%}
@@ -42,8 +43,48 @@
         {%- endfor -%}
       {%- endif -%}
     </div>
+    <button type="button" class="hf-nav hf-nav--prev" aria-label="Previous products" data-hf-prev>
+        <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 1L2 9l8 8"/></svg>
+      </button>
+      <button type="button" class="hf-nav hf-nav--next" aria-label="Next products" data-hf-next>
+        <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 1l8 8-8 8"/></svg>
+      </button>
+    </div>
   </div>
 </section>
+<script>
+  (function () {
+    if (window.__hfRailInit) return;
+    window.__hfRailInit = true;
+    function wire(root) {
+      (root || document).querySelectorAll(".home-featured").forEach(function (sec) {
+        if (sec.dataset.hfWired) return;
+        var rail = sec.querySelector(".home-featured__grid");
+        var prev = sec.querySelector("[data-hf-prev]");
+        var next = sec.querySelector("[data-hf-next]");
+        if (!rail || !prev || !next) return;
+        sec.dataset.hfWired = "1";
+        function step() {
+          var c = rail.firstElementChild;
+          return c ? (c.getBoundingClientRect().width + 8) * 2 : 440;
+        }
+        function update() {
+          var max = rail.scrollWidth - rail.clientWidth;
+          sec.classList.toggle("hf--fits", max <= 2);
+          prev.disabled = rail.scrollLeft <= 2;
+          next.disabled = rail.scrollLeft >= max - 2;
+        }
+        prev.addEventListener("click", function () { rail.scrollBy({ left: -step(), behavior: "smooth" }); });
+        next.addEventListener("click", function () { rail.scrollBy({ left: step(), behavior: "smooth" }); });
+        rail.addEventListener("scroll", update, { passive: true });
+        if (window.ResizeObserver) { new ResizeObserver(update).observe(rail); }
+        update();
+      });
+    }
+    if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", function () { wire(); }); } else { wire(); }
+    document.addEventListener("shopify:section:load", function (e) { wire(e.target); });
+  })();
+</script>
 
 {% stylesheet %}
   .home-featured {
@@ -163,7 +204,18 @@
   @media (min-width: 1500px) {
     .home-featured__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   }
-  /* === SEPHORA-GRADE POLISH (end) === */
+    .home-featured__rail { position: relative; }
+  .home-featured__grid { display: flex; gap: 8px; overflow: auto hidden; scrollbar-width: none; scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+  .home-featured__grid::-webkit-scrollbar { display: none; }
+  .home-featured__grid > * { flex: 0 0 220px; scroll-snap-align: start; }
+  .hf-nav { position: absolute; top: 110px; transform: translateY(-50%); width: 48px; height: 48px; border: 0; border-radius: 50%; background: #fff; color: #000; box-shadow: 0 1px 6px rgba(0,0,0,.28); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; z-index: 3; }
+  .hf-nav svg { width: 12px; height: 18px; }
+  .hf-nav--prev { left: -10px; }
+  .hf-nav--next { right: -10px; }
+  .hf-nav[disabled] { opacity: 0; pointer-events: none; }
+  .home-featured.hf--fits .hf-nav { display: none; }
+  @media (max-width: 749px) { .hf-nav { display: none; } .home-featured__grid > * { flex: 0 0 160px; } }
+/* === SEPHORA-GRADE POLISH (end) === */
 
 {% endstylesheet %}
 
