@@ -97,7 +97,7 @@
   .pgrid__cta svg { width: 7px; height: 9px; flex: none; }
   .pgrid__card:hover .pgrid__cta { text-decoration: underline; text-underline-offset: 3px; }
 
-  @media screen and (max-width: 989px) {
+  @media screen and (max-width: 749px) {
     .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media screen and (max-width: 599px) {
@@ -133,7 +133,7 @@
                 | image_tag:
                   loading: 'lazy',
                   widths: '300, 450, 600, 800, 1000',
-                  sizes: '(max-width: 599px) 100vw, (max-width: 989px) 50vw, 25vw',
+                  sizes: '(max-width: 599px) 100vw, (max-width: 749px) 50vw, 25vw',
                   alt: block.settings.image.alt | default: block.settings.title
               }}
             {%- else -%}
