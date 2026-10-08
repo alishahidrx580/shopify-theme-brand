@@ -1,35 +1,50 @@
 {%- comment -%}
-  Home promo grid - Sephora-style row of 4 image + caption banners.
-  Sizing matched to sephora.com: 3:2 image, 8px gap, 16px side gutter,
-  130px caption with 24px padding, 20px/25px bold title, 14px body.
+  Home promo slider - replicates the sephora.com banner carousel.
+  Measured from sephora.com: li width 340px mobile / 545px from 768px up,
+  flex row, 8px gap, scroll-snap-type x mandatory, scroll-padding 16px,
+  hidden scrollbar, 48x48 round prev/next controls.
+  Card: 3:2 image, 130px caption with 24px padding,
+  title 20px/25px/700, text 14px/17.5px, SHOP NOW 14px bold uppercase.
 {%- endcomment -%}
 
 {% style %}
-  #shopify-section-{{ section.id }} {
-    --pgrid-gap: {{ section.settings.gap }}px;
-    --pgrid-cols: {{ section.settings.columns }};
-  }
-  .pgrid-section {
+  .pgrid-section-{{ section.id }} {
+    position: relative;
     padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
     background: {{ section.settings.section_bg }};
   }
-  .pgrid-section__inner {
-    {% if section.settings.full_width %}max-width: none;{% else %}max-width: {{ section.settings.max_width }}px;{% endif %}
-    margin: 0 auto;
-    padding: 0 {{ section.settings.gutter }}px;
-  }
-  .pgrid-section__heading {
+  .pgrid-section-{{ section.id }} .pgrid-heading {
     margin: 0 0 16px;
+    padding: 0 {{ section.settings.gutter }}px;
     font-size: 20px;
     line-height: 25px;
     font-weight: 700;
   }
-  .pgrid {
-    display: grid;
-    grid-template-columns: repeat(var(--pgrid-cols, 4), minmax(0, 1fr));
-    gap: var(--pgrid-gap, 8px);
+  .pgrid-section-{{ section.id }} .pgrid {
+    display: flex;
+    gap: {{ section.settings.gap }}px;
+    margin: 0;
+    padding: 0 {{ section.settings.gutter }}px;
+    list-style: none;
+    overflow: auto hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: none;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scroll-padding: {{ section.settings.gutter }}px;
   }
-  .pgrid__card {
+  .pgrid-section-{{ section.id }} .pgrid::-webkit-scrollbar { display: none; }
+  .pgrid-section-{{ section.id }} .pgrid > :first-child { margin-left: auto; }
+  .pgrid-section-{{ section.id }} .pgrid > :last-child { margin-right: auto; }
+  .pgrid-section-{{ section.id }} .pgrid__slide {
+    width: {{ section.settings.slide_width_mobile }}px;
+    flex-shrink: 0;
+    display: flex;
+    scroll-snap-align: start;
+  }
+  .pgrid-section-{{ section.id }} .pgrid__slide > * { width: 100%; flex-shrink: 0; }
+  .pgrid-section-{{ section.id }} .pgrid__card {
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -37,20 +52,20 @@
     background: var(--card-bg, #ededed);
     overflow: hidden;
   }
-  .pgrid__media {
+  .pgrid-section-{{ section.id }} .pgrid__media {
     position: relative;
     aspect-ratio: {{ section.settings.image_ratio }};
     overflow: hidden;
     background: #f3f3f3;
   }
-  .pgrid__media img,
-  .pgrid__media svg {
+  .pgrid-section-{{ section.id }} .pgrid__media img,
+  .pgrid-section-{{ section.id }} .pgrid__media svg {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
-  .pgrid__tag {
+  .pgrid-section-{{ section.id }} .pgrid__tag {
     position: absolute;
     left: 0;
     right: 0;
@@ -63,9 +78,9 @@
     text-align: center;
     padding: 9px 10px;
   }
-  .pgrid__tag--top { top: 0; }
-  .pgrid__tag--bottom { bottom: 0; }
-  .pgrid__body {
+  .pgrid-section-{{ section.id }} .pgrid__tag--top { top: 0; }
+  .pgrid-section-{{ section.id }} .pgrid__tag--bottom { bottom: 0; }
+  .pgrid-section-{{ section.id }} .pgrid__body {
     flex: 1 1 auto;
     min-height: {{ section.settings.caption_height }}px;
     background: var(--card-bg, #ededed);
@@ -73,19 +88,19 @@
     padding: 24px;
     box-sizing: border-box;
   }
-  .pgrid__title {
+  .pgrid-section-{{ section.id }} .pgrid__title {
     margin: 0;
     font-size: 20px;
     line-height: 25px;
     font-weight: 700;
   }
-  .pgrid__text {
+  .pgrid-section-{{ section.id }} .pgrid__text {
     margin: 4px 0 0;
     font-size: 14px;
     line-height: 17.5px;
     font-weight: 400;
   }
-  .pgrid__cta {
+  .pgrid-section-{{ section.id }} .pgrid__cta {
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -95,36 +110,59 @@
     font-weight: 700;
     text-transform: uppercase;
   }
-  .pgrid__cta svg { width: 6px; height: 8px; flex: none; }
-  .pgrid__card:hover .pgrid__cta { text-decoration: underline; text-underline-offset: 3px; }
+  .pgrid-section-{{ section.id }} .pgrid__cta svg { width: 6px; height: 8px; flex: none; }
+  .pgrid-section-{{ section.id }} .pgrid__card:hover .pgrid__cta { text-decoration: underline; text-underline-offset: 3px; }
 
-  @media screen and (max-width: 749px) {
-    .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pgrid-section-{{ section.id }} .pgrid__nav {
+    position: absolute;
+    top: calc({{ section.settings.padding_top }}px + (100% - {{ section.settings.padding_top }}px - {{ section.settings.padding_bottom }}px - {{ section.settings.caption_height }}px) / 2);
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    box-shadow: 0 1px 6px rgba(0,0,0,.28);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 2;
   }
-  @media screen and (max-width: 599px) {
-    .pgrid { grid-template-columns: {% if section.settings.mobile_two_up %}repeat(2, minmax(0, 1fr)){% else %}minmax(0, 1fr){% endif %}; }
-    .pgrid__body { padding: 16px; min-height: 0; }
-    .pgrid__title { font-size: 16px; line-height: 20px; }
-    .pgrid__text { font-size: 13px; line-height: 16px; }
-    .pgrid__cta { font-size: 13px; margin-top: 10px; }
-    .pgrid__tag { font-size: 10px; letter-spacing: 0.08em; padding: 6px 8px; }
+  .pgrid-section-{{ section.id }} .pgrid__nav svg { width: 12px; height: 18px; }
+  .pgrid-section-{{ section.id }} .pgrid__nav--prev { left: 8px; }
+  .pgrid-section-{{ section.id }} .pgrid__nav--next { right: 8px; }
+  .pgrid-section-{{ section.id }} .pgrid__nav[disabled] { opacity: 0; pointer-events: none; }
+  .pgrid-section-{{ section.id }}.pgrid--fits .pgrid__nav { display: none; }
+
+  @media screen and (min-width: 768px) {
+    .pgrid-section-{{ section.id }} .pgrid__slide { width: {{ section.settings.slide_width }}px; }
+  }
+  @media screen and (max-width: 767px) {
+    .pgrid-section-{{ section.id }} .pgrid__body { padding: 16px; min-height: 0; }
+    .pgrid-section-{{ section.id }} .pgrid__title { font-size: 16px; line-height: 20px; }
+    .pgrid-section-{{ section.id }} .pgrid__text { font-size: 13px; line-height: 16px; }
+    .pgrid-section-{{ section.id }} .pgrid__cta { font-size: 13px; margin-top: 10px; }
+    .pgrid-section-{{ section.id }} .pgrid__tag { font-size: 10px; letter-spacing: 0.08em; padding: 6px 8px; }
+    .pgrid-section-{{ section.id }} .pgrid__nav { display: none; }
   }
 {% endstyle %}
 
-<div class="pgrid-section">
-  <div class="pgrid-section__inner">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="pgrid-section__heading">{{ section.settings.heading | escape }}</h2>
-    {%- endif -%}
+<div class="pgrid-section-{{ section.id }}" data-pgrid-root>
+  {%- if section.settings.heading != blank -%}
+    <h2 class="pgrid-heading">{{ section.settings.heading | escape }}</h2>
+  {%- endif -%}
 
-    <div class="pgrid">
-      {%- for block in section.blocks -%}
-        {%- assign card_style = '--card-bg: ' | append: block.settings.caption_bg | append: '; --card-fg: ' | append: block.settings.caption_fg | append: ';' -%}
-
+  <ul class="pgrid" data-pgrid-track>
+    {%- for block in section.blocks -%}
+      {%- assign card_style = '--card-bg: ' | append: block.settings.caption_bg | append: '; --card-fg: ' | append: block.settings.caption_fg | append: ';' -%}
+      <li class="pgrid__slide" {{ block.shopify_attributes }}>
         {%- if block.settings.link != blank -%}
-          <a class="pgrid__card" href="{{ block.settings.link }}" style="{{ card_style }}" {{ block.shopify_attributes }}>
+          <a class="pgrid__card" href="{{ block.settings.link }}" style="{{ card_style }}">
         {%- else -%}
-          <div class="pgrid__card" style="{{ card_style }}" {{ block.shopify_attributes }}>
+          <div class="pgrid__card" style="{{ card_style }}">
         {%- endif -%}
 
           <div class="pgrid__media">
@@ -134,8 +172,8 @@
                 | image_url: width: 1200
                 | image_tag:
                   loading: 'lazy',
-                  widths: '300, 450, 600, 800, 1000, 1200',
-                  sizes: '(max-width: 599px) 100vw, (max-width: 749px) 50vw, 25vw',
+                  widths: '340, 545, 680, 900, 1090, 1200',
+                  sizes: '(max-width: 767px) 340px, 545px',
                   alt: block.settings.image.alt | default: block.settings.title
               }}
             {%- else -%}
@@ -167,22 +205,63 @@
         {%- else -%}
           </div>
         {%- endif -%}
-      {%- endfor -%}
-    </div>
-  </div>
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  {%- if section.settings.show_arrows -%}
+    <button type="button" class="pgrid__nav pgrid__nav--prev" aria-label="Previous slide" data-pgrid-prev>
+      <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 1L2 9l8 8"/></svg>
+    </button>
+    <button type="button" class="pgrid__nav pgrid__nav--next" aria-label="Next slide" data-pgrid-next>
+      <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 1l8 8-8 8"/></svg>
+    </button>
+  {%- endif -%}
 </div>
+
+<script>
+  (function () {
+    var root = document.querySelector('.pgrid-section-{{ section.id }}');
+    if (!root) return;
+    var track = root.querySelector('[data-pgrid-track]');
+    var prev = root.querySelector('[data-pgrid-prev]');
+    var next = root.querySelector('[data-pgrid-next]');
+    if (!track) return;
+
+    function step() {
+      var slide = track.querySelector('.pgrid__slide');
+      return slide ? slide.getBoundingClientRect().width + {{ section.settings.gap }} : 400;
+    }
+    function update() {
+      var max = track.scrollWidth - track.clientWidth;
+      root.classList.toggle('pgrid--fits', max <= 2);
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max - 2;
+    }
+    if (prev) prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    if (next) next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    if (window.ResizeObserver) { new ResizeObserver(update).observe(track); }
+    update();
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "Promo grid (4-up)",
+  "name": "Promo slider (Sephora)",
   "tag": "section",
   "class": "section-promo-grid",
-  "max_blocks": 6,
+  "max_blocks": 12,
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading (optional)" },
     {
-      "type": "range", "id": "columns", "label": "Columns on desktop",
-      "min": 2, "max": 6, "step": 1, "default": 4
+      "type": "range", "id": "slide_width", "label": "Slide width (desktop)",
+      "min": 300, "max": 800, "step": 5, "unit": "px", "default": 545
+    },
+    {
+      "type": "range", "id": "slide_width_mobile", "label": "Slide width (mobile)",
+      "min": 220, "max": 500, "step": 5, "unit": "px", "default": 340
     },
     {
       "type": "select", "id": "image_ratio", "label": "Image shape", "default": "3 / 2",
@@ -196,22 +275,17 @@
     },
     {
       "type": "range", "id": "caption_height", "label": "Caption height",
-      "min": 90, "max": 200, "step": 5, "unit": "px", "default": 130
+      "min": 90, "max": 220, "step": 5, "unit": "px", "default": 130
     },
-    { "type": "checkbox", "id": "mobile_two_up", "label": "Two per row on mobile", "default": false },
     {
-      "type": "range", "id": "gap", "label": "Gap between cards",
+      "type": "range", "id": "gap", "label": "Gap between slides",
       "min": 0, "max": 40, "step": 1, "unit": "px", "default": 8
     },
-    { "type": "checkbox", "id": "full_width", "label": "Full width (Sephora style)", "default": true },
     {
       "type": "range", "id": "gutter", "label": "Side gutter",
       "min": 0, "max": 60, "step": 2, "unit": "px", "default": 16
     },
-    {
-      "type": "range", "id": "max_width", "label": "Max content width", "info": "Only used when Full width is off.",
-      "min": 1000, "max": 1800, "step": 20, "unit": "px", "default": 1500
-    },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show arrows on desktop", "default": true },
     { "type": "color", "id": "section_bg", "label": "Section background", "default": "#ffffff" },
     {
       "type": "range", "id": "padding_top", "label": "Padding top",
@@ -227,7 +301,7 @@
       "type": "promo",
       "name": "Promo card",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image", "info": "Upload at 1200 x 800 px (3:2)." },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Upload at 1200 x 800 px (3:2), same as Sephora." },
         { "type": "text", "id": "tag", "label": "Ribbon text", "info": "Black bar over the image. Leave empty to hide." },
         {
           "type": "select", "id": "tag_position", "label": "Ribbon position", "default": "bottom",
@@ -247,7 +321,7 @@
   ],
   "presets": [
     {
-      "name": "Promo grid (4-up)",
+      "name": "Promo slider (Sephora)",
       "blocks": [
         {
           "type": "promo",
