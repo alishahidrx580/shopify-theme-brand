@@ -215,6 +215,11 @@
   .hf-nav[disabled] { opacity: 0; pointer-events: none; }
   .home-featured.hf--fits .hf-nav { display: none; }
   @media (max-width: 749px) { .hf-nav { display: none; } .home-featured__grid > * { flex: 0 0 160px; } }
+  /* --- Sephora rail geometry (measured from sephora.com) --- */
+  .home-featured__grid { gap: 12px; padding-block: 8px 12px; }
+  .home-featured__grid > * { flex: 0 0 198px; }
+  .hf-nav { top: 107px; }
+  @media (max-width: 749px) { .home-featured__grid > * { flex: 0 0 160px; } }
 /* === SEPHORA-GRADE POLISH (end) === */
 
 {% endstylesheet %}
