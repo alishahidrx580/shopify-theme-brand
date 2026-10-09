@@ -423,6 +423,17 @@
   @media (hover: none) {
     .product-card__quick-add { opacity: 1; transform: translateY(0); background: #1a1a1a; }
   }
+  /* --- Sephora card geometry (measured from sephora.com) --- */
+  .product-card { border: 0; border-radius: 4px; box-shadow: 0 0 6px rgba(0,0,0,.2); padding: 16px; background: #fff; transition: box-shadow .2s ease; }
+  .product-card:hover { box-shadow: 0 0 10px rgba(0,0,0,.28); }
+  .product-card__media { border-radius: 2px; }
+  .product-card__body { padding: 12px 0 0; gap: 0; }
+  .product-card__brand { font-size: 12px; line-height: 15px; font-weight: 700; margin: 0 0 1px; }
+  .product-card__title.font-display { font-size: 14px; line-height: 17.5px; font-weight: 400; min-height: 35px; margin: 0; }
+  .product-card__pricing { margin-top: 9px; }
+  .product-card__price { font-size: 16px; line-height: 20px; font-weight: 700; }
+  .product-card__compare { font-size: 13px; }
+  .product-card__quick-add { height: 36px; font-size: 11px; letter-spacing: 0.06em; }
 /* === SEPHORA-GRADE POLISH (end) === */
 
 {% endstylesheet %}
