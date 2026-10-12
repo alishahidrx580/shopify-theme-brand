@@ -12,6 +12,7 @@
     position: relative;
     grid-column: 1 / -1;
     padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    padding-top: calc(var(--pgrid-chrome, 121px) + {{ section.settings.padding_top }}px);
     background: {{ section.settings.section_bg }};
   }
   .pgrid-section-{{ section.id }} .pgrid-heading {
@@ -375,3 +376,6 @@
   ]
 }
 {% endschema %}
+<script>
+(function(){var s=document.querySelector('.pgrid-section-{{ section.id }}');if(!s){return;}function f(){var h=0;document.querySelectorAll('header,[class*=announcement]').forEach(function(e){if(getComputedStyle(e).position==='fixed'){var b=e.getBoundingClientRect().bottom;if(b>h){h=b;}}});var p=s.parentElement;var top=p&&p.parentElement&&p.parentElement.firstElementChild===p;s.style.setProperty('--pgrid-chrome',(top?h:0)+'px');}f();window.addEventListener('resize',f);window.addEventListener('load',f);})();
+</script>
