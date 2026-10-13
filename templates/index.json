@@ -94,7 +94,7 @@
           "settings": {
             "name": "CeraVe",
             "color": "#0b2a5b",
-            "product": "cerave-moisturizing-lotion-473ml"
+            "product": "cerave-am-facial-moisturizing-lotion-spf50-52ml"
           }
         },
         "b2": {
@@ -110,7 +110,7 @@
           "settings": {
             "name": "Dermalogica",
             "color": "#1a1a1a",
-            "product": "dermalogica-ultra-calming-cleanser"
+            "product": "dermalogica-multivitamin-power-rescue-masque"
           }
         },
         "b4": {
@@ -118,7 +118,7 @@
           "settings": {
             "name": "Avène",
             "color": "#c8102e",
-            "product": "avene-xeracalm-a-d-lipid-replenishing-cream"
+            "product": "avene-hyaluron-activ-b3-cell-renewal-cream"
           }
         },
         "b5": {
@@ -126,7 +126,7 @@
           "settings": {
             "name": "ACM",
             "color": "#00918a",
-            "product": "acm-duolys-eye-contour-cream"
+            "product": "acm-duolys-aha-10-regenerating-night-peeling-cream"
           }
         },
         "b6": {
@@ -172,6 +172,13 @@
         "b7",
         "b8",
         "b9"
+      ],
+      "custom_css": [
+        ".brand-strip__track {gap: 16px; padding: 8px 0 12px; }",
+        " .brand-strip__item, .brand-strip__track:not(:hover) .brand-strip__item:first-child {width: 164px; padding: 16px; background: #fff; border: 0; border-radius: 4px; box-shadow: 0 0 6px rgba(0,0,0,.2); transition: box-shadow .2s; }",
+        " .brand-strip__item:hover, .brand-strip__item:focus-visible {background: #fff; box-shadow: 0 0 10px rgba(0,0,0,.28); }",
+        " .brand-strip__media {flex: 0 0 auto; width: 100%; height: auto; aspect-ratio: 1 / 1; border-radius: 2px; background: transparent; }",
+        " .brand-strip__media img {}"
       ],
       "settings": {
         "eyebrow": "Shop by brand",
