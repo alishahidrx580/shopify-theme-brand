@@ -15,6 +15,7 @@
         "promo_HkqcEk": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/cham_3x2_1500x1000_8b9afc4b-8ee2-4eaa-a6bd-7461e1be9196.png",
             "tag": "Only at The Edit",
             "tag_position": "top",
             "title": "New Holiday Sets",
