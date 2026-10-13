@@ -17,9 +17,16 @@
         "menu": "main-menu"
       }
     },
-"edit_search": {"type": "edit-search", "settings": {}},
+    "edit_search": {
+      "type": "edit-search",
+      "settings": {}
+    },
     "home_announcement_bar_EAnmJA": {
       "type": "home-announcement-bar",
+      "custom_css": [
+        ".home-announcement-bar{background-color:#CE9A43}",
+        " .home-announcement-bar__msg{color:#0D1C42}"
+      ],
       "name": "Announcement Bar",
       "settings": {
         "message_1": "⚡ 10% OFF ALL PRODUCTS - Limited Time Offer!",
@@ -31,7 +38,7 @@
   },
   "order": [
     "header",
-"edit_search",
+    "edit_search",
     "home_announcement_bar_EAnmJA"
   ]
 }

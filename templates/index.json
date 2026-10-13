@@ -12,17 +12,17 @@
     "home_promo_grid_Pw9z4C": {
       "type": "home-promo-grid",
       "blocks": {
-        "promo_P3GyHh": {
+        "promo_HkqcEk": {
           "type": "promo",
           "settings": {
             "tag": "Only at The Edit",
             "tag_position": "top",
             "title": "New Holiday Sets",
             "text": "Meet the curated, limited-edition gift pairs and trios.",
-            "cta": "Shop now",
+            "cta": "SHOP NOW",
             "link": "",
-            "caption_bg": "#ededed",
-            "caption_fg": "#1a1a1a"
+            "caption_bg": "#0D1C42",
+            "caption_fg": "#FFFFFF"
           }
         },
         "promo_bHKLQe": {
@@ -34,8 +34,8 @@
             "text": "From the brands everyone is asking for.",
             "cta": "Shop now",
             "link": "",
-            "caption_bg": "#2b2ddb",
-            "caption_fg": "#ffffff"
+            "caption_bg": "#FCF1D0",
+            "caption_fg": "#0D1C42"
           }
         },
         "promo_DdNFUz": {
@@ -47,8 +47,8 @@
             "text": "Hydrate with body creams and balms.",
             "cta": "Shop now",
             "link": "",
-            "caption_bg": "#c9e2cd",
-            "caption_fg": "#1a1a1a"
+            "caption_bg": "#CE9A43",
+            "caption_fg": "#0D1C42"
           }
         },
         "promo_d83Q4k": {
@@ -60,13 +60,13 @@
             "text": "Creamy, matte formula in 18 long-lasting shades.",
             "cta": "Shop now",
             "link": "",
-            "caption_bg": "#a9d5d2",
-            "caption_fg": "#1a1a1a"
+            "caption_bg": "#22396F",
+            "caption_fg": "#FFFFFF"
           }
         }
       },
       "block_order": [
-        "promo_P3GyHh",
+        "promo_HkqcEk",
         "promo_bHKLQe",
         "promo_DdNFUz",
         "promo_d83Q4k"
@@ -174,11 +174,10 @@
         "b9"
       ],
       "custom_css": [
-        ".brand-strip__track {gap: 16px; padding: 8px 0 12px; }",
-        " .brand-strip__item, .brand-strip__track:not(:hover) .brand-strip__item:first-child {width: 164px; padding: 16px; background: #fff; border: 0; border-radius: 4px; box-shadow: 0 0 6px rgba(0,0,0,.2); transition: box-shadow .2s; }",
-        " .brand-strip__item:hover, .brand-strip__item:focus-visible {background: #fff; box-shadow: 0 0 10px rgba(0,0,0,.28); }",
-        " .brand-strip__media {flex: 0 0 auto; width: 100%; height: auto; aspect-ratio: 1 / 1; border-radius: 2px; background: transparent; }",
-        " .brand-strip__media img {}"
+        ".brand-strip__track{gap:16px;padding:8px 0 12px}",
+        " .brand-strip__item,.brand-strip__track:not(:hover) .brand-strip__item:first-child{width:164px;padding:16px;background:#fff;border-radius:4px;box-shadow:0 0 6px rgba(0,0,0,.2)}",
+        " .brand-strip__media{width:100%;height:auto;aspect-ratio:1;background:transparent}",
+        " .brand-strip__label{padding-top:12px;opacity:1}"
       ],
       "settings": {
         "eyebrow": "Shop by brand",
