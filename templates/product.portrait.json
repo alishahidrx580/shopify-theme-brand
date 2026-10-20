@@ -13,7 +13,9 @@
       "type": "main-product",
       "custom_css": [
         "h2 {font-size: 32px;}",
-        ".main-product__tile,.main-product__tile img {background-color: #ffffff !important;}"
+        ".main-product__tile,.main-product__tile img {background-color: #ffffff !important;}",
+        ".main-product__description ul{list-style:none;margin:0;padding:0;display:grid;gap:.85rem}",
+        ".main-product__description li{position:relative;margin:0;padding-left:2.2rem;line-height:1.45;font-size:.95rem}"
       ],
       "settings": {
         "free_shipping_override": 0,
@@ -121,21 +123,6 @@
         "heading_emphasis": ""
       }
     },
-    "178750122637f31d8e": {
-      "type": "apps",
-      "blocks": {
-        "gsc_instagram_feed_instafeed_bg3GdU": {
-          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
-          "settings": {
-            "widget_id": "GSC-rEKPvblDmLKTjeJ"
-          }
-        }
-      },
-      "block_order": [
-        "gsc_instagram_feed_instafeed_bg3GdU"
-      ],
-      "settings": {}
-    },
     "reviews": {
       "type": "product-reviews",
       "blocks": {
@@ -157,6 +144,21 @@
         "heading_lead": "Loved by skin like",
         "heading_emphasis": "yours."
       }
+    },
+    "178750122637f31d8e": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_bg3GdU": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-rEKPvblDmLKTjeJ"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_bg3GdU"
+      ],
+      "settings": {}
     }
   },
   "order": [
