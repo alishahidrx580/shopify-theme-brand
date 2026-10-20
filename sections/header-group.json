@@ -14,6 +14,8 @@
     "header": {
       "type": "header",
       "settings": {
+        "logo": "shopify://shop_images/the-edit-logo.png",
+        "logo_height": 30,
         "menu": "main-menu"
       }
     },
@@ -24,8 +26,8 @@
     "home_announcement_bar_EAnmJA": {
       "type": "home-announcement-bar",
       "custom_css": [
-        ".home-announcement-bar{background-color:#CE9A43}",
-        " .home-announcement-bar .home-announcement-bar__msg{color:#0D1C42}"
+        ".home-announcement-bar {background-color: #ce9a43;}",
+        ".home-announcement-bar .home-announcement-bar__msg {color: #0d1c42;}"
       ],
       "name": "Announcement Bar",
       "settings": {
