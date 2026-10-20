@@ -43,10 +43,11 @@
         "promo_DdNFUz": {
           "type": "promo",
           "settings": {
-            "tag": "Just in",
+            "image": "shopify://shop_images/edit_tile_cerave_1200x800_c6b02564-351d-4437-b946-69acccd03b85.jpg",
+            "tag": "",
             "tag_position": "bottom",
-            "title": "Just In: Body Care",
-            "text": "Hydrate with body creams and balms.",
+            "title": "CeraVe Cleansers",
+            "text": "Dermatologist-developed, fragrance-free. For every skin type.",
             "cta": "Shop now",
             "link": "",
             "caption_bg": "#ce9a43",
@@ -56,10 +57,11 @@
         "promo_d83Q4k": {
           "type": "promo",
           "settings": {
-            "tag": "Only at The Edit",
+            "image": "shopify://shop_images/edit_tile_medicube_1200x800_5fccba56-aa31-47eb-8e51-a6d4c05cdb02.jpg",
+            "tag": "",
             "tag_position": "bottom",
-            "title": "New Lip Liners",
-            "text": "Creamy, matte formula in 18 long-lasting shades.",
+            "title": "Medicube Capsule Creams",
+            "text": "K-beauty capsules — collagen, niacinamide and vitamin C.",
             "cta": "Shop now",
             "link": "",
             "caption_bg": "#22396f",
