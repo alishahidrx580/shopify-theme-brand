@@ -29,6 +29,7 @@
         "promo_bHKLQe": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/edit_tile_cham20_espresso_1800x1200_7ddc1f41-8b8b-4734-9d9e-6bc0179873fd.png",
             "tag": "",
             "tag_position": "bottom",
             "title": "Trending Mini Gifts",
