@@ -76,17 +76,43 @@
     {% sections 'footer-group' %}
 
     {% render 'cart-drawer' %}
+  
   {%- comment -%}
-    Cart drawer fix — added 2026-10-20.
+    Cart drawer fix + mobile quick-add — added 2026-10-20.
     Fixes: added items not appearing in the drawer; stale line-item keys after a
     cart change (remove/qty silently failing until the page was reloaded);
     lost updates when clicking +/- quickly; full page reload when the cart emptied.
-    Safe to delete this whole block to revert.
+    Also replaces the full-width ADD TO BAG bar on touch devices with a compact
+    + button so it stops covering the product photo.
+    Pairs with templates/cart.drawer.liquid. Safe to delete this whole block.
   {%- endcomment -%}
   <style>
     .cart-drawer__item[data-removing]{opacity:.45;transform:translateX(6px);pointer-events:none;transition:opacity .18s ease,transform .18s ease}
     .cart-drawer__item[data-loading]{opacity:.6;pointer-events:none}
     .cart-drawer__qty-value{min-width:1.5em;text-align:center;font-variant-numeric:tabular-nums}
+
+    @media (hover: none), (max-width: 749px) {
+      .product-card__quick-add {
+        inset: auto .5rem .5rem auto !important;
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        border-radius: 999px !important;
+        background: rgba(255,255,255,.92) !important;
+        color: #1a1a1a !important;
+        border: 1px solid rgba(0,0,0,.12) !important;
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .product-card__quick-add:not([data-loading])::after { content: none !important; display: none !important; }
+      .product-card__quick-add[data-loading]::after { margin-left: 0 !important; }
+      .product-card__quick-add[data-added] { background: #1a1a1a !important; color: #fff !important; border-color: #1a1a1a !important; }
+      .product-card__quick-add svg { width: 15px !important; height: 15px !important; }
+    }
   </style>
   <script>
   (function () {
@@ -99,6 +125,7 @@
     function money(c) { return MF.format(Math.round(c) / 100); }
 
     var state = { cart: null };
+    var viewUrl = '/cart?view=drawer';
     var J = { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' };
 
     var chain = Promise.resolve();
@@ -111,15 +138,40 @@
       document.body.style.overflow = 'hidden';
     }
 
+    function setCount(n) {
+      if (n === null || n === undefined || n === '') return;
+      document.querySelectorAll('[data-cart-count]').forEach(function (el) {
+        el.textContent = n;
+        el.setAttribute('data-cart-count', n);
+      });
+    }
+
+    function fetchDoc(url) {
+      return fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.text() : ''; })
+        .then(function (h) { return new DOMParser().parseFromString(h || '', 'text/html'); });
+    }
+
     var rerendering = null;
     function rerender() {
       if (rerendering) return rerendering;
-      rerendering = fetch('/cart', { headers: { 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
-        .then(function (r) { return r.text(); })
-        .then(function (html) {
-          var fresh = new DOMParser().parseFromString(html, 'text/html').querySelector('.cart-drawer__panel');
+      rerendering = fetchDoc(viewUrl)
+        .then(function (doc) {
+          if (!doc.querySelector('.cart-drawer__panel') && viewUrl !== '/cart') {
+            viewUrl = '/cart';
+            return fetchDoc(viewUrl);
+          }
+          return doc;
+        })
+        .then(function (doc) {
+          var fresh = doc.querySelector('.cart-drawer__panel');
           var panel = drawer.querySelector('.cart-drawer__panel');
           if (fresh && panel) panel.innerHTML = fresh.innerHTML;
+          var marker = doc.querySelector('#cart-count-sync');
+          var badge = doc.querySelector('[data-cart-count]');
+          if (marker) setCount(marker.getAttribute('data-count'));
+          else if (badge) setCount((badge.getAttribute('data-cart-count') || badge.textContent || '').trim());
+          state.cart = null;
         })
         .catch(function (e) { console.error('[cart] rerender', e); })
         .then(function () { rerendering = null; });
@@ -132,14 +184,9 @@
 
       var total = drawer.querySelector('.cart-drawer__total-amount');
       if (total) total.textContent = money(cart.total_price);
-
       var countText = drawer.querySelector('[data-cart-count-text]');
       if (countText) countText.textContent = cart.item_count > 0 ? '(' + cart.item_count + ')' : '';
-
-      document.querySelectorAll('[data-cart-count]').forEach(function (el) {
-        el.textContent = cart.item_count;
-        el.setAttribute('data-cart-count', cart.item_count);
-      });
+      setCount(cart.item_count);
 
       var items = cart.items.slice();
       var used = items.map(function () { return false; });
@@ -232,7 +279,7 @@
               return d;
             });
           })
-          .then(function () { return sync(); });
+          .then(function () { return rerender(); });
       });
     }
 
@@ -257,7 +304,8 @@
           })
           .then(function () {
             if (buyNow) { window.location.assign('/checkout'); return; }
-            return sync().then(function () { btn.removeAttribute('data-loading'); openDrawer(); });
+            openDrawer();
+            return rerender().then(function () { btn.removeAttribute('data-loading'); });
           })
           .catch(function (e) {
             console.error('[cart] add', e);
@@ -277,12 +325,12 @@
         if (!id) return;
         qa.setAttribute('data-loading', 'true');
         qa.disabled = true;
+        openDrawer();
         addVariant(id, 1).then(function () {
           qa.removeAttribute('data-loading');
           qa.disabled = false;
           qa.setAttribute('data-added', 'true');
           setTimeout(function () { qa.removeAttribute('data-added'); }, 1500);
-          openDrawer();
         }, function () {
           qa.removeAttribute('data-loading');
           qa.disabled = false;
@@ -330,6 +378,5 @@
     setTimeout(hook, 0);
   })();
   </script>
-
-  </body>
+</body>
 </html>
