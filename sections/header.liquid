@@ -29,7 +29,7 @@
          the theme's existing font-display serif class. This removes the
          dependency on the malformed SVG asset entirely. -->
     <a href="{{ routes.root_url }}" class="header__logo font-display" aria-label="{{ 'general.brand.name' | t }}">
-      THE EDIT
+      {%- if section.settings.logo -%}<img class="site-logo-img" src="{{ section.settings.logo | image_url: height: 200 }}" alt="{{ shop.name | escape }}" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}" style="height: {{ section.settings.logo_height | default: 30 }}px;">{%- else -%}THE EDIT{%- endif -%}
     </a>
 
     <div class="header__right">
@@ -83,7 +83,7 @@
     <!-- FIXED: same text-based wordmark swap applied to the mobile menu logo
          for consistency. -->
     <a href="{{ routes.root_url }}" class="mobile-menu__logo font-display" aria-label="{{ 'general.brand.name' | t }}">
-      THE EDIT
+      {%- if section.settings.logo -%}<img class="site-logo-img" src="{{ section.settings.logo | image_url: height: 200 }}" alt="{{ shop.name | escape }}" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}" style="height: {{ section.settings.logo_height | default: 30 }}px;">{%- else -%}THE EDIT{%- endif -%}
     </a>
     <button
       type="button"
@@ -105,6 +105,17 @@
 </div>
 
 {% stylesheet %}
+  .site-logo-img {
+    display: block;
+    width: auto;
+    max-width: min(55vw, 420px);
+    object-fit: contain;
+  }
+
+  .mobile-menu__logo .site-logo-img {
+    max-width: 60vw;
+  }
+
   .header {
     position: fixed;
     top: 0;
@@ -399,6 +410,22 @@
 {
   "name": "t:sections.header.name",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "Transparent PNG or SVG. Leave empty to fall back to the THE EDIT text wordmark."
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo height",
+      "min": 16,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
     {
       "type": "link_list",
       "id": "menu",
