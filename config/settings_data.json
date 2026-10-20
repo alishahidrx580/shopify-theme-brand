@@ -9,7 +9,7 @@
  */
 {
   "current": {
-    "favicon": "shopify://shop_images/favicon.png",
+    "favicon": "shopify://shop_images/the-edit-favicon.png",
     "free_shipping_threshold": 1000,
     "gift_wrap_product": "gift-wrap-handwritten-card",
     "content_for_index": [],
