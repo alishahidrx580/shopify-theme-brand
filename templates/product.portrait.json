@@ -14,8 +14,8 @@
       "custom_css": [
         "h2 {font-size: 32px;}",
         ".main-product__tile,.main-product__tile img {background-color: #ffffff !important;}",
-        ".main-product__description ul{list-style:none;margin:0;padding:0;display:grid;gap:.85rem}",
-        ".main-product__description li{position:relative;margin:0;padding-left:2.2rem;line-height:1.45;font-size:.95rem}"
+        ".main-product__description ul {list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem;}",
+        ".main-product__description li {position: relative; margin: 0; padding-left: 2.2rem; line-height: 1.45; font-size: 0.95rem;}"
       ],
       "settings": {
         "free_shipping_override": 0,
@@ -80,7 +80,7 @@
         "eyebrow": "The Ritual",
         "heading_lead": "How to",
         "heading_emphasis": "apply.",
-        "body": "<p>A few unhurried minutes, twice a day. Consistency is what skin responds to.</p>"
+        "body": "<p>A few unhurried minutes. Consistency is what skin responds to.</p>"
       }
     },
     "product_sensory_3M39ht": {
