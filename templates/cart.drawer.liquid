@@ -1,0 +1,6 @@
+{%- comment -%}
+  Lightweight drawer-only render used by the cart fix in layout/theme.liquid.
+  Fetched as /cart?view=drawer so the drawer can refresh without pulling the
+  whole cart page. Safe to delete together with that block.
+{%- endcomment -%}
+{% layout none %}{% render 'cart-drawer' %}<span id="cart-count-sync" data-count="{{ cart.item_count }}" hidden></span>
