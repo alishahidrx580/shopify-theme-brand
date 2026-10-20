@@ -76,5 +76,260 @@
     {% sections 'footer-group' %}
 
     {% render 'cart-drawer' %}
+  {%- comment -%}
+    Cart drawer fix — added 2026-10-20.
+    Fixes: added items not appearing in the drawer; stale line-item keys after a
+    cart change (remove/qty silently failing until the page was reloaded);
+    lost updates when clicking +/- quickly; full page reload when the cart emptied.
+    Safe to delete this whole block to revert.
+  {%- endcomment -%}
+  <style>
+    .cart-drawer__item[data-removing]{opacity:.45;transform:translateX(6px);pointer-events:none;transition:opacity .18s ease,transform .18s ease}
+    .cart-drawer__item[data-loading]{opacity:.6;pointer-events:none}
+    .cart-drawer__qty-value{min-width:1.5em;text-align:center;font-variant-numeric:tabular-nums}
+  </style>
+  <script>
+  (function () {
+    'use strict';
+    var drawer = document.querySelector('[data-cart-drawer]');
+    if (!drawer || window.__cartFixV2) return;
+    window.__cartFixV2 = true;
+
+    var MF = new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', maximumFractionDigits: 0 });
+    function money(c) { return MF.format(Math.round(c) / 100); }
+
+    var state = { cart: null };
+    var J = { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' };
+
+    var chain = Promise.resolve();
+    function queue(fn) { chain = chain.then(fn, fn); return chain; }
+
+    function openDrawer() {
+      if (window.CartDrawer && window.CartDrawer.open) { window.CartDrawer.open(); return; }
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.setAttribute('data-drawer-open', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    var rerendering = null;
+    function rerender() {
+      if (rerendering) return rerendering;
+      rerendering = fetch('/cart', { headers: { 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
+        .then(function (r) { return r.text(); })
+        .then(function (html) {
+          var fresh = new DOMParser().parseFromString(html, 'text/html').querySelector('.cart-drawer__panel');
+          var panel = drawer.querySelector('.cart-drawer__panel');
+          if (fresh && panel) panel.innerHTML = fresh.innerHTML;
+        })
+        .catch(function (e) { console.error('[cart] rerender', e); })
+        .then(function () { rerendering = null; });
+      return rerendering;
+    }
+
+    function paint(cart) {
+      if (!cart || !cart.items) return;
+      state.cart = cart;
+
+      var total = drawer.querySelector('.cart-drawer__total-amount');
+      if (total) total.textContent = money(cart.total_price);
+
+      var countText = drawer.querySelector('[data-cart-count-text]');
+      if (countText) countText.textContent = cart.item_count > 0 ? '(' + cart.item_count + ')' : '';
+
+      document.querySelectorAll('[data-cart-count]').forEach(function (el) {
+        el.textContent = cart.item_count;
+        el.setAttribute('data-cart-count', cart.item_count);
+      });
+
+      var items = cart.items.slice();
+      var used = items.map(function () { return false; });
+
+      Array.prototype.forEach.call(drawer.querySelectorAll('[data-line-key]'), function (row) {
+        var key = row.getAttribute('data-line-key');
+        var vid = String(key).split(':')[0];
+        var idx = -1;
+        items.forEach(function (it, i) { if (idx < 0 && !used[i] && it.key === key) idx = i; });
+        if (idx < 0) items.forEach(function (it, i) { if (idx < 0 && !used[i] && String(it.variant_id) === vid) idx = i; });
+        if (idx < 0) { row.remove(); return; }
+        used[idx] = true;
+        var it = items[idx];
+        row.setAttribute('data-line-key', it.key);
+        row.setAttribute('data-line', idx + 1);
+        var q = row.querySelector('.cart-drawer__qty-value');
+        if (q) q.textContent = it.quantity;
+        var lp = row.querySelector('.cart-drawer__item-line-price');
+        if (lp) lp.textContent = money(it.final_line_price);
+        row.removeAttribute('data-loading');
+        row.removeAttribute('data-removing');
+      });
+
+      var orphan = false;
+      used.forEach(function (u) { if (!u) orphan = true; });
+      var hasList = !!drawer.querySelector('.cart-drawer__items');
+      if (orphan || (cart.item_count === 0 && hasList) || (cart.item_count > 0 && !hasList)) return rerender();
+    }
+
+    function sync() {
+      return fetch('/cart.js', { headers: J, credentials: 'same-origin' })
+        .then(function (r) { return r.json(); })
+        .then(paint);
+    }
+
+    function resolve(key) {
+      var c = state.cart;
+      if (!c || !c.items) return key;
+      var i, vid = String(key).split(':')[0];
+      for (i = 0; i < c.items.length; i++) if (c.items[i].key === key) return key;
+      for (i = 0; i < c.items.length; i++) if (String(c.items[i].variant_id) === vid) return c.items[i].key;
+      return key;
+    }
+
+    function post(key, qty) {
+      return fetch('/cart/change.js', {
+        method: 'POST', credentials: 'same-origin', headers: J,
+        body: JSON.stringify({ id: key, quantity: qty })
+      }).then(function (r) { return r.ok ? r.json() : null; });
+    }
+
+    var pending = Object.create(null);
+
+    function currentQty(k) {
+      if (k in pending) return pending[k];
+      var sel = window.CSS && CSS.escape ? CSS.escape(k) : k;
+      var r = drawer.querySelector('[data-line-key="' + sel + '"]');
+      if (!r) return 0;
+      var v = r.querySelector('.cart-drawer__qty-value');
+      return parseInt(v && v.textContent, 10) || 0;
+    }
+
+    function changeLine(key, qty) {
+      pending[key] = qty;
+      return queue(function () {
+        var target = pending[key];
+        if (target === undefined) return;
+        delete pending[key];
+        var k = resolve(key);
+        return post(k, target).then(function (cart) {
+          if (cart) return paint(cart);
+          return sync().then(function () {
+            var k2 = resolve(key);
+            if (k2 === k) return;
+            return post(k2, target).then(function (c2) { return c2 ? paint(c2) : sync(); });
+          });
+        }).catch(function (e) { console.error('[cart] change', e); return sync(); });
+      });
+    }
+
+    function addVariant(id, qty) {
+      return queue(function () {
+        return fetch('/cart/add.js', {
+          method: 'POST', credentials: 'same-origin', headers: J,
+          body: JSON.stringify({ id: id, quantity: qty || 1 })
+        })
+          .then(function (r) {
+            return r.json().then(function (d) {
+              if (!r.ok) throw new Error(d.description || d.message || 'add failed');
+              return d;
+            });
+          })
+          .then(function () { return sync(); });
+      });
+    }
+
+    function submitForm(btn, form) {
+      if (!btn) return;
+      var sec = btn.closest && btn.closest('[data-product-section]');
+      form = form || (sec && sec.querySelector('[data-product-form]')) || document.querySelector('[data-product-form]');
+      if (!form || btn.disabled) return;
+      var buyNow = btn.hasAttribute('data-buy-now');
+      var fd = new FormData(form);
+      btn.setAttribute('data-loading', 'true');
+      queue(function () {
+        return fetch('/cart/add.js', {
+          method: 'POST', body: fd, credentials: 'same-origin',
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+          .then(function (r) {
+            return r.json().then(function (d) {
+              if (!r.ok) throw new Error(d.description || 'add failed');
+              return d;
+            });
+          })
+          .then(function () {
+            if (buyNow) { window.location.assign('/checkout'); return; }
+            return sync().then(function () { btn.removeAttribute('data-loading'); openDrawer(); });
+          })
+          .catch(function (e) {
+            console.error('[cart] add', e);
+            btn.removeAttribute('data-loading');
+            try { form.submit(); } catch (x) {}
+          });
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest) return;
+      var qa = e.target.closest('[data-quick-add]');
+      if (qa) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        if (qa.hasAttribute('data-loading')) return;
+        var id = qa.getAttribute('data-variant-id');
+        if (!id) return;
+        qa.setAttribute('data-loading', 'true');
+        qa.disabled = true;
+        addVariant(id, 1).then(function () {
+          qa.removeAttribute('data-loading');
+          qa.disabled = false;
+          qa.setAttribute('data-added', 'true');
+          setTimeout(function () { qa.removeAttribute('data-added'); }, 1500);
+          openDrawer();
+        }, function () {
+          qa.removeAttribute('data-loading');
+          qa.disabled = false;
+        });
+        return;
+      }
+      var hit = e.target.closest('[data-cart-qty]') || e.target.closest('[data-cart-remove]');
+      if (hit && drawer.contains(hit)) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        var row = hit.closest('[data-line-key]');
+        if (!row) return;
+        var key = row.getAttribute('data-line-key');
+        if (!key) return;
+        var target;
+        if (hit.hasAttribute('data-cart-remove')) {
+          target = 0;
+        } else {
+          var d = parseInt(hit.getAttribute('data-delta'), 10) || 0;
+          target = Math.max(0, currentQty(key) + d);
+        }
+        if (target === 0) {
+          row.setAttribute('data-removing', 'true');
+        } else {
+          var qv = row.querySelector('.cart-drawer__qty-value');
+          if (qv) qv.textContent = target;
+        }
+        changeLine(key, target);
+        return;
+      }
+      var sticky = e.target.closest('[data-atc-sticky]');
+      if (sticky) { e.preventDefault(); e.stopImmediatePropagation(); submitForm(sticky); }
+    }, true);
+
+    document.addEventListener('submit', function (e) {
+      if (!e.target.closest) return;
+      var form = e.target.closest('[data-product-form]');
+      if (!form) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      submitForm(e.submitter || form.querySelector('[data-atc]'), form);
+    }, true);
+
+    function hook() { if (window.CartDrawer) window.CartDrawer.applyCart = function (c) { paint(c); }; }
+    hook();
+    document.addEventListener('DOMContentLoaded', hook);
+    setTimeout(hook, 0);
+  })();
+  </script>
+
   </body>
 </html>
