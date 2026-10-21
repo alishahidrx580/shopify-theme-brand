@@ -215,6 +215,11 @@
 .home-pillars .home-pillars__body p{margin:0}
 @media(min-width:768px){.home-pillars .home-pillars__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}.home-pillars .home-pillars__item{flex:none}}
 @media(max-width:767px){.home-pillars .home-pillars__number{font-size:10px;letter-spacing:.08em;padding:6px 8px}.home-pillars .home-pillars__title{font-size:16px;line-height:20px;padding:16px 16px 0}.home-pillars .home-pillars__body{font-size:13px;line-height:16px;padding:4px 16px 16px}}
+.home-pillars .home-pillars__number{display:none}
+.home-pillars .home-pillars__item:not(.home-pillars__item--image){padding-top:0}
+.home-pillars .home-pillars__media{aspect-ratio:auto;background:transparent}
+.home-pillars .home-pillars__img{position:static;display:block;width:100%;height:auto;object-fit:contain}
+.home-pillars .home-pillars__body{flex:1}
 /* === HERO-STYLE PILLARS (end) === */
 
 {% endstylesheet %}
