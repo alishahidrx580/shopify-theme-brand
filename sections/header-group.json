@@ -32,8 +32,8 @@
       "name": "Announcement Bar",
       "settings": {
         "message_1": "⚡ 10% OFF ALL PRODUCTS - Limited Time Offer!",
-        "message_2": "✅ 100% GENUINE PRODUCTS - SEALED, AUTHENTICATED & IMPORTED",
-        "message_3": "Dermatologist-grade skincare. Original packaging. Nationwide delivery.",
+        "message_2": "✅ 100% ORIGINAL PRODUCTS - SEALED, BATCH-VERIFIED",
+        "message_3": "Pharmacy brands + our partner CHAM. Original packaging. Nationwide delivery.",
         "rotation_ms": 4000
       }
     }
