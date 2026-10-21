@@ -199,6 +199,23 @@
   }
   @media (max-width: 749px) { .home-pillars { padding-block: 48px; } }
   /* === SEPHORA-GRADE POLISH (end) === */
+/* === HERO-STYLE PILLARS (start) - delete this block to revert === */
+.home-pillars .home-pillars__grid{display:flex;gap:8px;margin-top:2.5rem;padding:0;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:none}
+.home-pillars .home-pillars__grid::-webkit-scrollbar{display:none}
+.home-pillars .home-pillars__item{--card-bg:#0d1c42;--card-fg:#fff;position:relative;flex:0 0 min(340px,85%);scroll-snap-align:start;display:flex;flex-direction:column;border:0;padding:0;background:var(--card-bg);color:var(--card-fg);overflow:hidden}
+.home-pillars .home-pillars__item:nth-child(3n+2){--card-bg:#fcf1d0;--card-fg:#0d1c42}
+.home-pillars .home-pillars__item:nth-child(3n){--card-bg:#ce9a43;--card-fg:#0d1c42}
+.home-pillars .home-pillars__item:not(.home-pillars__item--image){padding-top:36px}
+.home-pillars .home-pillars__media{aspect-ratio:3/2;margin:0;background:#f3f3f3}
+.home-pillars .home-pillars__item--image:hover .home-pillars__img{transform:none}
+.home-pillars .home-pillars__number{position:absolute;top:0;left:0;right:0;z-index:1;background:#000;color:#fff;font-family:inherit;font-size:13px;font-weight:700;line-height:1.2;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:9px 10px}
+.home-pillars .home-pillars__number::before{content:"Pillar "}
+.home-pillars .home-pillars__title{margin:0;padding:24px 24px 0;font-family:inherit;font-size:20px;line-height:25px;font-weight:700;letter-spacing:0;color:inherit}
+.home-pillars .home-pillars__body{margin:0;padding:4px 24px 24px;font-size:14px;line-height:17.5px;font-weight:400;color:inherit}
+.home-pillars .home-pillars__body p{margin:0}
+@media(min-width:768px){.home-pillars .home-pillars__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}.home-pillars .home-pillars__item{flex:none}}
+@media(max-width:767px){.home-pillars .home-pillars__number{font-size:10px;letter-spacing:.08em;padding:6px 8px}.home-pillars .home-pillars__title{font-size:16px;line-height:20px;padding:16px 16px 0}.home-pillars .home-pillars__body{font-size:13px;line-height:16px;padding:4px 16px 16px}}
+/* === HERO-STYLE PILLARS (end) === */
 
 {% endstylesheet %}
 
