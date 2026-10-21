@@ -33,6 +33,26 @@
         "cta_style": "outline"
       }
     },
+    "home_image_text_egwpph": {
+      "type": "home-image-text",
+      "name": "t:sections.home_image_text.presets_default",
+      "settings": {
+        "layout_style": "contained",
+        "padding_size": "default",
+        "image": "shopify://shop_images/Mask_box_with_roses_ice_202606121910.jpg",
+        "image_side": "left",
+        "image_frame": "natural",
+        "image_position": "center center",
+        "background": "default",
+        "eyebrow": "CHAM · OUR PARTNER BRAND",
+        "heading_lead": "Calm, composed skincare.",
+        "heading_emphasis": "Born near Paris.",
+        "body": "<p>CHAM began in a small laboratory outside Paris, with a simple idea: skin is a system to support, not a surface to correct. Each formula is developed with cosmetic chemists to French formulation standards, favouring balance and a considered base over a single hero ingredient. The Edit is CHAM's official partner in Pakistan.</p>",
+        "cta_label": "Explore the range",
+        "cta_url": "shopify://collections",
+        "cta_style": "outline"
+      }
+    },
     "home_brand_logos_J7hYdb": {
       "type": "home-brand-logos",
       "blocks": {
@@ -155,6 +175,7 @@
   "order": [
     "main",
     "home_image_text_CjPz7G",
+    "home_image_text_egwpph",
     "home_brand_logos_J7hYdb",
     "178750218704cf1e1e"
   ]
