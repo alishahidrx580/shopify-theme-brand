@@ -405,7 +405,7 @@
         "tick_1": {
           "type": "marquee_item",
           "settings": {
-            "text": "Imported from UAE"
+            "text": "Pharmacy brands imported from UAE"
           }
         },
         "tick_2": {
@@ -417,7 +417,7 @@
         "tick_3": {
           "type": "marquee_item",
           "settings": {
-            "text": "Dermatologist Brands"
+            "text": "Official CHAM partner"
           }
         },
         "tick_4": {
