@@ -557,8 +557,8 @@
           "settings": {
             "image": "shopify://shop_images/Woman_s_hand_holding_product_202607151618.jpg",
             "number": "01",
-            "title": "Directly Imported",
-            "body": "<p>Purchased in person from licensed UAE pharmacies. Not from local distributors. From the shelf, sealed, shipped to Pakistan.</p>"
+            "title": "Pharmacy Brands, Imported",
+            "body": "<p>Our pharmacy brands are purchased in person from licensed UAE pharmacies. Not from local distributors. From the shelf, sealed, shipped to Pakistan.</p>"
           }
         },
         "t2": {
@@ -567,16 +567,16 @@
             "image": "shopify://shop_images/Lait_hydratant_Cerave.jpg",
             "number": "02",
             "title": "Sealed on Arrival",
-            "body": "<p>Original manufacturer packaging. Tamper-evident seals intact. Batch codes visible. If broken on arrival, we replace it.</p>"
+            "body": "<p>Original manufacturer packaging with seals intact. We send you a photo of the batch code before dispatch. Fake or damaged? Full refund.</p>"
           }
         },
         "t3": {
           "type": "pillar",
           "settings": {
-            "image": "shopify://shop_images/Skincare_products_arranged_on_ma__202607151538.jpg",
+            "image": "shopify://shop_images/Mask_box_with_roses_ice_202606121910.jpg",
             "number": "03",
-            "title": "Dermatologist Brands",
-            "body": "<p>ACM, CeraVe, La Roche-Posay, Bioderma, Avène, ISDIN, Uriage, Dermalogica, No7, COSRX and more. Pharmacy-grade. Dermatologist-recommended. Not influencer brands.</p>"
+            "title": "Official CHAM Partner",
+            "body": "<p>CHAM, designed in France, is sold in Pakistan through The Edit, alongside pharmacy brands like ACM, CeraVe, La Roche-Posay, ISDIN and Dermalogica.</p>"
           }
         }
       },
