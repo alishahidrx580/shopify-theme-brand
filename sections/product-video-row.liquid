@@ -2,6 +2,13 @@
   assign eyebrow = section.settings.eyebrow
   assign heading = section.settings.heading
   assign ratio = section.settings.ratio
+  assign has_media = false
+  for block in section.blocks
+    if block.settings.video != blank or block.settings.video_url != blank or block.settings.poster != blank
+      assign has_media = true
+      break
+    endif
+  endfor
 -%}
 
 <style>
@@ -34,6 +41,7 @@
 @media (prefers-reduced-motion:reduce){#shopify-section-{{ section.id }} .pvm__track{scroll-behavior:auto;}}
 </style>
 
+{%- if has_media or request.design_mode -%}
 <section class="pvm full-width">
   <div class="pvm__inner cham-container">
     {%- if eyebrow != blank or heading != blank -%}
@@ -75,6 +83,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 <script>
 (function(){
