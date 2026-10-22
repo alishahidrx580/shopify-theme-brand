@@ -128,7 +128,7 @@ function pick(L,s){for(var i=0;i<L.length;i++)if(L[i][1].test(s))return L[i][0];
 function prep(p){
 var v=p.variants[0]||{},pr=parseFloat(v.price)||0;
 var tg=p.tags.map(norm).filter(function(t){return!SKIP.test(t)}),ts=' '+tg.join(' ')+' ',tt=' '+norm(p.title)+' ',vn=norm(p.vendor);
-var o={h:p.handle,t:p.title,v:p.vendor,vn:vn,o:pr,p:Math.round(pr*90)/100,vid:v.id,a:p.variants.some(function(x){return x.available}),i:p.images[0]?p.images[0].src:'',j:p.images[1]?p.images[1].src:'',tn:tt,s:tt+vn+' '+ts};
+var o={h:p.handle,t:p.title,v:p.vendor,vn:vn,o:(parseFloat(v.compare_at_price)>pr?parseFloat(v.compare_at_price):pr),p:(parseFloat(v.compare_at_price)>pr?pr:Math.round(pr*90)/100),vid:v.id,a:p.variants.some(function(x){return x.available}),i:p.images[0]?p.images[0].src:'',j:p.images[1]?p.images[1].src:'',tn:tt,s:tt+vn+' '+ts};
 o.c=pick(CT,tt)||pick(CT,ts)||'Treatments';
 o.sk=SK.filter(function(x){return x[1].test(ts)}).map(function(x){return x[0]});
 o.cn=CN.filter(function(x){return x[1].test(o.s)}).map(function(x){return x[0]});
