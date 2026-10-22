@@ -1,0 +1,131 @@
+{%- liquid
+  assign motion = product.metafields.custom.motion_videos.value
+  assign label = eyebrow | default: 'See it in motion'
+  assign count = 0
+  if motion != blank
+    assign count = motion.size
+  endif
+-%}
+{%- if count > 0 -%}
+<div class="cvr" data-cvr>
+  <span class="eyebrow cvr__label">{{ label }}</span>
+
+  <div class="cvr__viewport">
+    <button type="button" class="cvr__nav cvr__nav--prev" aria-label="Previous videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+
+    <div class="cvr__track">
+      {%- for item in motion -%}
+        <div class="cvr__card">
+          <div class="cvr__media">
+            {%- if item.sources != blank -%}
+              {{ item | video_tag: image_size: '600x', autoplay: true, loop: true, muted: true, controls: false }}
+              <button type="button" class="cvr__sound" aria-pressed="false" aria-label="Turn sound on or off">
+                <svg class="cvr__off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                <svg class="cvr__on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+              </button>
+            {%- else -%}
+              <img src="{{ item | image_url: width: 600 }}" alt="" loading="lazy" width="600" height="1067">
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <button type="button" class="cvr__nav cvr__nav--next" aria-label="More videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+  </div>
+</div>
+
+<style>
+.cvr{margin:18px 0 2px;}
+.cvr__label{display:block;margin:0 0 10px;}
+.cvr__viewport{position:relative;}
+.cvr__track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;}
+.cvr__track::-webkit-scrollbar{display:none;}
+.cvr__card{flex:0 0 calc((100% - 20px) / 3);scroll-snap-align:start;}
+.cvr__media{position:relative;aspect-ratio:9/16;border-radius:3px;overflow:hidden;background:rgba(0,0,0,.06);}
+.cvr__media video,.cvr__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+.cvr__sound{position:absolute;right:6px;bottom:6px;width:26px;height:26px;border-radius:50%;border:0;cursor:pointer;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;padding:0;}
+.cvr__sound svg{width:13px;height:13px;}
+.cvr__sound .cvr__on{display:none;}
+.cvr__sound.is-on .cvr__on{display:block;}
+.cvr__sound.is-on .cvr__off{display:none;}
+.cvr__nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:0;cursor:pointer;background:#8a6a2f;color:#fff;display:grid;place-items:center;z-index:2;padding:0;transition:opacity .2s ease;}
+.cvr__nav svg{width:14px;height:14px;}
+.cvr__nav--prev{left:-10px;}
+.cvr__nav--next{right:-10px;}
+@media (max-width:749px){.cvr__card{flex:0 0 calc((100% - 10px) / 2);}}
+@media (prefers-reduced-motion:reduce){.cvr__track{scroll-behavior:auto;}}
+</style>
+
+<script>
+(function(){
+  var root = document.querySelector('[data-cvr]');
+  if (!root) return;
+  var track = root.querySelector('.cvr__track');
+  if (!track) return;
+  var prev = root.querySelector('.cvr__nav--prev');
+  var next = root.querySelector('.cvr__nav--next');
+  var vids = Array.prototype.slice.call(root.querySelectorAll('video'));
+  var btns = Array.prototype.slice.call(root.querySelectorAll('.cvr__sound'));
+
+  function step(){
+    var c = track.querySelector('.cvr__card');
+    if (!c) return 200;
+    return c.getBoundingClientRect().width + 10;
+  }
+
+  function sync(){
+    var max = track.scrollWidth - track.clientWidth;
+    var ok = max > 4;
+    if (prev) { prev.style.display = ok ? '' : 'none'; prev.style.opacity = track.scrollLeft <= 4 ? '0.35' : '1'; }
+    if (next) { next.style.display = ok ? '' : 'none'; next.style.opacity = track.scrollLeft >= max - 4 ? '0.35' : '1'; }
+  }
+
+  if (prev) prev.addEventListener('click', function(){ track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+  if (next) next.addEventListener('click', function(){ track.scrollBy({ left: step(), behavior: 'smooth' }); });
+  track.addEventListener('scroll', sync);
+  window.addEventListener('resize', sync);
+  sync();
+
+  vids.forEach(function(v){
+    v.muted = true;
+    v.defaultMuted = true;
+    v.loop = true;
+    v.controls = false;
+    v.preload = 'metadata';
+    v.playsInline = true;
+    v.setAttribute('muted', '');
+    v.setAttribute('playsinline', '');
+  });
+
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var v = e.target;
+        if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+        else { v.pause(); }
+      });
+    }, { threshold: 0.3 });
+    vids.forEach(function(v){ io.observe(v); });
+  }
+
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var card = b.closest('.cvr__card');
+      var v = card ? card.querySelector('video') : null;
+      if (!v) return;
+      var turningOn = v.muted;
+      vids.forEach(function(o){ o.muted = true; });
+      btns.forEach(function(x){ x.classList.remove('is-on'); x.setAttribute('aria-pressed', 'false'); });
+      if (turningOn) {
+        v.muted = false;
+        b.classList.add('is-on');
+        b.setAttribute('aria-pressed', 'true');
+        var p = v.play();
+        if (p && p.catch) p.catch(function(){});
+      }
+    });
+  });
+})();
+</script>
+{%- endif -%}
