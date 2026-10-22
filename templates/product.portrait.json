@@ -48,7 +48,6 @@
         "video_aBtTDP": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/cham video.mp4",
             "video_url": "",
             "caption": ""
           }
