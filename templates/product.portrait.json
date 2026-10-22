@@ -159,6 +159,46 @@
         "gsc_instagram_feed_instafeed_bg3GdU"
       ],
       "settings": {}
+    },
+    "product_video_row_3bdwgc": {
+      "type": "product-video-row",
+      "blocks": {
+        "video_aBtTDP": {
+          "type": "video",
+          "settings": {
+            "caption": ""
+          }
+        },
+        "video_y6GEDd": {
+          "type": "video",
+          "settings": {
+            "caption": ""
+          }
+        },
+        "video_UEeXGQ": {
+          "type": "video",
+          "settings": {
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_aBtTDP",
+        "video_y6GEDd",
+        "video_UEeXGQ"
+      ],
+      "name": "See it in motion",
+      "settings": {
+        "eyebrow": "See it in motion",
+        "heading": "",
+        "per_view": 3,
+        "per_view_mobile": 2,
+        "ratio": "9/16",
+        "show_sound": true,
+        "nav_colour": "#8a6a2f",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
     }
   },
   "order": [
@@ -171,6 +211,7 @@
     "product_faq_MJ4heB",
     "product_regimen_cDFkb3",
     "reviews",
-    "178750122637f31d8e"
+    "178750122637f31d8e",
+    "product_video_row_3bdwgc"
   ]
 }
