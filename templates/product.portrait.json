@@ -42,49 +42,6 @@
         "gallery_focal_y": 50
       }
     },
-    "product_video_row_3bdwgc": {
-      "type": "product-video-row",
-      "blocks": {
-        "video_aBtTDP": {
-          "type": "video",
-          "settings": {
-            "video_url": "",
-            "caption": ""
-          }
-        },
-        "video_y6GEDd": {
-          "type": "video",
-          "settings": {
-            "video_url": "",
-            "caption": ""
-          }
-        },
-        "video_UEeXGQ": {
-          "type": "video",
-          "settings": {
-            "video_url": "",
-            "caption": ""
-          }
-        }
-      },
-      "block_order": [
-        "video_aBtTDP",
-        "video_y6GEDd",
-        "video_UEeXGQ"
-      ],
-      "name": "See it in motion",
-      "settings": {
-        "eyebrow": "See it in motion",
-        "heading": "",
-        "per_view": 3,
-        "per_view_mobile": 2,
-        "ratio": "9/16",
-        "show_sound": true,
-        "nav_colour": "#8a6a2f",
-        "padding_top": 32,
-        "padding_bottom": 32
-      }
-    },
     "product_pillars_PjkQDb": {
       "type": "product-pillars",
       "name": "t:sections.product_pillars.name",
@@ -206,7 +163,6 @@
   },
   "order": [
     "main",
-    "product_video_row_3bdwgc",
     "product_pillars_PjkQDb",
     "product_key_ingredients_8xX9FC",
     "product_ritual_9zCVxU",
