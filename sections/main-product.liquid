@@ -187,6 +187,7 @@ endif
             </span>
           {%- endif -%}
           </div>
+{%- if compare_at_price > current_variant.price -%}{%- assign save_cents = compare_at_price | minus: current_variant.price -%}{%- assign save_pct = save_cents | times: 100.0 | divided_by: compare_at_price | round -%}<div class="main-product__save-line" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 14px"><span class="main-product__save-pill" style="background:#ce9a43;color:#0d1c42;font-weight:700;font-size:12px;letter-spacing:.06em;padding:4px 10px;border-radius:999px;text-transform:uppercase">{{ save_pct }}% OFF</span><span class="main-product__save-text" style="font-size:13px;font-weight:600;opacity:.85">You save {{ save_cents | money }}</span></div>{%- endif -%}
 
           <button
             type="submit"
