@@ -211,6 +211,8 @@ endif
           </button>
         </form>
 
+        {% render 'cham-video-row', product: product %}
+
         {%- if claims_list != blank and claims_list.size > 0 -%}
           <ul class="main-product__claims" role="list">
             {%- for claim in claims_list -%}
