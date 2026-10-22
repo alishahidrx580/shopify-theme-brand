@@ -40,7 +40,7 @@
         "gallery_focal_y": 50
       }
     },
-"trust_info": {
+    "trust_info": {
       "type": "product-trust-info",
       "blocks": {
         "badge_1": {
@@ -68,14 +68,18 @@
           }
         }
       },
-      "block_order": ["badge_1", "badge_2", "badge_3"],
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3"
+      ],
       "settings": {
         "eyebrow": "The Edit Promise",
         "heading": "Shop With Confidence",
-        "disclaimer_text": "We import all products directly from authorized distributors. Packaging, batch codes, and shade or formula names may vary slightly from the images shown as brands update their designs from time to time — this never affects the authenticity or quality of what you receive. Every item is 100% genuine and sealed unless listed otherwise."
+        "disclaimer_text": "Our pharmacy brands are bought from licensed pharmacies in the UAE and imported to Pakistan by us. Packaging, batch codes, and shade or formula names may vary slightly from the images shown as brands update their designs from time to time. This never affects the authenticity or quality of what you receive. Every item is 100% genuine and sealed unless listed otherwise."
       }
     },
-        "sensory": {
+    "sensory": {
       "type": "product-sensory",
       "disabled": true,
       "settings": {
