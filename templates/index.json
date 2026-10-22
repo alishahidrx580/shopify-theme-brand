@@ -96,6 +96,14 @@
         "b1": {
           "type": "brand",
           "settings": {
+            "name": "CHAM",
+            "color": "#0b2a5b",
+            "product": "the-brightening-cream"
+          }
+        },
+        "brand_8xwMYA": {
+          "type": "brand",
+          "settings": {
             "name": "CeraVe",
             "color": "#0b2a5b",
             "product": "cerave-am-facial-moisturizing-lotion-spf50-52ml"
@@ -168,6 +176,7 @@
       },
       "block_order": [
         "b1",
+        "brand_8xwMYA",
         "b2",
         "b3",
         "b4",
