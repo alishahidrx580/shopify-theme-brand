@@ -368,14 +368,14 @@ html .cvr__label{
 
 /* ---------------------------------------------------------------
    15. Dark mode - header
-   In dark mode the header lost its background entirely. The
+   In dark mode the theme keeps the header transparent until you scroll. The
    wordmark is a white image and the icons are white, so both
    vanished, the nav text stayed dark, and on product pages the
    sticky buy bar showed straight through the bar. Giving it back
    the navy it wears in light mode fixes all four at once.
    --------------------------------------------------------------- */
 
-:root[data-theme="dark"] .header{
+:root[data-theme="dark"] .header.header.header{
   background: #0b1f3a;
 }
 
