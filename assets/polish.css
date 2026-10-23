@@ -322,7 +322,7 @@ html .cvr__label{
   }
   html .footer__inner{
     padding-top: 48px;
-    padding-bottom: 40px;
+    padding-bottom: 88px; /* clears the floating WhatsApp button */
   }
 }
 
