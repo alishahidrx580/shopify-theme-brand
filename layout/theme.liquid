@@ -40,6 +40,9 @@
     {% # Critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
 
+  {% # Polish layer — motion tokens + card/CTA micro-interactions %}
+  {{ 'polish.css' | asset_url | stylesheet_tag }}
+
     {% # Reveal-on-scroll module %}
     <script src="{{ 'reveal.js' | asset_url }}" defer></script>
 
