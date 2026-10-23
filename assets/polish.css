@@ -248,3 +248,16 @@ html .home-brand-logos__item--text{
     height: 48px;
   }
 }
+
+/* ---------------------------------------------------------------
+   9. See-it-in-motion label
+   The video row's label set display:block, which dropped the
+   12px gap the eyebrow style relies on, so its rule butted up
+   against the first letter. A flex row restores the gap.
+   --------------------------------------------------------------- */
+
+html .cvr__label{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
