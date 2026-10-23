@@ -119,3 +119,41 @@ html .main-product__buy-now:active{
     transform: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   4. Reading comfort
+   Product pages already set display type well (negative tracking, 1.0 leading
+   on headings). These two homepage blocks were left at 1.25, which is tight
+   for 14px copy — 1.5 to 1.6 is the readable band at this size.
+   -------------------------------------------------------------------------- */
+
+html .home-pillars__body,
+html .home-pillars__body p,
+html .pgrid__text{
+  line-height: 1.55;
+}
+
+html .pgrid__title{
+  letter-spacing: -.01em;
+}
+
+/* --------------------------------------------------------------------------
+   5. Marquees
+   Three loop forever: the announcement bar, the brand strip and the trust
+   ticker. A continuously running animation never lets the main thread idle,
+   which is felt on mid-range Android. polish.js adds .is-paused while a
+   track is off screen; the look is unchanged while it is in view.
+   -------------------------------------------------------------------------- */
+
+html .is-paused,
+html .is-paused *{
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce){
+  html .home-announcement-bar__messages,
+  html .home-brand-logos__track,
+  html .home-marquee__track{
+    animation-play-state: paused !important;
+  }
+}
