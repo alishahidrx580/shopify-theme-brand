@@ -111,7 +111,58 @@
           </article>
         {%- endfor -%}
       </div>
-    {%- endif -%}
+          {%- if product.vendor == 'CHAM' -%}
+        {%- assign pair_p = cross_products | first -%}
+        {%- if pair_p != blank and pair_p.vendor == 'CHAM' and pair_p.available and product.available -%}
+          {%- assign v1 = product.selected_or_first_available_variant -%}
+          {%- assign v2 = pair_p.selected_or_first_available_variant -%}
+          {%- assign set_total = v1.price | plus: v2.price -%}
+          {%- assign c1 = v1.compare_at_price -%}
+          {%- if c1 == blank or c1 < v1.price -%}{%- assign c1 = v1.price -%}{%- endif -%}
+          {%- assign c2 = v2.compare_at_price -%}
+          {%- if c2 == blank or c2 < v2.price -%}{%- assign c2 = v2.price -%}{%- endif -%}
+          {%- assign set_compare = c1 | plus: c2 -%}
+          {%- assign set_save = set_compare | minus: set_total -%}
+          <div class="product-regimen__set" data-reveal>
+            <div class="product-regimen__set-copy">
+              <p class="product-regimen__set-title">{{ product.title }} + {{ pair_p.title }}</p>
+              <p class="product-regimen__set-price">{%- if set_save > 0 -%}<s>{{ set_compare | money }}</s>{%- endif -%}<strong>{{ set_total | money }}</strong></p>
+              {%- if set_save > 0 -%}<p class="product-regimen__set-save">The set. You save {{ set_save | money }}.</p>{%- endif -%}
+            </div>
+            <button type="button" class="product-regimen__atc" data-set-add data-ids="{{ v1.id }},{{ v2.id }}">Add both to bag</button>
+          </div>
+          <script>
+            (function () {
+              document.querySelectorAll('[data-set-add]').forEach(function (btn) {
+                if (btn.dataset.setBound) return;
+                btn.dataset.setBound = 'true';
+                btn.addEventListener('click', function () {
+                  var items = btn.getAttribute('data-ids').split(',').map(function (id) { return { id: Number(id), quantity: 1 }; });
+                  btn.setAttribute('data-loading', 'true');
+                  btn.disabled = true;
+                  fetch('{{ routes.cart_add_url }}.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ items: items })
+                  }).then(function (r) {
+                    if (!r.ok) throw new Error('add failed');
+                    return r.json();
+                  }).then(function () {
+                    document.dispatchEvent(new CustomEvent('cart:refresh'));
+                    document.dispatchEvent(new CustomEvent('cart:open'));
+                  }).catch(function () {
+                    window.location.href = '{{ routes.cart_url }}';
+                  }).then(function () {
+                    btn.disabled = false;
+                    btn.removeAttribute('data-loading');
+                  });
+                });
+              });
+            })();
+          </script>
+        {%- endif -%}
+      {%- endif -%}
+{%- endif -%}
   </div>
 </section>
 
@@ -305,6 +356,28 @@
   .product-regimen__atc[data-loading="true"] {
     opacity: 0.6;
     cursor: progress;
+  }
+
+  /* Cream + mask set */
+  .product-regimen__set {
+    margin: 2.25rem auto 0;
+    max-width: 28rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem 1rem;
+    padding: 1.1rem 1.15rem;
+    border: 1px solid color-mix(in oklab, currentColor 22%, transparent);
+    border-radius: 10px;
+  }
+  .product-regimen__set-title { margin: 0; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; }
+  .product-regimen__set-price { margin: 0.35rem 0 0; font-size: 1.15rem; }
+  .product-regimen__set-price s { opacity: 0.55; margin-right: 0.45rem; font-size: 0.9rem; }
+  .product-regimen__set-save { margin: 0.2rem 0 0; font-size: 0.8rem; opacity: 0.8; }
+  .product-regimen__set .product-regimen__atc { width: auto; margin-top: 0; padding-inline: 1.4rem; }
+  @media (max-width: 479px) {
+    .product-regimen__set .product-regimen__atc { width: 100%; }
   }
 {% endstylesheet %}
 
