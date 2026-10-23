@@ -261,3 +261,29 @@ html .cvr__label{
   align-items: center;
   gap: 12px;
 }
+
+/* ---------------------------------------------------------------
+   10. Product breadcrumb on small screens
+   Two uppercase crumbs at .28em tracking do not fit a phone, so
+   each label broke mid-phrase over two lines. Tighter tracking,
+   no mid-label breaks, and the current product truncates with an
+   ellipsis - the full name is in the heading right below it.
+   --------------------------------------------------------------- */
+
+@media (max-width: 749px){
+  html .main-product__breadcrumb-link,
+  html .main-product__breadcrumb-link.eyebrow,
+  html .main-product__breadcrumb-current{
+    letter-spacing: .16em;
+    white-space: nowrap;
+  }
+  html .main-product__breadcrumb-link,
+  html .main-product__breadcrumb-link.eyebrow{
+    flex: 0 0 auto;
+  }
+  html .main-product__breadcrumb-current{
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
