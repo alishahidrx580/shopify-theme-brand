@@ -297,7 +297,7 @@ endif
 {%- endif -%}
 {%- if product.vendor == 'CHAM' -%}
 <div class="cham-trust">
-  <p class="cham-trust__eta" data-cham-eta>Estimated delivery time: <strong>2-3 days</strong></p>
+    <p class="cham-trust__eta" data-cham-eta>Estimated delivery time: <strong>3-5 days</strong></p>
   <ul class="cham-trust__row">
     <li class="cham-trust__item"><svg class="cham-trust__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 6h13v10H1z"/><path d="M14 9h4l3 3v4h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><strong>Free shipping</strong><small>on all orders</small></li>
     <li class="cham-trust__item"><svg class="cham-trust__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><strong>Lab tested</strong><small>skin-friendly pH</small></li>
@@ -320,8 +320,8 @@ endif
     var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     function ord(n) { var r = n % 100; if (r > 10 && r < 14) return n + 'th'; var d = n % 10; return n + (d === 1 ? 'st' : d === 2 ? 'nd' : d === 3 ? 'rd' : 'th'); }
     function fmt(dt) { return ord(dt.getDate()) + ' ' + months[dt.getMonth()]; }
-    var a = new Date(); a.setDate(a.getDate() + 2);
-    var b = new Date(); b.setDate(b.getDate() + 3);
+        var a = new Date(); a.setDate(a.getDate() + 3);
+        var b = new Date(); b.setDate(b.getDate() + 5);
     el.textContent = fmt(a) + ' - ' + fmt(b);
   })();
 </script>
