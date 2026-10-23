@@ -50,3 +50,66 @@
     init();
   }
 })();
+
+/* -----------------------------------------------------------------
+   Image load fade
+   Lazy images snapped in at full strength while the page was
+   scrolling. The hidden state is applied HERE, never in the
+   stylesheet, so if this script never runs every image renders
+   exactly as before. Three separate escapes clear it as well -
+   the load event, an error, and a timeout - because an image
+   stuck at zero opacity would be a missing product photo.
+   ----------------------------------------------------------------- */
+(function () {
+  var SKIP = 'product-card__img--secondary';
+  var pending = false;
+
+  function settle(img) {
+    img.classList.remove('pol-loading');
+  }
+
+  function track(img) {
+    if (img.dataset.polFade) return;
+    img.dataset.polFade = '1';
+    if (img.classList.contains(SKIP)) return;
+    if (img.complete && img.naturalWidth) return;
+    img.classList.add('pol-fade', 'pol-loading');
+    img.addEventListener('load', function () { settle(img); }, { once: true });
+    img.addEventListener('error', function () { settle(img); }, { once: true });
+    setTimeout(function () { settle(img); }, 3000);
+  }
+
+  function scan() {
+    pending = false;
+    Array.prototype.forEach.call(document.images, track);
+  }
+
+  function queue() {
+    if (pending) return;
+    pending = true;
+    setTimeout(scan, 120);
+  }
+
+  function clearAll() {
+    var stuck = document.querySelectorAll('img.pol-loading');
+    Array.prototype.forEach.call(stuck, settle);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scan);
+  } else {
+    scan();
+  }
+
+  window.addEventListener('load', function () {
+    scan();
+    setTimeout(clearAll, 1500);
+  });
+
+  if ('MutationObserver' in window) {
+    new MutationObserver(queue).observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+  }
+})();
