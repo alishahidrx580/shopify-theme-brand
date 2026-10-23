@@ -127,7 +127,7 @@
             <div class="product-regimen__set-copy">
               <p class="product-regimen__set-title">{{ product.title }} + {{ pair_p.title }}</p>
               <p class="product-regimen__set-price">{%- if set_save > 0 -%}<s>{{ set_compare | money }}</s>{%- endif -%}<strong>{{ set_total | money }}</strong></p>
-              {%- if set_save > 0 -%}<p class="product-regimen__set-save">The set. You save {{ set_save | money }}.</p>{%- endif -%}
+              {%- if set_save > 0 -%}<p class="product-regimen__set-save">You save {{ set_save | money }} against full price.</p>{%- endif -%}
             </div>
             <button type="button" class="product-regimen__atc" data-set-add data-ids="{{ v1.id }},{{ v2.id }}">Add both to bag</button>
           </div>
