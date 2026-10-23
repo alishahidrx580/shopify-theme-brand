@@ -156,3 +156,78 @@ html .is-paused *{
     animation-play-state: paused !important;
   }
 }
+
+/* ---------------------------------------------------------------
+   6. Brand logo band
+   The marquee row is 90px tall for 14px text logos, but the
+   section's 40px padding sat on top of another 40px inside - a
+   250px band around one line of type. Trimming the inner padding
+   brings it back to the 40/48 rhythm the product rows use, and
+   mobile tightens further, where dead space costs a screenful.
+   --------------------------------------------------------------- */
+
+html div.home-brand-logos{
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+@media (max-width: 749px){
+  html section.home-brand-logos{
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  html div.home-brand-logos{
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   7. Touch feedback
+   The card lift and the image crossfade are hover-only, so a
+   phone got none of it. The grey tap flash is replaced by a
+   press that matches the buttons: a small, fast scale.
+   --------------------------------------------------------------- */
+
+html a,
+html button,
+html .product-card{
+  -webkit-tap-highlight-color: transparent;
+}
+
+html .product-card__quick-add,
+html .wishlist-heart{
+  transition: transform var(--d-press) var(--e-out),
+              background-color var(--d-hover) var(--e-out),
+              color var(--d-hover) var(--e-out);
+}
+
+html .product-card__quick-add:active,
+html .wishlist-heart:active{
+  transform: scale(.9);
+}
+
+@media (hover: none){
+  html .product-card:active{
+    transform: scale(.99);
+  }
+}
+
+/* ---------------------------------------------------------------
+   8. Card titles
+   14px names at 1.25 leading set two tight uppercase lines in a
+   198px card. 1.4 opens them without changing the card grid -
+   every card grows by the same few pixels.
+   --------------------------------------------------------------- */
+
+html .product-card__title{
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce){
+  html .product-card:active,
+  html .product-card__quick-add:active,
+  html .wishlist-heart:active{
+    transform: none;
+  }
+}
