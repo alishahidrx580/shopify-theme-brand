@@ -241,6 +241,24 @@ endif
     });
     q.value = b.getAttribute('data-qty');
   });
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.main-product__atc, .main-product__buy-now');
+    if (!btn || btn.dataset.chamBonusDone) return;
+    var form = btn.closest('form');
+    var on = form && form.querySelector('.cham-pack.is-active[data-bonus]');
+    if (!on) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    fetch('{{ routes.cart_add_url }}.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items: [{ id: Number(on.getAttribute('data-bonus')), quantity: 1 }] })
+    }).catch(function () {}).then(function () {
+      btn.dataset.chamBonusDone = '1';
+      btn.click();
+      setTimeout(function () { delete btn.dataset.chamBonusDone; }, 1500);
+    });
+  }, true);
 </script>
 {%- endif -%}
 
