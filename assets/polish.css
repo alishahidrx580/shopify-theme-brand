@@ -287,3 +287,18 @@ html .cvr__label{
     text-overflow: ellipsis;
   }
 }
+
+/* ---------------------------------------------------------------
+   11. Collection grid titles on phones
+   Two columns on a 375px screen leave each name about 110px, and
+   the 16px grid title pushed a word like BRIGHTENING past it, so
+   it broke mid-word (BRIGHTENIN / G FACE). One step down fits the
+   word whole; tablets keep 16px.
+   --------------------------------------------------------------- */
+
+@media (max-width: 479px){
+  html .er__grid .product-card__title,
+  html .er__grid .product-card__title.font-display{
+    font-size: 14px;
+  }
+}
