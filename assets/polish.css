@@ -365,3 +365,57 @@ html .cvr__label{
     column-gap: 16px;
   }
 }
+
+/* ---------------------------------------------------------------
+   15. Dark mode - header
+   In dark mode the header lost its background entirely. The
+   wordmark is a white image and the icons are white, so both
+   vanished, the nav text stayed dark, and on product pages the
+   sticky buy bar showed straight through the bar. Giving it back
+   the navy it wears in light mode fixes all four at once.
+   --------------------------------------------------------------- */
+
+:root[data-theme="dark"] .header{
+  background: #0b1f3a;
+}
+
+:root[data-theme="dark"] .header__inner,
+:root[data-theme="dark"] .header__inner a,
+:root[data-theme="dark"] .header__inner button{
+  color: rgba(255, 255, 255, .92);
+}
+
+/* ---------------------------------------------------------------
+   16. Dark mode - text on the white surfaces
+   Product shots are photographed on white, so the cards and the
+   brand tiles stay white in dark mode - but their text had been
+   flipped to near-white with everything else, leaving names and
+   prices invisible on every grid in the store. The type goes
+   back to the navy it uses in light mode.
+   --------------------------------------------------------------- */
+
+:root[data-theme="dark"] .product-card__brand,
+:root[data-theme="dark"] .product-card__title,
+:root[data-theme="dark"] .product-card__price,
+:root[data-theme="dark"] .brand-strip__label{
+  color: #0b1f3a;
+}
+
+:root[data-theme="dark"] .product-card__compare{
+  color: rgba(11, 31, 58, .55);
+}
+
+/* ---------------------------------------------------------------
+   17. Dark mode - brand logo band
+   The band kept a hard white background, so it cut a bright
+   stripe across the dark page. It has no images in it, only
+   text, so it can simply go transparent.
+   --------------------------------------------------------------- */
+
+:root[data-theme="dark"] section.home-brand-logos{
+  background: transparent;
+}
+
+:root[data-theme="dark"] .home-brand-logos__item{
+  color: rgba(255, 255, 255, .5);
+}
