@@ -1,8 +1,10 @@
 /* ==========================================================================
    THE EDIT — polish layer
-   Loaded AFTER styles.css, so it wins on source order.
-   Purely additive: to revert everything here, delete the single
-   polish.css <link> line in layout/theme.liquid.
+   Every selector is prefixed with `html` purely to out-rank the section
+   styles Shopify concatenates into styles.css, whose load order is not
+   guaranteed. Nothing here changes markup or behaviour.
+
+   To revert everything: delete the polish.css line in layout/theme.liquid.
    ========================================================================== */
 
 :root{
@@ -17,11 +19,12 @@
 
 /* --------------------------------------------------------------------------
    1. Product cards
-   Resting state is calmer (hairline edge, no all-round glow).
-   Hover lifts 3px and cross-fades to the product's second image.
+   Calmer resting state (hairline edge, no all-round glow), a 3px lift on
+   hover, and a cross-fade to the product's second image — which the theme
+   already renders but previously kept at opacity 0 even on hover.
    -------------------------------------------------------------------------- */
 
-.product-card{
+html .product-card{
   box-shadow: none;
   border: 1px solid rgba(0,0,0,.07);
   transition: transform var(--d-hover) var(--e-out),
@@ -29,32 +32,32 @@
               box-shadow var(--d-hover) var(--e-out);
 }
 
-.product-card__img{
+html .product-card__img{
   transition: opacity var(--d-media) var(--e-out),
               transform var(--d-media) var(--e-out);
 }
 
-.product-card__img--secondary{
+html .product-card__img--secondary{
   opacity: 0;
   transform: scale(1.02);
 }
 
 @media (hover: hover) and (pointer: fine){
-  .product-card:hover{
+  html .product-card:hover{
     transform: translateY(-3px);
     border-color: rgba(0,0,0,.14);
     box-shadow: 0 6px 18px rgba(0,0,0,.07);
   }
 
-  .product-card:hover  .product-card__img--primary,
-  .product-card:focus-within .product-card__img--primary,
-  .product-card:focus-visible .product-card__img--primary{
+  html .product-card:hover .product-card__img--primary,
+  html .product-card:focus-within .product-card__img--primary,
+  html .product-card:focus-visible .product-card__img--primary{
     transform: scale(1.03);
   }
 
-  .product-card:hover  .product-card__img--secondary,
-  .product-card:focus-within .product-card__img--secondary,
-  .product-card:focus-visible .product-card__img--secondary{
+  html .product-card:hover .product-card__img--secondary,
+  html .product-card:focus-within .product-card__img--secondary,
+  html .product-card:focus-visible .product-card__img--secondary{
     opacity: 1;
     transform: scale(1);
   }
@@ -65,54 +68,54 @@
    Same easing as everything else, plus a physical press.
    -------------------------------------------------------------------------- */
 
-.main-product__atc{
+html .main-product__atc{
   transition: background-color var(--d-hover) var(--e-out),
               transform var(--d-press) var(--e-out);
 }
 
-.main-product__buy-now{
+html .main-product__buy-now{
   transition: background-color var(--d-hover) var(--e-out),
               color var(--d-hover) var(--e-out),
               transform var(--d-press) var(--e-out);
 }
 
-.main-product__atc:active,
-.main-product__buy-now:active{
+html .main-product__atc:active,
+html .main-product__buy-now:active{
   transform: scale(.985);
 }
 
 /* --------------------------------------------------------------------------
    3. Reduced motion
-   Movement and scaling go; opacity cross-fades stay, because WCAG's
-   motion definition excludes opacity changes. Nothing is hidden.
+   Movement and scaling go; opacity cross-fades stay, because WCAG's motion
+   definition excludes opacity changes. Nothing is ever left hidden.
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce){
-  .product-card{
+  html .product-card{
     transition: border-color var(--d-hover) var(--e-out);
   }
-  .product-card:hover{
+  html .product-card:hover{
     transform: none;
     box-shadow: none;
   }
-  .product-card__img{
+  html .product-card__img{
     transition: opacity var(--d-media) var(--e-out);
   }
-  .product-card__img--secondary{
+  html .product-card__img--secondary{
     transform: none;
   }
-  .product-card:hover  .product-card__img--primary,
-  .product-card:focus-within .product-card__img--primary,
-  .product-card:focus-visible .product-card__img--primary{
+  html .product-card:hover .product-card__img--primary,
+  html .product-card:focus-within .product-card__img--primary,
+  html .product-card:focus-visible .product-card__img--primary{
     transform: none;
   }
-  .product-card:hover  .product-card__img--secondary,
-  .product-card:focus-within .product-card__img--secondary,
-  .product-card:focus-visible .product-card__img--secondary{
+  html .product-card:hover .product-card__img--secondary,
+  html .product-card:focus-within .product-card__img--secondary,
+  html .product-card:focus-visible .product-card__img--secondary{
     transform: none;
   }
-  .main-product__atc:active,
-  .main-product__buy-now:active{
+  html .main-product__atc:active,
+  html .main-product__buy-now:active{
     transform: none;
   }
 }
