@@ -116,7 +116,7 @@
         {%- if pair_p != blank and pair_p.vendor == 'CHAM' and pair_p.available and product.available -%}
           {%- assign v1 = product.selected_or_first_available_variant -%}
           {%- assign v2 = pair_p.selected_or_first_available_variant -%}
-          {%- assign set_total = v1.price | plus: v2.price -%}
+          {%- assign set_total = v1.price | plus: v2.price | times: 0.95 | round -%}
           {%- assign c1 = v1.compare_at_price -%}
           {%- if c1 == blank or c1 < v1.price -%}{%- assign c1 = v1.price -%}{%- endif -%}
           {%- assign c2 = v2.compare_at_price -%}
@@ -127,7 +127,7 @@
             <div class="product-regimen__set-copy">
               <p class="product-regimen__set-title">{{ product.title }} + {{ pair_p.title }}</p>
               <p class="product-regimen__set-price">{%- if set_save > 0 -%}<s>{{ set_compare | money }}</s>{%- endif -%}<strong>{{ set_total | money }}</strong></p>
-              {%- if set_save > 0 -%}<p class="product-regimen__set-save">You save {{ set_save | money }} against full price.</p>{%- endif -%}
+              {%- if set_save > 0 -%}<p class="product-regimen__set-save">You save {{ set_save | money }} against full price, including an extra 5% off for the set.</p>{%- endif -%}
             </div>
             <button type="button" class="product-regimen__atc" data-set-add data-ids="{{ v1.id }},{{ v2.id }}">Add both to bag</button>
           </div>
