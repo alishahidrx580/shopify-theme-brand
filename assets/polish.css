@@ -123,13 +123,12 @@ html .main-product__buy-now:active{
 /* --------------------------------------------------------------------------
    4. Reading comfort
    Product pages already set display type well (negative tracking, 1.0 leading
-   on headings). These two homepage blocks were left at 1.25, which is tight
+   on headings). The homepage pillars body was left at 1.25, which is tight
    for 14px copy — 1.5 to 1.6 is the readable band at this size.
    -------------------------------------------------------------------------- */
 
 html .home-pillars__body,
-html .home-pillars__body p,
-html .pgrid__text{
+html .home-pillars__body p{
   line-height: 1.55;
 }
 
