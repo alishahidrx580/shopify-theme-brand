@@ -30,9 +30,9 @@
      (Rs.1,234.56) rather than the cart drawer's PKR style, because these rows
      sit next to card prices in the shopper's head. */
   function formatMoney(cents) {
-    return 'Rs.' + (Math.round(cents) / 100).toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+    return 'Rs. ' + (Math.round(cents) / 100).toLocaleString('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
     });
   }
 
