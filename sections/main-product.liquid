@@ -212,6 +212,18 @@ endif
     <span class="cham-pack__price"><s>{{ pk_4full | money }}</s><strong>{{ pk_4 | money }}</strong></span>
   </button>
   {%- endif -%}
+  {%- if product.handle == 'brightening-face-mask' -%}
+  {%- assign bonus_p = all_products['the-brightening-cream'] -%}
+  {%- if bonus_p.available -%}
+  {%- assign bonus_v = bonus_p.selected_or_first_available_variant -%}
+  {%- assign pk_3full = current_variant.price | times: 3 | plus: bonus_v.price -%}
+  {%- assign pk_3 = current_variant.price | times: 3 -%}
+  <button type="button" class="cham-pack" role="radio" aria-checked="false" data-qty="3" data-bonus="{{ bonus_v.id }}">
+    <span class="cham-pack__text"><span class="cham-pack__name">3 Pack</span><span class="cham-pack__tag">Buy 3, get a free Cream</span></span>
+    <span class="cham-pack__price"><s>{{ pk_3full | money }}</s><strong>{{ pk_3 | money }}</strong></span>
+  </button>
+  {%- endif -%}
+  {%- endif -%}
 </div>
 <style>
   .cham-packs{display:grid;gap:8px;margin:14px 0 6px}
