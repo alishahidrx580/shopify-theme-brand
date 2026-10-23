@@ -302,3 +302,66 @@ html .cvr__label{
     font-size: 14px;
   }
 }
+
+/* ---------------------------------------------------------------
+   12. Mobile rhythm
+   The brand strip already scales its padding down on phones; the
+   product rows, the pillars and the footer were left at desktop
+   values, so a 375px screen spent a third of itself on gaps.
+   These match the strip's own mobile step. Desktop is untouched.
+   --------------------------------------------------------------- */
+
+@media (max-width: 749px){
+  html .home-featured{
+    padding-top: 32px;
+    padding-bottom: 40px;
+  }
+  html .home-pillars{
+    padding-top: 44px;
+    padding-bottom: 44px;
+  }
+  html .footer__inner{
+    padding-top: 48px;
+    padding-bottom: 40px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   13. Row links on small screens
+   Each product row carries a View all link, but it was set to
+   appear only from 1024px up, so a phone had no way from a row
+   into its collection. It comes back on its own line under the
+   heading, where the longer labels fit.
+   --------------------------------------------------------------- */
+
+@media (max-width: 1023px){
+  html .home-featured__view-all{
+    display: inline-block;
+  }
+}
+
+@media (max-width: 749px){
+  html .home-featured__head{
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  html .home-featured__view-all{
+    flex: 0 0 100%;
+  }
+}
+
+/* ---------------------------------------------------------------
+   14. Footer policy links
+   Seven links wrap over three lines on a phone, which stranded
+   the separator dots at the start and end of lines. The row
+   already carries a gap, so the separators go on small screens.
+   --------------------------------------------------------------- */
+
+@media (max-width: 749px){
+  html .footer__policy-sep{
+    display: none;
+  }
+  html .footer__policies{
+    column-gap: 16px;
+  }
+}
