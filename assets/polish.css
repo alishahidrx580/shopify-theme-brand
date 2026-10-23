@@ -419,3 +419,130 @@ html .cvr__label{
 :root[data-theme="dark"] .home-brand-logos__item{
   color: rgba(255, 255, 255, .5);
 }
+
+/* ---------------------------------------------------------------
+   18. Opening an accordion
+   Product accordions and the collection filter groups are plain
+   <details>, so their contents appeared instantly. The panel
+   height still snaps - that cannot be animated reliably - but
+   the contents now ease in, which reads as a deliberate open
+   rather than a jump. Nothing is hidden when the animation does
+   not run, so a browser that ignores it loses nothing.
+   --------------------------------------------------------------- */
+
+@keyframes pol-open{
+  from{ opacity: 0; transform: translateY(-4px); }
+  to  { opacity: 1; transform: none; }
+}
+
+html details[open] > *:not(summary){
+  animation: pol-open 220ms var(--e-out) both;
+}
+
+html details > summary{
+  transition: color 150ms var(--e-out);
+}
+
+/* ---------------------------------------------------------------
+   19. Every other button
+   Twenty-nine of the thirty-nine buttons on a product page had no
+   transition at all and nothing to show for a tap. This gives the
+   whole set the same short press the buy buttons already use.
+   --------------------------------------------------------------- */
+
+html button,
+html .btn,
+html a.button{
+  transition: transform var(--d-press) var(--e-out),
+              background-color var(--d-hover) var(--e-out),
+              border-color var(--d-hover) var(--e-out),
+              color var(--d-hover) var(--e-out),
+              opacity var(--d-hover) var(--e-out);
+}
+
+@media (hover: none){
+  html button:active,
+  html .btn:active,
+  html a.button:active{
+    transform: scale(.97);
+  }
+}
+
+/* ---------------------------------------------------------------
+   20. The cart drawer
+   The panel slid in over half a second, which feels slow on a
+   phone where the drawer is most of the screen. Shorter, with
+   the emphasised curve, so it arrives without dragging.
+   --------------------------------------------------------------- */
+
+html .cart-drawer{
+  transition: opacity 260ms var(--e-out);
+}
+
+html .cart-drawer__panel{
+  transition: transform 320ms var(--e-emph);
+}
+
+/* ---------------------------------------------------------------
+   21. The mobile menu
+   The panel itself is toggled with the hidden attribute, which
+   cannot be eased without risking a menu that fails to open, so
+   it still appears at once - but its links arrive in sequence,
+   which is what the eye reads as the menu opening.
+   --------------------------------------------------------------- */
+
+@keyframes pol-menu-in{
+  from{ opacity: 0; transform: translateY(-6px); }
+  to  { opacity: 1; transform: none; }
+}
+
+@media (max-width: 1023px){
+  html .mobile-menu:not([hidden]) .mobile-menu__nav > *{
+    animation: pol-menu-in 260ms var(--e-out) both;
+  }
+  html .mobile-menu:not([hidden]) .mobile-menu__nav > *:nth-child(2){ animation-delay: 35ms; }
+  html .mobile-menu:not([hidden]) .mobile-menu__nav > *:nth-child(3){ animation-delay: 70ms; }
+  html .mobile-menu:not([hidden]) .mobile-menu__nav > *:nth-child(4){ animation-delay: 105ms; }
+  html .mobile-menu:not([hidden]) .mobile-menu__nav > *:nth-child(5){ animation-delay: 140ms; }
+  html .mobile-menu:not([hidden]) .mobile-menu__nav > *:nth-child(n+6){ animation-delay: 175ms; }
+}
+
+/* ---------------------------------------------------------------
+   22. Images arriving
+   Thirty-seven of the images on a product page load lazily and
+   snapped in at full strength while the page was moving. The
+   hidden state is set by polish.js, never here, so an image
+   whose load event never fires still renders - see that file.
+   --------------------------------------------------------------- */
+
+html img.pol-fade{
+  transition: opacity 320ms var(--e-out);
+}
+
+html img.pol-loading{
+  opacity: 0;
+}
+
+/* ---------------------------------------------------------------
+   23. Reduced motion
+   Everything above is movement, so it all comes off. The fades
+   stay: opacity alone is not motion under WCAG, and removing
+   them would leave content hidden.
+   --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce){
+  html details[open] > *:not(summary){
+    animation: none;
+  }
+  html .mobile-menu:not([hidden]) .mobile-menu__nav > *{
+    animation: none;
+  }
+  html button:active,
+  html .btn:active,
+  html a.button:active{
+    transform: none;
+  }
+  html .cart-drawer__panel{
+    transition: none;
+  }
+}
