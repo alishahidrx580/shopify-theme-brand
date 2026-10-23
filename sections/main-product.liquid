@@ -214,7 +214,8 @@ endif
   {%- endif -%}
   {%- if product.handle == 'brightening-face-mask' -%}
   {%- assign bonus_p = all_products['the-brightening-cream'] -%}
-  {%- if bonus_p.available -%}
+    <!--dbg {{ bonus_p.title }}|{{ bonus_p.available }}|{{ bonus_p.handle }}|{{ all_products.size }} -->
+{%- if bonus_p.available -%}
   {%- assign bonus_v = bonus_p.selected_or_first_available_variant -%}
   {%- assign pk_3full = current_variant.price | times: 3 | plus: bonus_v.price -%}
   {%- assign pk_3 = current_variant.price | times: 3 -%}
