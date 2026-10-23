@@ -231,3 +231,20 @@ html .product-card__title, html .product-card__title.font-display{
     transform: none;
   }
 }
+
+/* 6b. Brand logo band, continued -------------------------------
+   Every logo in the strip is set as text, but each slot still
+   reserves the 90px height meant for an image logo, so the row
+   read as a band of empty space. Only the text variant is
+   shortened; an image logo added later keeps its full slot.
+   --------------------------------------------------------------- */
+
+html .home-brand-logos__item--text{
+  height: 56px;
+}
+
+@media (max-width: 749px){
+  html .home-brand-logos__item--text{
+    height: 48px;
+  }
+}
