@@ -220,7 +220,7 @@ html .wishlist-heart:active{
    every card grows by the same few pixels.
    --------------------------------------------------------------- */
 
-html .product-card__title{
+html .product-card__title, html .product-card__title.font-display{
   line-height: 1.4;
 }
 
