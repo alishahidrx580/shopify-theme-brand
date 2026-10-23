@@ -357,6 +357,87 @@ endif
 </script>
 {%- endif -%}
 {% render 'cham-video-row', product: product %}
+{%- if product.vendor == 'CHAM' -%}
+{%- assign acc_benefits = product.metafields.custom.accordion_benefits.value -%}
+{%- assign acc_ingredients = product.metafields.custom.accordion_ingredients.value -%}
+{%- assign acc_use = product.metafields.custom.accordion_how_to_use.value -%}
+<div class="cham-acc">
+  {%- if acc_benefits != blank -%}
+  <details class="cham-acc__item">
+    <summary>Benefits <svg class="cham-acc__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary>
+    <div class="cham-acc__body">
+    {%- assign acc_benefits_lines = acc_benefits | newline_to_br | split: '<br />' -%}
+      <ul>{% for l in acc_benefits_lines %}{% assign t = l | strip %}{% if t != blank %}<li>{{ t }}</li>{% endif %}{% endfor %}</ul>
+    </div>
+  </details>
+  {%- endif -%}
+  {%- if acc_ingredients != blank -%}
+  <details class="cham-acc__item">
+    <summary>Ingredients <svg class="cham-acc__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary>
+    <div class="cham-acc__body">{{ acc_ingredients | newline_to_br }}</div>
+  </details>
+  {%- endif -%}
+  {%- if acc_use != blank -%}
+  <details class="cham-acc__item">
+    <summary>How to use <svg class="cham-acc__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary>
+    <div class="cham-acc__body">
+    {%- assign acc_use_lines = acc_use | newline_to_br | split: '<br />' -%}
+      <ol>{% for l in acc_use_lines %}{% assign t = l | strip %}{% if t != blank %}<li>{{ t }}</li>{% endif %}{% endfor %}</ol>
+    </div>
+  </details>
+  {%- endif -%}
+  <details class="cham-acc__item">
+    <summary>Shipping &amp; Return <svg class="cham-acc__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary>
+    <div class="cham-acc__body">
+      <h4>Shipping</h4>
+      <ul>
+        <li>All orders are processed within 24 hours of receipt, excluding weekends and holidays 🚚</li>
+        <li>Lahore orders take 1-2 business days to be delivered and other cities take 3-5 business days ✅</li>
+        <li>You can track the status of your order at any time by contacting us on our social media platforms 🔍</li>
+        <li>Deliveries take up to 5-7 days during sale days 😓</li>
+      </ul>
+      <h4>Order Cancellation Policy 📦</h4>
+      <ul>
+        <li>If your order has not yet been processed, we will be able to cancel it and issue a full refund 💸</li>
+        <li>If your order has already been shipped, we cannot cancel it but you may return the products for a refund in accordance with our return policy 🔙</li>
+        <li>Refunds for canceled orders will be processed to the original payment method used for the purchase. Please allow 5-7 business days for the refund to appear on your account 🙏🏼</li>
+      </ul>
+    </div>
+  </details>
+  <details class="cham-acc__item">
+    <summary>FAQs <svg class="cham-acc__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary>
+    <div class="cham-acc__body">
+      <details class="cham-acc__faq"><summary>How long does delivery take?</summary><p>Orders are processed within 24 hours. Lahore orders take 1-2 business days and other cities take 3-5 business days. During sale days, delivery can take up to 5-7 days.</p></details>
+      <details class="cham-acc__faq"><summary>Is shipping free?</summary><p>Yes, shipping is free on all orders.</p></details>
+      <details class="cham-acc__faq"><summary>Which payment methods do you accept?</summary><p>You can pay with Cash on Delivery or by bank transfer at checkout. Customers who pay 100% in advance receive a 5% discount.</p></details>
+      <details class="cham-acc__faq"><summary>Can I return my order?</summary><p>Sealed and unopened items can be returned within 3 days of delivery. Opened items are not eligible for return. See our <a href="/policies/refund-policy">return and refund policy</a> for details.</p></details>
+      <details class="cham-acc__faq"><summary>What if my order arrives damaged?</summary><p>Message us on WhatsApp with a photo of the product and its packaging as soon as you receive it, and we will replace it.</p></details>
+      <details class="cham-acc__faq"><summary>Can I cancel my order?</summary><p>Yes, if your order has not been processed yet we can cancel it and issue a full refund. Once an order has shipped it cannot be cancelled, but you may return it in line with our return policy.</p></details>
+      <details class="cham-acc__faq"><summary>Are there bundle offers on CHAM products?</summary><p>Yes. Buy any 2 CHAM items and save an extra 5%. Buy 3 Brightening Creams and get 1 free, or buy 3 Brightening Face Masks and get a free Brightening Cream. The offers apply automatically in your bag.</p></details>
+      <details class="cham-acc__faq"><summary>Is CHAM lab tested?</summary><p>The CHAM Brightening Face Cream has been independently lab tested, with a skin-friendly pH of 5.13. <a href="/pages/lab-test-reports">See the lab results</a>.</p></details>
+      <details class="cham-acc__faq"><summary>How do I track my order?</summary><p>Contact us on our social media platforms at any time and we will share the status of your order.</p></details>
+    </div>
+  </details>
+</div>
+<style>
+  .cham-acc{margin:16px 0 4px;border-top:1px solid rgba(128,128,128,.3)}
+  .cham-acc__item{border-bottom:1px solid rgba(128,128,128,.3)}
+  .cham-acc__item>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 2px;font-size:14px;font-weight:600;letter-spacing:.02em}
+  .cham-acc__item>summary::-webkit-details-marker{display:none}
+  .cham-acc__chev{flex:0 0 auto;opacity:.7;transition:transform .2s}
+  .cham-acc__item[open]>summary .cham-acc__chev{transform:rotate(180deg)}
+  .cham-acc__body{padding:0 2px 16px;font-size:13.5px;line-height:1.6}
+  .cham-acc__body ul{margin:0;padding-left:18px;display:grid;gap:6px;list-style:disc}
+  .cham-acc__body ol{margin:0;padding-left:20px;display:grid;gap:6px;list-style:decimal}
+  .cham-acc__body h4{margin:14px 0 6px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+  .cham-acc__body h4:first-child{margin-top:0}
+  .cham-acc__faq{border-top:1px solid rgba(128,128,128,.2)}
+  .cham-acc__faq:first-child{border-top:0}
+  .cham-acc__faq>summary{cursor:pointer;padding:10px 0;font-weight:500;list-style:none}
+  .cham-acc__faq>summary::-webkit-details-marker{display:none}
+  .cham-acc__faq>p{margin:0 0 12px;opacity:.85}
+</style>
+{%- endif -%}
 
         {%- if claims_list != blank and claims_list.size > 0 -%}
           <ul class="main-product__claims" role="list">
