@@ -42,6 +42,7 @@
 
   {% # Polish layer — motion tokens + card/CTA micro-interactions %}
   {{ 'polish.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'polish.js' | asset_url }}" defer></script>
 
     {% # Reveal-on-scroll module %}
     <script src="{{ 'reveal.js' | asset_url }}" defer></script>
