@@ -412,7 +412,7 @@ html .cvr__label{
    text, so it can simply go transparent.
    --------------------------------------------------------------- */
 
-.:root[data-theme="dark"] home-brand-logos{
+:root[data-theme="dark"] .home-brand-logos{
   background: transparent;
 }
 
