@@ -84,6 +84,20 @@
     </div>
   </div>
 </section>
+<style>
+  section#reviews.product-reviews { padding-top: 56px; padding-bottom: 56px; }
+  #reviews .product-reviews__head { margin-bottom: 24px; gap: 10px; }
+  #reviews .product-reviews__heading { font-size: clamp(28px, 5vw, 46px); line-height: 1.1; margin-top: 8px; }
+  #reviews .product-reviews__summary { margin-top: 4px; gap: 6px; }
+  #reviews .product-reviews__avg { font-size: clamp(44px, 8vw, 60px); line-height: 1; }
+  #reviews .jm-review-widget { padding-top: 0; padding-bottom: 0; }
+  #reviews .jm-media-preview { margin-top: 12px; }
+  #reviews .jdgm-review-list { padding-top: 8px; }
+  @media (max-width: 749px) {
+    section#reviews.product-reviews { padding-top: 36px; padding-bottom: 36px; }
+    #reviews .product-reviews__head { margin-bottom: 16px; }
+  }
+</style>
 
 {% stylesheet %}
   /* === Section shell === */
