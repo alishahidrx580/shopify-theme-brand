@@ -183,28 +183,30 @@
     }
 
   // CHAM offer rule: one free cream per full set of 3 masks (3 -> 1, 6 -> 2); 4, 5, 7, 8 get none.
+  // Runs whenever the mask quantity in the bag changes (add, +/-, remove, any pack).
   var CHAM_CREAM = 67387904458980, chamBusy = false, chamPrev = null;
   function chamFree(n) { return n > 0 && n % 3 === 0 ? n / 3 : 0; }
   function chamBonus(cart) {
     if (chamBusy) return;
-    var masks = 0, cream = null;
+    var masks = 0, creams = 0, freeCreams = 0;
     cart.items.forEach(function (it) {
       if (it.handle === 'brightening-face-mask') masks += it.quantity;
-      if (it.variant_id === CHAM_CREAM) cream = it;
+      if (it.variant_id === CHAM_CREAM) {
+        creams += it.quantity;
+        if (it.final_line_price === 0) freeCreams += it.quantity;
+      }
     });
     var before = chamPrev;
     chamPrev = masks;
     if (before === null || before === masks) return;
-    var diff = chamFree(masks) - chamFree(before);
-    if (diff > 0) {
+    var target = chamFree(masks);
+    if (creams < target) {
       chamBusy = true;
-      addVariant(CHAM_CREAM, diff).catch(function () {}).then(function () { chamBusy = false; });
-    } else if (diff < 0 && cream) {
-      var total = 0, remove;
-      cart.items.forEach(function (it) { if (it.variant_id === CHAM_CREAM) total += it.quantity; });
-      remove = total - Math.max(0, total + diff);
+      addVariant(CHAM_CREAM, target - creams).catch(function () {}).then(function () { chamBusy = false; });
+    } else if (freeCreams > target) {
+      var remove = freeCreams - target;
       var ups = cart.items.map(function (it) {
-        if (it.variant_id !== CHAM_CREAM || remove <= 0) return it.quantity;
+        if (it.variant_id !== CHAM_CREAM || it.final_line_price !== 0 || remove <= 0) return it.quantity;
         var take = Math.min(it.quantity, remove);
         remove -= take;
         return it.quantity - take;
@@ -232,9 +234,7 @@
     var p = chamRerenderOrig.apply(this, arguments);
     return Promise.resolve(p).then(function (x) {
       return fetch('/cart.js', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (c) {
-        var m = 0;
-        c.items.forEach(function (it) { if (it.handle === 'brightening-face-mask') m += it.quantity; });
-        chamPrev = m;
+        try { chamBonus(c); } catch (e) {}
         return x;
       });
     }).catch(function () {});
