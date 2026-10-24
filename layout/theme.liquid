@@ -392,7 +392,7 @@ var countText = drawer.querySelector('[data-cart-count-text]');
             });
           })
           .then(function () {
-            if (buyNow) { window.location.assign('/checkout'); return; }
+        if (buyNow) { return rerender().then(function () { window.location.assign('/checkout'); }); }
             openDrawer();
             return rerender().then(function () { btn.removeAttribute('data-loading'); });
           })
