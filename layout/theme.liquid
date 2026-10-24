@@ -231,8 +231,10 @@
 
       var total = drawer.querySelector('.cart-drawer__total-amount');
       if (total) total.textContent = money(cart.total_price);
+    var chamTok = (window.__chamTok = (window.__chamTok || 0) + 1);
           fetch('/cart?cb=' + Date.now(), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (h) {
       var doc = new DOMParser().parseFromString(h, 'text/html');
+      if (chamTok !== window.__chamTok) return;
       var src = doc.querySelector('.main-cart__row--saved');
       var row = drawer.querySelector('.cart-drawer__row--saved');
       var totals = drawer.querySelector('.cart-drawer__totals');
