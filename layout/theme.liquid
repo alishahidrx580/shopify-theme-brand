@@ -182,8 +182,9 @@
       return rerendering;
     }
 
-  // CHAM offer rule: when masks reach 3 the free cream is added; below 3 the free one is removed.
+  // CHAM offer rule: one free cream per full set of 3 masks (3 -> 1, 6 -> 2); 4, 5, 7, 8 get none.
   var CHAM_CREAM = 67387904458980, chamBusy = false, chamPrev = null;
+  function chamFree(n) { return n > 0 && n % 3 === 0 ? n / 3 : 0; }
   function chamBonus(cart) {
     if (chamBusy) return;
     var masks = 0, cream = null;
@@ -193,12 +194,14 @@
     });
     var before = chamPrev;
     chamPrev = masks;
-    if (masks >= 3 && !cream && before !== null && before < 3) {
+    if (before === null || before === masks) return;
+    var diff = chamFree(masks) - chamFree(before);
+    if (diff > 0) {
       chamBusy = true;
-      addVariant(CHAM_CREAM, 1).catch(function () {}).then(function () { chamBusy = false; });
-    } else if (masks < 3 && cream && cream.quantity === 1 && before !== null && before >= 3) {
+      addVariant(CHAM_CREAM, diff).catch(function () {}).then(function () { chamBusy = false; });
+    } else if (diff < 0 && cream) {
       chamBusy = true;
-      post(cream.key, 0).then(function (c) { return c ? paint(c) : sync(); }).catch(function () {}).then(function () { chamBusy = false; });
+      post(cream.key, Math.max(0, cream.quantity + diff)).then(function (c) { return c ? paint(c) : sync(); }).catch(function () {}).then(function () { chamBusy = false; });
     }
   }
   var chamPaintOrig = paint;
