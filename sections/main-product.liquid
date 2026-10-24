@@ -259,7 +259,7 @@ endif
     if (!b) return;
     var form = b.closest('form');
     if (!form) return;
-    setTimeout(function () {
+    (function () {
       var root = form.closest('.main-product__info') || document;
       var qty = parseInt(b.getAttribute('data-qty'), 10) || 1;
       var strong = b.querySelector('.cham-pack__price strong');
