@@ -113,3 +113,43 @@
     });
   }
 })();
+
+/* ------------------------------------------------------------------
+   Fixed header offset
+   The announcement bar and header are both position:fixed, so the
+   space they cover is measured here and published as --header-height.
+   Every section that clears the header (and the sticky blocks that sit
+   below it) reads this one variable.
+   ------------------------------------------------------------------ */
+(function () {
+  var root = document.documentElement;
+
+  function measure() {
+    var header = document.querySelector('.header');
+    if (!header) return;
+    var top = parseFloat(getComputedStyle(header).top) || 0;
+    var total = Math.round(top + header.offsetHeight);
+    if (total > 0) root.style.setProperty('--header-height', total + 'px');
+  }
+
+  function init() {
+    measure();
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(measure);
+      var header = document.querySelector('.header');
+      var bar = document.querySelector('.home-announcement-bar');
+      if (header) ro.observe(header);
+      if (bar) ro.observe(bar);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  window.addEventListener('load', measure);
+  window.addEventListener('resize', measure);
+  window.addEventListener('orientationchange', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+})();

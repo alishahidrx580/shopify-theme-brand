@@ -546,3 +546,18 @@ html img.pol-loading{
     transition: none;
   }
 }
+
+/* ------------------------------------------------------------------
+   24. Fixed header offset
+   The announcement bar and the header are both fixed to the top, so
+   --header-height must be their combined height (polish.js keeps it
+   exact). The values here are only the fallback before JS runs.
+   Pages whose first section is a bare heading (About us, Lab test
+   reports, Search, 404) get the same offset and a page container.
+   ------------------------------------------------------------------ */
+html:root{--header-height:121px}
+@media(max-width:767px){html:root{--header-height:105px}}
+html{scroll-padding-top:var(--header-height)}
+html #main-content>.shopify-section:first-child:has(>h1){max-width:var(--page-max-width,1400px);margin-inline:auto;padding:calc(var(--header-height) + 3rem) var(--page-padding-inline,1.5rem) 5rem;box-sizing:border-box}
+@media(min-width:1024px){html #main-content>.shopify-section:first-child:has(>h1){padding-inline:var(--page-padding-inline-lg,2.5rem)}}
+html .shopify-policy__title{margin-top:calc(var(--header-height) + 1rem)}
