@@ -294,7 +294,7 @@ endif
         if (pill) put(pill, Math.round((cmpTotal - total) / cmpTotal * 100) + '% OFF');
         if (note) put(note, 'You save ' + fmt(cmpTotal - total));
       }
-    }, 80);
+    })();
   });
   document.addEventListener('click', function (e) {
     var btn = e.target.closest && e.target.closest('.main-product__atc, .main-product__buy-now');
