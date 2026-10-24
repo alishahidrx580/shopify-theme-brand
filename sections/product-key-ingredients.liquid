@@ -21,15 +21,6 @@
     endif
   endif
 
-# ===== See in action video (per-product metafield) =====
-# Priority: product metafield custom.see_in_action_video > section video / link.
-if product != blank
-  assign product_video = product.metafields.custom.see_in_action_video.value
-if product_video != blank
-  assign video = product_video
-endif
-endif
-
   assign media_position = section.settings.media_position | default: 'left'
   assign autoplay = section.settings.autoplay
   assign loop_video = section.settings.loop
