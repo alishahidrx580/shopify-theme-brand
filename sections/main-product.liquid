@@ -83,9 +83,9 @@ endif
               -%}
               <figure class="main-product__tile" data-gallery-tile>
                 <img
-                  src="{{ image | image_url: width: 1200 }}"
-                  srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1800 }} 1800w"
-                  sizes="(min-width: 1024px) 30vw, 100vw"
+                  src="{{ image | image_url: width: 800 }}"
+                  srcset="{{ image | image_url: width: 400 }} 400w, {{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1800 }} 1800w"
+                  sizes="(min-width: 1024px) 30vw, 88vw"
                   alt="{{ product.title | escape }}"
                   width="{{ image.width }}"
                   height="{{ image.height }}"
