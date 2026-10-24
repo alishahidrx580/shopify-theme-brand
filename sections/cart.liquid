@@ -141,6 +141,24 @@
           <span>{{ 'main_cart.subtotal' | t }}</span>
           <span>{{ cart.items_subtotal_price | money }}</span>
         </div>
+      {%- liquid
+        assign cham_full = 0
+        for item in cart.items
+          assign cham_cp = item.variant.compare_at_price | default: 0
+          if cham_cp < item.original_price
+            assign cham_cp = item.original_price
+          endif
+          assign cham_line = cham_cp | times: item.quantity
+          assign cham_full = cham_full | plus: cham_line
+        endfor
+        assign cham_saved = cham_full | minus: cart.total_price
+      -%}
+      {%- if cham_saved > 0 -%}
+        <div class="main-cart__row main-cart__row--saved" style="color:var(--primary);font-weight:600">
+          <span>Total savings</span>
+          <span>&minus; {{ cham_saved | money }}</span>
+        </div>
+      {%- endif -%}
         <div class="main-cart__row main-cart__row--total">
           <span class="eyebrow eyebrow--bare">{{ 'main_cart.total' | t }}</span>
           <span class="font-display main-cart__total-amount">{{ cart.total_price | money }}</span>
