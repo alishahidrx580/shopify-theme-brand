@@ -200,8 +200,20 @@
       chamBusy = true;
       addVariant(CHAM_CREAM, diff).catch(function () {}).then(function () { chamBusy = false; });
     } else if (diff < 0 && cream) {
+      var total = 0, remove;
+      cart.items.forEach(function (it) { if (it.variant_id === CHAM_CREAM) total += it.quantity; });
+      remove = total - Math.max(0, total + diff);
+      var ups = cart.items.map(function (it) {
+        if (it.variant_id !== CHAM_CREAM || remove <= 0) return it.quantity;
+        var take = Math.min(it.quantity, remove);
+        remove -= take;
+        return it.quantity - take;
+      });
       chamBusy = true;
-      post(cream.key, Math.max(0, cream.quantity + diff)).then(function (c) { return c ? paint(c) : sync(); }).catch(function () {}).then(function () { chamBusy = false; });
+      fetch('/cart/update.js', { method: 'POST', credentials: 'same-origin', headers: J, body: JSON.stringify({ updates: ups }) })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (c) { return c ? paint(c) : sync(); })
+        .catch(function () {}).then(function () { chamBusy = false; });
     }
   }
   var chamPaintOrig = paint;
