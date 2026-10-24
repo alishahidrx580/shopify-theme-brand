@@ -154,3 +154,4 @@
   window.addEventListener('orientationchange', measure);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 })();
+(function () { var d = document.querySelector('.cart-drawer'); if (!d || !('inert' in d)) return; var sync = function () { d.inert = d.getAttribute('aria-hidden') === 'true'; }; sync(); new MutationObserver(sync).observe(d, { attributes: true, attributeFilter: ['aria-hidden'] }); })();
