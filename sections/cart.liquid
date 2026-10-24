@@ -192,13 +192,21 @@
     var target = free(masks), J = { 'Content-Type': 'application/json' };
     if (creams < target) {
       fetch('/cart/add.js', { method: 'POST', headers: J, body: JSON.stringify({ id: CREAM, quantity: target - creams }) }).then(function () { location.reload(); });
-    } else if (freeCreams > target) {
-      var remove = freeCreams - target;
+    } else {
+      // Remove surplus cream: whatever Shopify is giving free beyond the rule, plus what the old mask count earned.
+      var drop = Math.min(creams, Math.max(freeCreams - target, free(prev) - target, 0));
+      if (drop <= 0) return;
       var ups = c.items.map(function (it) {
-        if (it.variant_id !== CREAM || it.final_line_price !== 0 || remove <= 0) return it.quantity;
-        var take = Math.min(it.quantity, remove);
-        remove -= take;
+        if (it.variant_id !== CREAM || it.final_line_price !== 0) return it.quantity;
+        var take = Math.min(it.quantity, drop);
+        drop -= take;
         return it.quantity - take;
+      });
+      ups = c.items.map(function (it, i) {
+        if (it.variant_id !== CREAM || drop <= 0) return ups[i];
+        var take = Math.min(ups[i], drop);
+        drop -= take;
+        return ups[i] - take;
       });
       fetch('/cart/update.js', { method: 'POST', headers: J, body: JSON.stringify({ updates: ups }) }).then(function () { location.reload(); });
     }
