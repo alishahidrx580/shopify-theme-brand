@@ -253,6 +253,49 @@ endif
     });
     q.value = b.getAttribute('data-qty');
   });
+  /* Keep the main price block in sync with the selected pack (Buy 1 / 2 / 3) */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.cham-pack');
+    if (!b) return;
+    var form = b.closest('form');
+    if (!form) return;
+    setTimeout(function () {
+      var root = form.closest('.main-product__info') || document;
+      var qty = parseInt(b.getAttribute('data-qty'), 10) || 1;
+      var strong = b.querySelector('.cham-pack__price strong');
+      var num = function (t) { return parseInt(String(t || '').replace(/[^0-9]/g, ''), 10) || 0; };
+      var fmt = function (n) { return 'Rs. ' + n.toLocaleString('en-US'); };
+      function field(sel) {
+        var el = root.querySelector(sel);
+        if (!el) return null;
+        if (el.getAttribute('data-pk-last') !== el.textContent) el.setAttribute('data-pk-base', el.textContent);
+        return el;
+      }
+      function put(el, text) { el.textContent = text; el.setAttribute('data-pk-last', text); }
+      function base(el) { return el.getAttribute('data-pk-base'); }
+      var cmp = field('.main-product__price-compare');
+      var sale = field('.main-product__price-sale');
+      var vol = field('.main-product__volume--current');
+      var pill = field('.main-product__save-pill');
+      var note = field('.main-product__save-text');
+      if (qty === 1) {
+        [cmp, sale, vol, pill, note].forEach(function (el) { if (el) put(el, base(el)); });
+        return;
+      }
+      var total = strong ? num(strong.textContent) : 0;
+      if (sale && total) put(sale, fmt(total));
+      if (vol) {
+        var m = base(vol).match(/^\s*(\d+)\s*(pieces?)\s*$/i);
+        if (m) put(vol, (parseInt(m[1], 10) * qty) + ' ' + m[2]);
+      }
+      var cmpTotal = cmp ? num(base(cmp)) * qty : 0;
+      if (cmp && cmpTotal) put(cmp, fmt(cmpTotal));
+      if (cmpTotal > total && total) {
+        if (pill) put(pill, Math.round((cmpTotal - total) / cmpTotal * 100) + '% OFF');
+        if (note) put(note, 'You save ' + fmt(cmpTotal - total));
+      }
+    }, 80);
+  });
   document.addEventListener('click', function (e) {
     var btn = e.target.closest && e.target.closest('.main-product__atc, .main-product__buy-now');
     if (!btn || btn.dataset.chamBonusDone) return;
