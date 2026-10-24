@@ -291,8 +291,11 @@ endif
       var cmpTotal = cmp ? num(base(cmp)) * qty : 0;
       if (cmp && cmpTotal) put(cmp, fmt(cmpTotal));
       if (cmpTotal > total && total) {
-        if (pill) put(pill, Math.round((cmpTotal - total) / cmpTotal * 100) + '% OFF');
-        if (note) put(note, 'You save ' + fmt(cmpTotal - total));
+        var gift = b.hasAttribute('data-bonus') ? {{ all_products['the-brightening-cream'].compare_at_price | default: 0 | divided_by: 100.0 | round }} : 0;
+        if (gift) cmpTotal += gift;
+        var tail = gift ? ' incl. free cream' : '';
+        if (pill) put(pill, Math.round((cmpTotal - total) / cmpTotal * 100) + '% OFF' + tail);
+        if (note) put(note, 'You save ' + fmt(cmpTotal - total) + tail);
       }
     })();
   });
