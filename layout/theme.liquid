@@ -203,14 +203,21 @@
     if (creams < target) {
       chamBusy = true;
       addVariant(CHAM_CREAM, target - creams).catch(function () {}).then(function () { chamBusy = false; });
-    } else if (freeCreams > target) {
-      var remove = freeCreams - target;
-      var ups = cart.items.map(function (it) {
-        if (it.variant_id !== CHAM_CREAM || it.final_line_price !== 0 || remove <= 0) return it.quantity;
-        var take = Math.min(it.quantity, remove);
-        remove -= take;
-        return it.quantity - take;
-      });
+  } else if (Math.max(freeCreams - target, chamFree(before) - target) > 0 && creams > 0) {
+    // Remove surplus cream: whatever Shopify is giving free beyond the rule, plus what the old mask count earned.
+    var remove = Math.min(creams, Math.max(freeCreams - target, chamFree(before) - target));
+    var ups = cart.items.map(function (it) {
+      if (it.variant_id !== CHAM_CREAM || it.final_line_price !== 0) return it.quantity;
+      var take = Math.min(it.quantity, remove);
+      remove -= take;
+      return it.quantity - take;
+    });
+    ups = cart.items.map(function (it, i) {
+      if (it.variant_id !== CHAM_CREAM || remove <= 0) return ups[i];
+      var take = Math.min(ups[i], remove);
+      remove -= take;
+      return ups[i] - take;
+    });
       chamBusy = true;
       fetch('/cart/update.js', { method: 'POST', credentials: 'same-origin', headers: J, body: JSON.stringify({ updates: ups }) })
         .then(function (r) { return r.ok ? r.json() : null; })
