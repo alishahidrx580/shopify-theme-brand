@@ -633,4 +633,4 @@ html .shopify-policy__title{margin-top:calc(var(--header-height) + 1rem)}
 
 
 /* Hide the breadcrumb on product pages (frees up space above the title) */
-.main-product__breadcrumb { display: none; }
+nav.main-product__breadcrumb { display: none; }
