@@ -113,7 +113,7 @@
       </div>
           {%- if product.vendor == 'CHAM' -%}
         {%- assign pair_p = cross_products | first -%}
-        {%- if pair_p != blank and pair_p.vendor == 'CHAM' and pair_p.available and product.available -%}
+        {%- if pair_p != blank and pair_p.vendor == 'CHAM' and pair_p.available and product.available and false -%}
           {%- assign v1 = product.selected_or_first_available_variant -%}
           {%- assign v2 = pair_p.selected_or_first_available_variant -%}
           {%- assign set_total = v1.price | plus: v2.price | times: 0.95 | round -%}
