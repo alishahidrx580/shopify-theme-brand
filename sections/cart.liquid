@@ -174,6 +174,28 @@
     {%- endif -%}
   </div>
 </section>
+<script>
+(function () {
+  var CREAM = 67387904458980, KEY = 'chamMaskQty';
+  fetch('/cart.js', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (c) {
+    var masks = 0, cream = null;
+    c.items.forEach(function (it) {
+      if (it.handle === 'brightening-face-mask') masks += it.quantity;
+      if (it.variant_id === CREAM) cream = it;
+    });
+    var prev = null;
+    try { prev = sessionStorage.getItem(KEY); prev = prev === null ? null : parseInt(prev, 10); } catch (e) {}
+    try { sessionStorage.setItem(KEY, String(masks)); } catch (e) {}
+    if (prev === null) return;
+    var J = { 'Content-Type': 'application/json' };
+    if (masks >= 3 && !cream && prev < 3) {
+      fetch('/cart/add.js', { method: 'POST', headers: J, body: JSON.stringify({ id: CREAM, quantity: 1 }) }).then(function () { location.reload(); });
+    } else if (masks < 3 && cream && cream.quantity === 1 && prev >= 3) {
+      fetch('/cart/change.js', { method: 'POST', headers: J, body: JSON.stringify({ id: cream.key, quantity: 0 }) }).then(function () { location.reload(); });
+    }
+  }).catch(function () {});
+})();
+</script>
 
 {% stylesheet %}
   .main-cart {
