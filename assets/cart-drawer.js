@@ -61,6 +61,25 @@
     // Bottom total.
     const totalEl = drawer.querySelector('.cart-drawer__total-amount');
     if (totalEl) totalEl.textContent = formatMoney(cart.total_price);
+  // Total savings row: read the server-computed value from the cart page so it always matches line prices.
+  fetch('/cart?cb=' + Date.now(), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (h) {
+    var doc = new DOMParser().parseFromString(h, 'text/html');
+    var src = doc.querySelector('.main-cart__row--saved');
+    var row = drawer.querySelector('.cart-drawer__row--saved');
+    var totals = drawer.querySelector('.cart-drawer__totals');
+    if (src) {
+      var val = src.lastElementChild.textContent;
+      if (row) { row.lastElementChild.textContent = val; }
+      else if (totals) {
+        row = document.createElement('div');
+        row.className = 'cart-drawer__row cart-drawer__row--saved';
+        row.setAttribute('style', 'color:var(--primary);font-weight:600');
+        row.innerHTML = '<span>Total savings</span><span></span>';
+        row.lastElementChild.textContent = val;
+        totals.insertBefore(row, totals.firstChild);
+      }
+    } else if (row) { row.remove(); }
+  }).catch(function () {});
 
     // Drawer header count and global cart-trigger badges.
     const countText = drawer.querySelector('[data-cart-count-text]');
