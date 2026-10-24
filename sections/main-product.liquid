@@ -271,6 +271,45 @@ endif
       setTimeout(function () { delete btn.dataset.chamBonusDone; }, 1500);
     });
   }, true);
+  (function () {
+    var root = document.querySelector('[data-cham-packs]');
+    if (!root) return;
+    function active() { return root.querySelector('.cham-pack.is-active'); }
+    function wanted() {
+      var on = active();
+      if (!on) return null;
+      if (on.getAttribute('data-qty') === '1') {
+        var base = document.querySelector('.main-product__price-sale');
+        return base ? base.textContent.trim() : null;
+      }
+      var p = on.querySelector('.cham-pack__price');
+      if (!p) return null;
+      var s = p.querySelector('strong');
+      return (s ? s.textContent : p.textContent).trim();
+    }
+    function sync() {
+      var t = wanted();
+      if (t) {
+        document.querySelectorAll('[data-atc-price]').forEach(function (el) {
+          if (el.textContent.trim() !== t) el.textContent = t;
+        });
+      }
+      var on = active();
+      var sv = document.querySelector('.main-product__save-text');
+      if (sv) sv.style.display = on && on.getAttribute('data-qty') !== '1' ? 'none' : '';
+    }
+    function init() {
+      sync();
+      var mo = new MutationObserver(function () { setTimeout(sync, 0); });
+      document.querySelectorAll('[data-atc-price]').forEach(function (el) {
+        mo.observe(el, { childList: true, characterData: true, subtree: true });
+      });
+      root.addEventListener('click', function () { setTimeout(sync, 0); });
+      window.addEventListener('pageshow', sync);
+      window.addEventListener('load', sync);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  })();
 </script>
 {%- endif -%}
 
