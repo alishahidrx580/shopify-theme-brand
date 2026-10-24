@@ -202,7 +202,7 @@
     var target = chamFree(masks);
     if (creams < target) {
       chamBusy = true;
-      return addVariant(CHAM_CREAM, target - creams).catch(function () {}).then(function () { chamBusy = false; });
+    return fetch('/cart/add.js', { method: 'POST', credentials: 'same-origin', headers: J, body: JSON.stringify({ id: CHAM_CREAM, quantity: target - creams }) }).then(function (r) { return r.ok ? rerender() : null; }).catch(function () {}).then(function () { chamBusy = false; });
   } else if (Math.max(freeCreams - target, chamFree(before) - target) > 0 && creams > 0) {
     // Remove surplus cream: whatever Shopify is giving free beyond the rule, plus what the old mask count earned.
     var remove = Math.min(creams, Math.max(freeCreams - target, chamFree(before) - target));
