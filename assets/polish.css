@@ -630,3 +630,7 @@ html .shopify-policy__title{margin-top:calc(var(--header-height) + 1rem)}
   .pg-next { right: 10px; }
   .pg-nav:disabled { opacity: 0.25; cursor: default; }
 }
+
+
+/* Hide the breadcrumb on product pages (frees up space above the title) */
+.main-product__breadcrumb { display: none; }
