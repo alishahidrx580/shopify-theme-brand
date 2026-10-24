@@ -193,7 +193,16 @@
     if (diff > 0) {
       fetch('/cart/add.js', { method: 'POST', headers: J, body: JSON.stringify({ id: CREAM, quantity: diff }) }).then(function () { location.reload(); });
     } else if (diff < 0 && cream) {
-      fetch('/cart/change.js', { method: 'POST', headers: J, body: JSON.stringify({ id: cream.key, quantity: Math.max(0, cream.quantity + diff) }) }).then(function () { location.reload(); });
+      var total = 0, remove;
+      c.items.forEach(function (it) { if (it.variant_id === CREAM) total += it.quantity; });
+      remove = total - Math.max(0, total + diff);
+      var ups = c.items.map(function (it) {
+        if (it.variant_id !== CREAM || remove <= 0) return it.quantity;
+        var take = Math.min(it.quantity, remove);
+        remove -= take;
+        return it.quantity - take;
+      });
+      fetch('/cart/update.js', { method: 'POST', headers: J, body: JSON.stringify({ updates: ups }) }).then(function () { location.reload(); });
     }
   }).catch(function () {});
 })();
