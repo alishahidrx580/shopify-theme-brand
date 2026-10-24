@@ -179,25 +179,23 @@
   var CREAM = 67387904458980, KEY = 'chamMaskQty';
   function free(n) { return n > 0 && n % 3 === 0 ? n / 3 : 0; }
   fetch('/cart.js', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (c) {
-    var masks = 0, cream = null;
+    var masks = 0, creams = 0, freeCreams = 0;
     c.items.forEach(function (it) {
       if (it.handle === 'brightening-face-mask') masks += it.quantity;
-      if (it.variant_id === CREAM) cream = it;
+      if (it.variant_id === CREAM) { creams += it.quantity; if (it.final_line_price === 0) freeCreams += it.quantity; }
     });
     var prev = null;
     try { prev = sessionStorage.getItem(KEY); prev = prev === null ? null : parseInt(prev, 10); } catch (e) {}
     try { sessionStorage.setItem(KEY, String(masks)); } catch (e) {}
     if (prev === null || prev === masks) return;
-    var diff = free(masks) - free(prev);
-    var J = { 'Content-Type': 'application/json' };
-    if (diff > 0) {
-      fetch('/cart/add.js', { method: 'POST', headers: J, body: JSON.stringify({ id: CREAM, quantity: diff }) }).then(function () { location.reload(); });
-    } else if (diff < 0 && cream) {
-      var total = 0, remove;
-      c.items.forEach(function (it) { if (it.variant_id === CREAM) total += it.quantity; });
-      remove = total - Math.max(0, total + diff);
+    // One free cream per full set of 3 masks (3 -> 1, 6 -> 2); 4, 5, 7, 8 get none.
+    var target = free(masks), J = { 'Content-Type': 'application/json' };
+    if (creams < target) {
+      fetch('/cart/add.js', { method: 'POST', headers: J, body: JSON.stringify({ id: CREAM, quantity: target - creams }) }).then(function () { location.reload(); });
+    } else if (freeCreams > target) {
+      var remove = freeCreams - target;
       var ups = c.items.map(function (it) {
-        if (it.variant_id !== CREAM || remove <= 0) return it.quantity;
+        if (it.variant_id !== CREAM || it.final_line_price !== 0 || remove <= 0) return it.quantity;
         var take = Math.min(it.quantity, remove);
         remove -= take;
         return it.quantity - take;
