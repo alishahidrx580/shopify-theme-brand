@@ -18,7 +18,16 @@
         <div class="cvr__card">
           <div class="cvr__media">
             {%- if item.sources != blank -%}
-              {{ item | video_tag: image_size: '600x', autoplay: true, loop: true, muted: true, controls: false }}
+        {%- assign mp4s = item.sources | where: 'format', 'mp4' | sort: 'height' -%}
+        {%- assign pick = mp4s.first -%}
+        {%- for s in mp4s -%}
+          {%- if s.height >= 480 -%}{%- assign pick = s -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if pick != blank -%}
+          <video playsinline muted loop preload="none" poster="{{ item.preview_image | image_url: width: 600 }}"><source src="{{ pick.url }}" type="video/mp4"></video>
+        {%- else -%}
+          {{ item | video_tag: image_size: '600x', autoplay: true, loop: true, muted: true, controls: false, preload: 'none' }}
+        {%- endif -%}
               <button type="button" class="cvr__sound" aria-pressed="false" aria-label="Turn sound on or off">
                 <svg class="cvr__off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
                 <svg class="cvr__on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
