@@ -220,6 +220,24 @@
         </details>
 
         <div class="cart-drawer__totals">
+      {%- liquid
+        assign cham_full = 0
+        for item in cart.items
+          assign cham_cp = item.variant.compare_at_price | default: 0
+          if cham_cp < item.original_price
+            assign cham_cp = item.original_price
+          endif
+          assign cham_line = cham_cp | times: item.quantity
+          assign cham_full = cham_full | plus: cham_line
+        endfor
+        assign cham_saved = cham_full | minus: cart.total_price
+      -%}
+      {%- if cham_saved > 0 -%}
+        <div class="cart-drawer__row cart-drawer__row--saved" style="color:var(--primary);font-weight:600">
+          <span>Total savings</span>
+          <span>&minus; {{ cham_saved | money }}</span>
+        </div>
+      {%- endif -%}
           <div class="cart-drawer__row cart-drawer__row--total">
             <span>{{ 'sections.cart_drawer.total' | t }}</span>
             <span class="font-display cart-drawer__total-amount">{{ cart.total_price | money }}</span>
