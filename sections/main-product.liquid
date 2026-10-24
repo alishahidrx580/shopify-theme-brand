@@ -199,16 +199,16 @@ endif
 {%- assign pk_4 = current_variant.price | times: 3 -%}
 <div class="cham-packs" role="radiogroup" aria-label="Choose your pack" data-cham-packs>
   <button type="button" class="cham-pack is-active" role="radio" aria-checked="true" data-qty="1">
-    <span class="cham-pack__text"><span class="cham-pack__name">1 Pack</span></span>
+    <span class="cham-pack__text"><span class="cham-pack__name">Buy 1</span></span>
     <span class="cham-pack__price"><strong>{{ pk_1 | money }}</strong></span>
   </button>
   <button type="button" class="cham-pack" role="radio" aria-checked="false" data-qty="2">
-    <span class="cham-pack__text"><span class="cham-pack__name">2 Pack</span><span class="cham-pack__tag">Save 5% more</span></span>
+    <span class="cham-pack__text"><span class="cham-pack__name">Buy 2</span><span class="cham-pack__tag">Save 5% more</span></span>
     <span class="cham-pack__price"><s>{{ pk_2full | money }}</s><strong>{{ pk_2 | money }}</strong></span>
   </button>
   {%- if product.handle == 'the-brightening-cream' -%}
   <button type="button" class="cham-pack" role="radio" aria-checked="false" data-qty="4">
-    <span class="cham-pack__text"><span class="cham-pack__name">4 Pack</span><span class="cham-pack__tag">Buy 3, get 1 free</span></span>
+    <span class="cham-pack__text"><span class="cham-pack__name">Buy 4</span><span class="cham-pack__tag">Buy 3, get 1 free</span></span>
     <span class="cham-pack__price"><s>{{ pk_4full | money }}</s><strong>{{ pk_4 | money }}</strong></span>
   </button>
   {%- endif -%}
@@ -219,7 +219,7 @@ endif
   {%- assign pk_3full = current_variant.price | times: 3 | plus: bonus_v.price -%}
   {%- assign pk_3 = current_variant.price | times: 3 -%}
   <button type="button" class="cham-pack" role="radio" aria-checked="false" data-qty="3" data-bonus="{{ bonus_v.id }}">
-    <span class="cham-pack__text"><span class="cham-pack__name">3 Pack</span><span class="cham-pack__tag">Buy 3, get a free Cream</span></span>
+    <span class="cham-pack__text"><span class="cham-pack__name">Buy 3</span><span class="cham-pack__tag">Buy 3, get a free Cream</span></span>
     <span class="cham-pack__price"><s>{{ pk_3full | money }}</s><strong>{{ pk_3 | money }}</strong></span>
   </button>
   {%- endif -%}
