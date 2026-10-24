@@ -72,6 +72,7 @@
     if (img.dataset.polFade) return;
     img.dataset.polFade = '1';
     if (img.classList.contains(SKIP)) return;
+    if (img.getAttribute('fetchpriority') === 'high' || img.getAttribute('loading') === 'eager') return;
     if (img.complete && img.naturalWidth) return;
     img.classList.add('pol-fade', 'pol-loading');
     img.addEventListener('load', function () { settle(img); }, { once: true });
