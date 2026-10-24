@@ -182,6 +182,37 @@
       return rerendering;
     }
 
+  // CHAM offer rule: when masks reach 3 the free cream is added; below 3 the free one is removed.
+  var CHAM_CREAM = 67387904458980, chamBusy = false, chamPrev = null;
+  function chamBonus(cart) {
+    if (chamBusy) return;
+    var masks = 0, cream = null;
+    cart.items.forEach(function (it) {
+      if (it.handle === 'brightening-face-mask') masks += it.quantity;
+      if (it.variant_id === CHAM_CREAM) cream = it;
+    });
+    var before = chamPrev;
+    chamPrev = masks;
+    if (masks >= 3 && !cream && before !== null && before < 3) {
+      chamBusy = true;
+      addVariant(CHAM_CREAM, 1).catch(function () {}).then(function () { chamBusy = false; });
+    } else if (masks < 3 && cream && cream.final_line_price === 0) {
+      chamBusy = true;
+      post(cream.key, 0).then(function (c) { return c ? paint(c) : sync(); }).catch(function () {}).then(function () { chamBusy = false; });
+    }
+  }
+  var chamPaintOrig = paint;
+  paint = function (cart) {
+    try { if (cart && cart.items) chamBonus(cart); } catch (e) {}
+    return chamPaintOrig(cart);
+  };
+  fetch('/cart.js', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (c) {
+    if (chamPrev !== null) return;
+    var m = 0;
+    c.items.forEach(function (it) { if (it.handle === 'brightening-face-mask') m += it.quantity; });
+    chamPrev = m;
+  }).catch(function () {});
+
     function paint(cart) {
       if (!cart || !cart.items) return;
       state.cart = cart;
