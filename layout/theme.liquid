@@ -212,6 +212,18 @@
     c.items.forEach(function (it) { if (it.handle === 'brightening-face-mask') m += it.quantity; });
     chamPrev = m;
   }).catch(function () {});
+  var chamRerenderOrig = rerender;
+  rerender = function () {
+    var p = chamRerenderOrig.apply(this, arguments);
+    return Promise.resolve(p).then(function (x) {
+      return fetch('/cart.js', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (c) {
+        var m = 0;
+        c.items.forEach(function (it) { if (it.handle === 'brightening-face-mask') m += it.quantity; });
+        chamPrev = m;
+        return x;
+      });
+    }).catch(function () {});
+  };
 
     function paint(cart) {
       if (!cart || !cart.items) return;
