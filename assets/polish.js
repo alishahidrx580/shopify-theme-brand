@@ -156,3 +156,89 @@
 })();
 (function () { var d = document.querySelector('.cart-drawer'); if (!d || !('inert' in d)) return; var sync = function () { d.inert = d.getAttribute('aria-hidden') === 'true'; }; sync(); new MutationObserver(sync).observe(d, { attributes: true, attributeFilter: ['aria-hidden'] }); })();
 (function () { function fix() { document.querySelectorAll('a.gfa-copyright:not([aria-label])').forEach(function (a) { a.setAttribute('aria-label', 'Powered by GSC Themes'); }); document.querySelectorAll('.jm-expanded-media-grid__container[role="list"]').forEach(function (c) { c.removeAttribute('role'); }); document.querySelectorAll('.jm-expanded-media-grid__item[role="listitem"]').forEach(function (b) { b.removeAttribute('role'); }); } var t; var mo = new MutationObserver(function () { clearTimeout(t); t = setTimeout(fix, 200); }); fix(); mo.observe(document.documentElement, { childList: true, subtree: true }); })();
+/* Mobile product gallery: thumbnail strip + small prev/next buttons */
+;(function () {
+  function init(root) {
+    var gal = (root || document).querySelector('.main-product__gallery');
+    if (!gal || gal.getAttribute('data-pg-ready')) return;
+    var track = gal.querySelector('[data-gallery-track]');
+    if (!track) return;
+    var tiles = track.querySelectorAll('[data-gallery-tile]');
+    if (tiles.length < 2) return;
+    gal.setAttribute('data-pg-ready', '1');
+
+    var strip = document.createElement('div');
+    strip.className = 'pg-thumbs';
+    var thumbs = [];
+    Array.prototype.forEach.call(tiles, function (tile, i) {
+      var img = tile.querySelector('img');
+      if (!img) return;
+      var src = img.currentSrc || img.getAttribute('src') || (img.getAttribute('srcset') || '').split(',')[0].trim().split(' ')[0] || '';
+      src = src.replace(/([?&])width=\d+/, '$1width=160');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pg-thumb';
+      b.setAttribute('aria-label', 'Show image ' + (i + 1));
+      var t = document.createElement('img');
+      t.src = src;
+      t.alt = '';
+      t.loading = 'lazy';
+      t.decoding = 'async';
+      b.appendChild(t);
+      b.addEventListener('click', function () { go(i); });
+      strip.appendChild(b);
+      thumbs[i] = b;
+    });
+
+    function mk(cls, label, path) {
+      var n = document.createElement('button');
+      n.type = 'button';
+      n.className = 'pg-nav ' + cls;
+      n.setAttribute('aria-label', label);
+      n.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + path + '"/></svg>';
+      return n;
+    }
+    var prev = mk('pg-prev', 'Previous image', 'M15 5l-7 7 7 7');
+    var next = mk('pg-next', 'Next image', 'M9 5l7 7-7 7');
+
+    function idx() { return Math.round(track.scrollLeft / (track.clientWidth || 1)); }
+    function go(i) {
+      i = Math.max(0, Math.min(tiles.length - 1, i));
+      track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+    }
+    function sync() {
+      var i = Math.min(idx(), tiles.length - 1);
+      thumbs.forEach(function (b, k) {
+        var on = k === i;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-current', on ? 'true' : 'false');
+      });
+      prev.disabled = i <= 0;
+      next.disabled = i >= tiles.length - 1;
+      var a = thumbs[i];
+      if (a && strip.scrollWidth > strip.clientWidth) {
+        strip.scrollTo({ left: a.offsetLeft - (strip.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
+      }
+    }
+    function place() {
+      var h = track.offsetHeight;
+      if (h) prev.style.top = next.style.top = (h / 2 - 16) + 'px';
+    }
+
+    prev.addEventListener('click', function () { go(idx() - 1); });
+    next.addEventListener('click', function () { go(idx() + 1); });
+    var tk;
+    track.addEventListener('scroll', function () { clearTimeout(tk); tk = setTimeout(sync, 60); }, { passive: true });
+    window.addEventListener('resize', place);
+    if (window.ResizeObserver) new ResizeObserver(place).observe(track);
+
+    gal.appendChild(prev);
+    gal.appendChild(next);
+    gal.appendChild(strip);
+    place();
+    sync();
+  }
+  function boot() { init(document); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  document.addEventListener('shopify:section:load', function (e) { init(e.target); });
+})();
