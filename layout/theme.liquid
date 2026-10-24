@@ -202,7 +202,7 @@
     var target = chamFree(masks);
     if (creams < target) {
       chamBusy = true;
-      addVariant(CHAM_CREAM, target - creams).catch(function () {}).then(function () { chamBusy = false; });
+      return addVariant(CHAM_CREAM, target - creams).catch(function () {}).then(function () { chamBusy = false; });
   } else if (Math.max(freeCreams - target, chamFree(before) - target) > 0 && creams > 0) {
     // Remove surplus cream: whatever Shopify is giving free beyond the rule, plus what the old mask count earned.
     var remove = Math.min(creams, Math.max(freeCreams - target, chamFree(before) - target));
@@ -219,7 +219,7 @@
       return ups[i] - take;
     });
       chamBusy = true;
-      fetch('/cart/update.js', { method: 'POST', credentials: 'same-origin', headers: J, body: JSON.stringify({ updates: ups }) })
+      return fetch('/cart/update.js', { method: 'POST', credentials: 'same-origin', headers: J, body: JSON.stringify({ updates: ups }) })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (c) { return c ? paint(c) : sync(); })
         .catch(function () {}).then(function () { chamBusy = false; });
@@ -241,7 +241,7 @@
     var p = chamRerenderOrig.apply(this, arguments);
     return Promise.resolve(p).then(function (x) {
       return fetch('/cart.js', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (c) {
-        try { chamBonus(c); } catch (e) {}
+        try { return Promise.resolve(chamBonus(c)).then(function () { return x; }); } catch (e) {}
         return x;
       });
     }).catch(function () {});
