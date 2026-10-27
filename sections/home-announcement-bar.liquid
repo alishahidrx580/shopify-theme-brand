@@ -76,7 +76,7 @@
     <span class="home-announcement-bar__msg{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}">
       {{- msg | strip -}}
     </span>
-  {%- endfor -%}
+  {%- endfor -%}{%- for i in (1..2) -%}{%- for msg in message_arr -%}<span class="home-announcement-bar__msg" aria-hidden="true">{{- msg | strip -}}</span>{%- endfor -%}{%- endfor -%}
 </div>
 
 <script>
