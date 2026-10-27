@@ -187,7 +187,7 @@ endif
             </span>
           {%- endif -%}
           </div>
-{%- if product.vendor == 'CHAM' -%}<p class="main-product__concern">For all skin types: brighter, more even-looking skin.</p>{%- endif -%}
+{%- if product.vendor == 'CHAM' -%}<p class="main-product__concern">For all skin types: brighter, more even-looking skin. Use 1-2 times a week for 3 to 4 weeks.</p>{%- endif -%}
 {%- if compare_at_price > current_variant.price -%}{%- assign save_cents = compare_at_price | minus: current_variant.price -%}{%- assign save_pct = save_cents | times: 100.0 | divided_by: compare_at_price | round -%}<div class="main-product__save-line" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 14px"><span class="main-product__save-pill" style="background:#ce9a43;color:#0d1c42;font-weight:700;font-size:12px;letter-spacing:.06em;padding:4px 10px;border-radius:999px;text-transform:uppercase">{{ save_pct }}% OFF</span><span class="main-product__save-text" style="font-size:13px;font-weight:600;opacity:.85">You save {{ save_cents | money }}</span></div>{%- endif -%}
 {%- assign cham_packs = false -%}
 {%- if product.vendor == 'CHAM' and product.available -%}{%- if product.handle == 'the-brightening-cream' or product.handle == 'brightening-face-mask' -%}{%- assign cham_packs = true -%}{%- endif -%}{%- endif -%}
@@ -384,7 +384,7 @@ endif
 
         {%- if product.vendor == 'CHAM' -%}
 <div class="cham-assure" role="note" aria-label="Delivery, returns and payment">
-  <p class="cham-assure__eta" data-cham-eta>Estimated delivery time: <strong>3-5 days</strong></p>
+  <p class="cham-assure__eta" data-cham-eta>Delivery: <strong>1-2 days in Lahore, 3-5 days in other cities</strong></p>
   <ul class="cham-assure__grid">
     <li>
       <svg class="cham-assure__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>
@@ -403,12 +403,7 @@ endif
       <span><strong>Fake or damaged?</strong><small>Full refund, return shipping on us</small></span>
     </li>
   </ul>
-  {%- unless product.handle == 'brightening-face-mask' -%}
-<p class="cham-assure__lab">
-    <svg class="cham-assure__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
-    <span><strong>Independently lab tested</strong>, skin-friendly pH 5.13. <a href="/pages/lab-test-reports">See the lab results</a> or <a href="https://cdn.shopify.com/s/files/1/0786/6892/3099/files/METS_R_4372-01_Lacleo_Corporate_Services_-_Cosmetics_GSO_1943_1.pdf?v=1782557623" target="_blank" rel="noopener">View the signed report</a>.</span>
-  </p>
-{%- endunless -%}
+  
 </div>
 <style>
   .cham-pay{margin:14px 0 4px;padding:2px 0}
@@ -444,7 +439,7 @@ endif
     function fmt(dt) { return ord(dt.getDate()) + ' ' + months[dt.getMonth()]; }
         var a = new Date(); a.setDate(a.getDate() + 3);
         var b = new Date(); b.setDate(b.getDate() + 5);
-    el.textContent = fmt(a) + ' - ' + fmt(b);
+    
   })();
 </script>
 {%- endif -%}
@@ -522,9 +517,9 @@ endif
 <details class="cham-faq"><summary>How do I use it?</summary><p>Apply morning and night to clean, dry skin. Take a pearl-sized amount, dot it across your forehead, cheeks, nose and chin, then press and smooth upward until absorbed. In the morning, finish with a broad-spectrum SPF. In the evening, use it as the last step of your routine.</p></details>
 <details class="cham-faq"><summary>Can I use it with the Brightening Face Mask?</summary><p>Yes, they are designed to work together. On mask days, apply the cream right after your Brightening Face Mask.</p></details>
 <details class="cham-faq"><summary>How soon will I see results?</summary><p>Every skin is different, so we do not promise overnight changes. The cream is built for daily use, morning and night, for a more even-looking tone, and the best way to judge it is to use it consistently.</p></details>
-<details class="cham-faq"><summary>Is it original and lab tested?</summary><p>Yes. CHAM is our official partner brand and every order arrives in original sealed packaging. The Brightening Cream has also been independently lab tested, with a skin-friendly pH of 5.13. <a href="/pages/lab-test-reports">See the lab results</a>.</p></details>
+<details class="cham-faq"><summary>Is it original?</summary><p>Yes. CHAM is our official partner brand and every order arrives in original sealed packaging.</p></details>
 {%- else -%}
-<details class="cham-faq"><summary>Which skin types can use the Brightening Face Mask?</summary><p>It is made for dull or uneven-looking skin. The 73% rose water base with Panthenol and Hyaluronate keeps the sheet hydrating, so it suits normal, dry, combination and oily skin. It contains brightening actives, so if your skin is very reactive, patch test first and begin with once a week.</p></details>
+<details class="cham-faq"><summary>How soon will I see results?</summary><p>For a more even-looking tone, use the mask 1-2 times a week for 3 to 4 weeks. Every skin is different, so results vary and we do not promise overnight changes.</p></details><details class="cham-faq"><summary>Which skin types can use the Brightening Face Mask?</summary><p>It is made for dull or uneven-looking skin. The 73% rose water base with Panthenol and Hyaluronate keeps the sheet hydrating, so it suits normal, dry, combination and oily skin. It contains brightening actives, so if your skin is very reactive, patch test first and begin with once a week.</p></details>
 <details class="cham-faq"><summary>Can I use it on sensitive skin?</summary><p>It contains active ingredients, including Tranexamic Acid, Stable Vitamin C, Alpha-Arbutin and Niacinamide. Test a small amount on your inner arm or behind your ear before your first mask, and stop using it if you notice irritation. The full ingredient list is under Ingredients, so you can check for anything you are allergic to.</p></details>
 <details class="cham-faq"><summary>Will it clog my pores or cause breakouts?</summary><p>It is listed as non-comedogenic, which means it is formulated not to block pores. It is also listed as hypoallergenic and cruelty free. As with any new product, patch test first if your skin tends to react.</p></details>
 <details class="cham-faq"><summary>What are the brightening ingredients?</summary><p>Three brightening actives at 3% each: Tranexamic Acid, Stable Vitamin C (3-o-Ethyl Ascorbic Acid) and Niacinamide, together with 0.3% Alpha-Arbutin, on a 73% rose water base with Panthenol and Sodium Hyaluronate.</p></details>
