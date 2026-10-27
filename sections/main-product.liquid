@@ -219,7 +219,7 @@ endif
   {%- assign pk_3full = current_variant.price | times: 3 | plus: bonus_v.price -%}
   {%- assign pk_3 = current_variant.price | times: 3 -%}
   <button type="button" class="cham-pack" role="radio" aria-checked="false" data-qty="3" data-bonus="{{ bonus_v.id }}">
-    <span class="cham-pack__text"><span class="cham-pack__name">Buy 3</span><span class="cham-pack__tag">Get extra 11% off + free CHAM Brightening Cream</span></span>
+    <span class="cham-pack__text"><span class="cham-pack__name">Buy 3</span><span class="cham-pack__tag"><span class="cham-pack__full">Get extra 11% off + free CHAM Brightening Cream</span><span class="cham-pack__short">11% off + free cream</span></span></span>
     <span class="cham-pack__price"><s>{{ pk_3full | money }}</s><strong>{{ pk_3 | money }}</strong></span>
   </button>
   {%- endif -%}
@@ -237,8 +237,8 @@ endif
   .cham-pack__tag{font-size:11px;line-height:1.35;padding:5px 10px;border-radius:14px;background:color-mix(in srgb,currentColor 12%,transparent)}
   .cham-pack__price{flex:0 0 auto;display:flex;align-items:baseline;gap:6px;white-space:nowrap}
   .cham-pack__price s{font-size:12px;opacity:.55}
-  .cham-pack__price strong{font-weight:600}
-@container (max-width:520px){.cham-pack{gap:10px;padding:12px}.cham-pack__price{flex-direction:column;align-items:flex-end;gap:2px}}
+  .cham-pack__price strong{font-weight:600}.cham-pack__short{display:none}
+@container (max-width:520px){.cham-pack{gap:10px;padding:12px}.cham-pack__price{flex-direction:column;align-items:flex-end;gap:2px}.cham-pack__full{display:none}.cham-pack__short{display:inline}.cham-pack__tag{white-space:nowrap;padding:4px 9px}}
 </style>
 <script>
   document.addEventListener('click', function (e) {
