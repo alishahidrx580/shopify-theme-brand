@@ -294,7 +294,7 @@ endif
       if (cmpTotal > total && total) {
         var gift = b.hasAttribute('data-bonus') ? {{ all_products['the-brightening-cream'].compare_at_price | default: 0 | divided_by: 100.0 | round }} : 0;
         if (gift) cmpTotal += gift;
-        var tail = gift ? ' + free cream' : '';
+        var tail = gift ? ' + free CHAM cream' : '';
         if (pill) put(pill, Math.round((cmpTotal - total) / cmpTotal * 100) + '% OFF' + tail);
         if (note) put(note, 'You save ' + fmt(cmpTotal - total) + tail);
       }
