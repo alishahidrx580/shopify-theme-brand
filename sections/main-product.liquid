@@ -403,10 +403,12 @@ endif
       <span><strong>Fake or damaged?</strong><small>Full refund, return shipping on us</small></span>
     </li>
   </ul>
-  <p class="cham-assure__lab">
+  {%- unless product.handle == 'brightening-face-mask' -%}
+<p class="cham-assure__lab">
     <svg class="cham-assure__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
     <span><strong>Independently lab tested</strong>, skin-friendly pH 5.13. <a href="/pages/lab-test-reports">See the lab results</a> or <a href="https://cdn.shopify.com/s/files/1/0786/6892/3099/files/METS_R_4372-01_Lacleo_Corporate_Services_-_Cosmetics_GSO_1943_1.pdf?v=1782557623" target="_blank" rel="noopener">View the signed report</a>.</span>
   </p>
+{%- endunless -%}
 </div>
 <style>
   .cham-pay{margin:14px 0 4px;padding:2px 0}
