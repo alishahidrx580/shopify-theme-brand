@@ -17,6 +17,7 @@
 | Titles & meta descriptions | **Poor** — homepage title is 8 characters; meta description missing on 7 of 10 pages |
 | Content accuracy / trust | **Critical** — three policy pages carry another brand's text |
 | Site structure | Weak — 9 unlinked pages, 5 duplicate demo pages, 1 empty collection, empty blog indexable |
+| Link integrity | **Not verified** — Shopify bot protection blocked all three crawl attempts |
 | GEO / AI answerability | **Poor** — no FAQ content, no FAQ schema, no extractable answers to buyer questions |
 | Page speed | **Poor** — mobile Performance 42 (home), 49 (product), 17 (collection); LCP 6.7s / 5.5s / 11.0s |
 | Accessibility | 90–96, but colour contrast and accessible-name mismatches fail on every page |
@@ -200,6 +201,32 @@ Google's PageSpeed Insights API was unavailable during this audit (shared keyles
 | `third-party-cookies`, `inspector-issues` | all three (best-practices) |
 
 `label-content-name-mismatch` on every page means an interactive element's accessible name does not match its visible text — exactly the class of problem that stops an AI shopping agent from operating the store reliably. `heading-order` on the collection page follows from it having an H1 and zero H2s.
+
+---
+
+## Link integrity — NOT VERIFIED
+
+This is the one part of the audit I could not complete, and it is worth stating plainly rather than leaving a gap.
+
+58 unique internal links were extracted from the homepage. Three separate attempts to check their HTTP status all failed, and none produced usable data: every response came back either `429` or `000` (no response — the connection held open until timeout).
+
+The cause is Shopify's bot protection, and the behaviour is specific enough to be worth recording. Requesting the same URL twice, seconds apart:
+
+| Request | Result |
+|---|---|
+| `curl` with its default user agent | `200` |
+| `curl` with a Chrome user agent | `429` |
+
+A request claiming to be Chrome while arriving with no cookies and no JavaScript is treated as a bot and served the "Verifying your connection" challenge. After sustained crawling the whole IP gets challenged regardless of user agent, which is where the `000` timeouts came from. Crawling was stopped at that point rather than continuing to hammer the store.
+
+**What this means for the audit:** no broken internal links were found, but none were ruled out either. Treat link integrity as unknown.
+
+**How to get it properly:**
+- Search Console's Pages report already has this data, server-side, for free — check it first.
+- Screaming Frog run from your own machine at 1–2 requests/second, which Shopify tolerates from a normal browsing IP.
+- Either beats scripted crawling from here.
+
+One result that did come back is worth not misreading: `/products/acm-depiwhite-advanced` returns 404. That URL is not in the sitemap and was only probed as a guess at a duplicate slug — it is not a broken link on the site.
 
 ---
 
