@@ -1,7 +1,11 @@
 <div class="custom-section full-width">
   {% if section.settings.background_image %}
     <div class="custom-section__background">
-      {{ section.settings.background_image | image_url: width: 2000 | image_tag }}
+      {%- comment -%}
+        Decorative background: an explicit empty alt tells screen readers and
+        AI agents to skip it, which a missing alt attribute does not.
+      {%- endcomment -%}
+      {{ section.settings.background_image | image_url: width: 2000 | image_tag: alt: '', loading: 'lazy' }}
     </div>
   {% endif %}
 

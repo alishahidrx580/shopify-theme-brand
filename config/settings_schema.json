@@ -15,6 +15,114 @@
         "id": "favicon",
         "label": "Favicon",
         "info": "Upload a square image (at least 32x32px). PNG or SVG. Used for the browser tab icon and home-screen icon on mobile."
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_logo",
+        "label": "Logo (for search engines)",
+        "info": "Square or wide logo, at least 512px. Used in Organization structured data and as the last-resort social share image. Not shown on the storefront."
+      },
+      {
+        "type": "text",
+        "id": "brand_legal_name",
+        "label": "Business name",
+        "info": "Leave blank to use the store name."
+      },
+      {
+        "type": "textarea",
+        "id": "brand_description",
+        "label": "Business description",
+        "info": "One or two sentences describing the business. Used in Organization structured data."
+      }
+    ]
+  },
+  {
+    "name": "SEO",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Homepage"
+      },
+      {
+        "type": "text",
+        "id": "seo_home_title_suffix",
+        "label": "Homepage title suffix",
+        "info": "Added after the store name in the browser title, e.g. \"THE EDIT | Original Imported Skincare in Pakistan\". Keep the whole title under 60 characters. An SEO title set in Online Store > Preferences overrides this.",
+        "default": "Original Imported Skincare in Pakistan"
+      },
+      {
+        "type": "textarea",
+        "id": "seo_home_description",
+        "label": "Homepage meta description",
+        "info": "Under 155 characters. Used when no description is set in Online Store > Preferences.",
+        "default": "Original skincare in Pakistan: pharmacy-sourced CeraVe, La Roche-Posay, ISDIN and Avene, plus CHAM as official partner. Sealed, batch codes intact."
+      },
+      {
+        "type": "image_picker",
+        "id": "social_share_image",
+        "label": "Default social share image",
+        "info": "Shown when a page with no image of its own is shared on WhatsApp, Facebook or X. 1200x630px works best."
+      },
+      {
+        "type": "header",
+        "content": "Verification"
+      },
+      {
+        "type": "text",
+        "id": "google_site_verification",
+        "label": "Google Search Console verification code",
+        "info": "The content value of the google-site-verification meta tag. Leave blank if Search Console is verified by DNS or Google Analytics."
+      },
+      {
+        "type": "header",
+        "content": "Contact details for structured data"
+      },
+      {
+        "type": "text",
+        "id": "brand_phone",
+        "label": "Phone",
+        "info": "In international format, e.g. +923001234567.",
+        "default": "+923268399421"
+      },
+      {
+        "type": "text",
+        "id": "brand_email",
+        "label": "Email",
+        "default": "theeditskincarepk@gmail.com"
+      },
+      {
+        "type": "text",
+        "id": "brand_area_served",
+        "label": "Area served",
+        "info": "Country code of the market you sell to.",
+        "default": "PK"
+      },
+      {
+        "type": "header",
+        "content": "Social profiles"
+      },
+      {
+        "type": "text",
+        "id": "brand_instagram_url",
+        "label": "Instagram URL",
+        "default": "https://www.instagram.com/the.editpk"
+      },
+      {
+        "type": "text",
+        "id": "brand_facebook_url",
+        "label": "Facebook URL",
+        "default": "https://www.facebook.com/profile.php?id=61589720247501"
+      },
+      {
+        "type": "text",
+        "id": "brand_youtube_url",
+        "label": "YouTube URL",
+        "info": "The store's own channel only. Do not use a supplier's or brand's channel here."
+      },
+      {
+        "type": "text",
+        "id": "brand_tiktok_url",
+        "label": "TikTok URL"
       }
     ]
   },
@@ -29,7 +137,7 @@
         "min": 0,
         "max": 9900,
         "step": 100,
-        "unit": "₹",
+        "unit": "Rs",
         "default": 2500
       },
       {

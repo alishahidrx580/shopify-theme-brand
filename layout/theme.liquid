@@ -57,6 +57,11 @@
     {% # Social, title, schema.org %}
     {% render 'meta-tags' %}
     
+    {% # Google Search Console verification %}
+    {%- if settings.google_site_verification != blank -%}
+      <meta name="google-site-verification" content="{{ settings.google_site_verification | escape }}">
+    {%- endif -%}
+
     {% # Yandex Webmaster verification %}
     <meta name="yandex-verification" content="1e79091c41279006" />
  
