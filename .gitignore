@@ -15,3 +15,6 @@ node_modules/
 ## Release files
 release
 *.zip
+
+# Raw Lighthouse JSON (large, regenerable)
+seo-reports/lh-*.json
