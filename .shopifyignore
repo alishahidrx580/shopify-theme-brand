@@ -11,3 +11,9 @@
 #
 # Ignore templates and sections with a regular expression:
 #   /(templates|sections)/.*\.json/
+
+# SEO working files. These live in the repo for review and history, but they
+# are not theme files and must never be pushed to the store.
+seo-reports/
+content/
+.claude/

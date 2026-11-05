@@ -108,6 +108,19 @@ Collections not linked from any crawled page: `/collections/frontpage`, `/collec
 
 `/collections/all` is also in the nav but not in the sitemap — another shop-all duplicate.
 
+### M3b. Two products appear to be listed twice
+
+Found while mapping handles for content briefs, verified against the products sitemap.
+
+| Pair | Likely the same product |
+|---|---|
+| `/products/acm-sensitelial-emollient-care` and `/products/laboratoire-acm-sensitelial-emollient-care` | Same product, listed under both the short and the full brand name |
+| `/products/depiwhite-advanced` and `/products/acm-depiwhite-anti-brown-spot-cream` | The first page's own title is "ACM Depiwhite Advanced Intensive Anti-Brown Spot Cream" |
+
+Both pairs are indexable with self-canonicals, so each pair competes with itself for the same query and splits whatever authority it earns. It also means ACM has 16 handles rather than the 14 counted earlier in this report.
+
+**Fix:** confirm in admin, then delete one of each pair and redirect its URL to the survivor. Needs doing before any ACM-focused content is published, or that content inherits the conflict.
+
 ### M4. Collection pages share one generic H1
 `/collections/shop-all` and `/collections/brightening` both use H1 "Formulations for skin that performs". Each collection needs its own H1 carrying the collection term ("Brightening Skincare in Pakistan"). Collections also have **zero H2s** and no intro copy beyond one marketing line.
 
@@ -260,7 +273,7 @@ The theme already has the machinery for this: `sections/product-faq.liquid` rend
 
 No instances of "treats", "cures", "heals", "eliminates" or "guaranteed results" were found.
 
-Catalog note: the live catalog is broader than CLAUDE.md records. Brands by product count: La Roche-Posay 23, Dermalogica 22, CeraVe 16, Avène 15, ACM 14, ISDIN 12, Medicube 11, Aveeno 9, COSRX 7. CLAUDE.md names only CeraVe, ISDIN, Dermalogica and CHAM — worth updating so sourcing-tier language stays accurate.
+Catalog note: the live catalog is broader than CLAUDE.md records. Brands by product count: La Roche-Posay 23, Dermalogica 22, ACM 16, CeraVe 16, Avène 15, ISDIN 12, Medicube 11, Aveeno 9, COSRX 7. CLAUDE.md names only CeraVe, ISDIN, Dermalogica and CHAM — worth updating so sourcing-tier language stays accurate.
 
 ---
 
