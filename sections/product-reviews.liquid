@@ -104,7 +104,9 @@
     grid-column: 1; grid-row: 2; margin: 0;
     font-size: clamp(26px, 3.4vw, 40px); line-height: 1.1; letter-spacing: -0.01em;
   }
-  #reviews .product-reviews__heading em { color: #ce9a43; }
+  /* Was the hardcoded accent gold #ce9a43: 2.52:1 on white, below the 3:1
+     minimum even at this heading size. The text-safe gold token is 4.73:1. */
+  #reviews .product-reviews__heading em { color: var(--accent-text); }
   #reviews .product-reviews__summary {
     grid-column: 2; grid-row: 1 / span 2; justify-self: end; margin: 0;
     display: grid; grid-template-columns: auto auto; column-gap: 14px; row-gap: 2px; align-items: center;

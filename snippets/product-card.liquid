@@ -380,9 +380,13 @@
     letter-spacing: 0;
   }
 
+  /* The 0.55 opacity that used to sit here faded --muted-foreground to
+     #959ba3, a 2.8:1 contrast ratio against white where 4.5:1 is required at
+     this size. The strikethrough already marks it as the old price, so the
+     colour token alone carries the de-emphasis. */
   .product-card__compare {
     font-size: 13px;
-    opacity: 0.55;
+    color: var(--muted-foreground);
     text-decoration: line-through;
   }
 

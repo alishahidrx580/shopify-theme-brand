@@ -152,6 +152,14 @@
       {%- endif -%}
     {%- endif -%}
     {%- if collection.products_count > 0 -%}
+      {%- comment -%}
+        Product cards use h3. Without an h2 between them and the page h1 the
+        heading outline skips a level, which breaks heading navigation for
+        screen-reader users. The heading is visually hidden because the grid
+        needs no visible label.
+      {%- endcomment -%}
+      <h2 class="visually-hidden">{{ 'sections.main_collection.grid_heading' | t }}</h2>
+
       <div class="main-collection__grid" data-collection-grid>
         {%- paginate collection.products by 250 -%}
           {%- for product in collection.products -%}

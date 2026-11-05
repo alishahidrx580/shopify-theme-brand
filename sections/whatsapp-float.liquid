@@ -18,6 +18,15 @@
   if wa_label == blank
     assign wa_label = 'sections.whatsapp_float.default_label' | t
   endif
+
+  # The badge digit is visible, so it has to appear in the accessible name too,
+  # or voice-control users saying what they see get no match (WCAG 2.5.3 Label
+  # in Name). aria-hidden on the badge does not help: the text is still on
+  # screen, so a sighted user still reads it.
+  assign wa_accessible_label = wa_label
+  if section.settings.show_badge and section.settings.badge_text != blank
+    assign wa_accessible_label = wa_label | append: ' (' | append: section.settings.badge_text | append: ')'
+  endif
 -%}
 
 {%- if section.settings.enabled and wa_href != blank -%}
@@ -26,7 +35,7 @@
     href="{{ wa_href }}"
     target="_blank"
     rel="noopener noreferrer"
-    aria-label="{{ wa_label | escape }}"
+    aria-label="{{ wa_accessible_label | escape }}"
     title="{{ wa_label | escape }}"
   >
     <svg class="whatsapp-float__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
