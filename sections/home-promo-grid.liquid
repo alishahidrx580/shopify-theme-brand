@@ -393,5 +393,19 @@
 }
 {% endschema %}
 <script>
-(function(){var s=document.querySelector('.pgrid-section-{{ section.id }}');if(!s){return;}function f(){var h=0;document.querySelectorAll('header,[class*=announcement]').forEach(function(e){if(getComputedStyle(e).position==='fixed'){var b=e.getBoundingClientRect().bottom;if(b>h){h=b;}}});var p=s.parentElement;var top=p&&p.parentElement&&p.parentElement.firstElementChild===p;s.style.setProperty('--pgrid-chrome',(top?h:0)+'px');}f();window.addEventListener('resize',f);window.addEventListener('load',f);})();
+/*
+  This section sits under a fixed header when it is the first thing on the
+  page, so it pads itself by the header's height via --pgrid-chrome.
+
+  The old test was `p.parentElement.firstElementChild === p`, which broke the
+  moment anything else became main's first element child — a visually hidden
+  h1 was enough to set the offset to 0 and slide the whole grid under the
+  header. It now walks the previous siblings and ignores ones that take up no
+  layout space, so hidden helpers do not count as content above it.
+*/
+(function(){var s=document.querySelector('.pgrid-section-{{ section.id }}');if(!s){return;}
+function isLaidOut(e){var cs=getComputedStyle(e);if(cs.display==='none'||cs.visibility==='hidden')return false;if(cs.position==='absolute'||cs.position==='fixed')return false;var r=e.getBoundingClientRect();return r.height>0;}
+function atTop(p){if(!p||!p.parentElement)return false;for(var e=p.previousElementSibling;e;e=e.previousElementSibling){if(isLaidOut(e))return false;}return true;}
+function f(){var h=0;document.querySelectorAll('header,[class*=announcement]').forEach(function(e){if(getComputedStyle(e).position==='fixed'){var b=e.getBoundingClientRect().bottom;if(b>h){h=b;}}});var p=s.parentElement;s.style.setProperty('--pgrid-chrome',(atTop(p)?h:0)+'px');}
+f();window.addEventListener('resize',f);window.addEventListener('load',f);})();
 </script>
