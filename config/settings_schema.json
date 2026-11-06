@@ -51,6 +51,13 @@
         "default": "Original Imported Skincare in Pakistan"
       },
       {
+        "type": "text",
+        "id": "seo_home_h1",
+        "label": "Homepage H1 (screen readers and search engines)",
+        "info": "The homepage has no visible top-level heading, because its first section starts at H2. This is rendered as a visually hidden H1 so the page has one. Write it as a plain description of the store, not a list of keywords.",
+        "default": "Original imported skincare in Pakistan"
+      },
+      {
         "type": "textarea",
         "id": "seo_home_description",
         "label": "Homepage meta description",

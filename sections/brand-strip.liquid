@@ -5,7 +5,14 @@
 <div class="brand-strip__track">
 {%- for block in section.blocks -%}
 {%- assign bp = block.settings.product -%}
-<a class="brand-strip__item" href="{{ routes.root_url }}collections/vendors?q={{ block.settings.name | url_encode }}" style="--brand-color: {{ block.settings.color }};" {{ block.shopify_attributes }}>
+{%- comment -%}
+  url_encode turns spaces into "+", producing /collections/vendors?q=La+Roche-Posay.
+  Shopify's robots.txt disallows /collections/*+*, so every multi-word brand link
+  here was blocked to crawlers and passed no equity. Percent-encoding the space
+  keeps the same destination without tripping that rule.
+{%- endcomment -%}
+{%- assign vendor_query = block.settings.name | url_encode | replace: '+', '%20' -%}
+<a class="brand-strip__item" href="{{ routes.root_url }}collections/vendors?q={{ vendor_query }}" style="--brand-color: {{ block.settings.color }};" {{ block.shopify_attributes }}>
 {%- comment -%}
   Empty alt on purpose. The brand name is already in the visible label below,
   inside the same link, so alt text repeating it makes a screen reader announce
