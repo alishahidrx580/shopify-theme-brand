@@ -6,12 +6,29 @@
 {%- for block in section.blocks -%}
 {%- assign bp = block.settings.product -%}
 {%- comment -%}
-  url_encode turns spaces into "+", producing /collections/vendors?q=La+Roche-Posay.
-  Shopify's robots.txt disallows /collections/*+*, so every multi-word brand link
-  here was blocked to crawlers and passed no equity. Percent-encoding the space
-  keeps the same destination without tripping that rule.
+  Two separate problems with this link, both confirmed against the live site.
+
+  1. url_encode turns spaces into "+", producing
+     /collections/vendors?q=La+Roche-Posay. Shopify's robots.txt disallows
+     /collections/*+*, so every multi-word brand link was blocked to crawlers
+     and passed no equity. Percent-encoding the space avoids that rule.
+
+  2. Shopify normalises the canonical on these pages to lowercase, so a link
+     to ?q=CeraVe lands on a page whose canonical is ?q=cerave. All nine brand
+     links were therefore "canonicalised" URLs. Lowercasing the query makes the
+     link match the canonical.
+
+  La Roche-Posay still cannot match exactly: its canonical uses "+", which is
+  the form robots.txt blocks. Crawlable-but-canonicalised beats blocked, so it
+  keeps %20. The real fix is per-brand collections rather than this filtered
+  vendors view — see the brand pages in the content briefs.
 {%- endcomment -%}
-{%- assign vendor_query = block.settings.name | url_encode | replace: '+', '%20' -%}
+{%- comment -%}
+  downcase runs after url_encode so it also lowercases the percent-encoding's
+  hex digits: Avène encodes to Av%C3%A8ne, while Shopify's canonical uses
+  av%c3%a8ne. Lowercasing only the name would leave that one mismatched.
+{%- endcomment -%}
+{%- assign vendor_query = block.settings.name | url_encode | downcase | replace: '+', '%20' -%}
 <a class="brand-strip__item" href="{{ routes.root_url }}collections/vendors?q={{ vendor_query }}" style="--brand-color: {{ block.settings.color }};" {{ block.shopify_attributes }}>
 {%- comment -%}
   Empty alt on purpose. The brand name is already in the visible label below,
