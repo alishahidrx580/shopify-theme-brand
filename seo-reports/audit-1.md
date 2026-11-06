@@ -112,6 +112,29 @@ Both carry the `no-discount` tag and sit outside the automatic discount, so the 
 
 **Standing risk worth knowing:** the theme cannot read Shopify's automatic discounts. That setting has to be kept equal to the discount in Discounts admin by hand. If someone changes the Shopify discount to 15% and not the setting, the store will display and advertise 10% while charging 15%.
 
+### H5b. CHAM multi-pack offers: prices correct, two labels misleading
+
+An earlier version of this report flagged the Liquid-computed multi-pack prices as possibly unbacked by real discounts. **They are backed.** Every pack was tested by adding it to a cart on 2026-11-06, and the charged total matched the advertised total to the rupee:
+
+| Pack | Page advertises | Cart charges | Shopify discount applied |
+|---|---|---|---|
+| Buy 2 cream | Rs 4,276.14 | Rs 4,276.14 | "CHAM: buy 2, save 35% in total" |
+| Buy 3 + 1 free cream | Rs 6,897.00 | Rs 6,897.00 | "CHAM: buy 3 creams, get 1 free" |
+| Buy 3 masks + free cream | Rs 11,997.00 | Rs 11,997.00 | "CHAM: buy 3 masks, get a free cream" |
+
+No pricing-integrity problem. The label copy is a different matter, because the percentages are written as **points above the 30% base** while reading as a straight discount off the price shown:
+
+- **"Get extra 5% off"** on both Buy 2 packs. The actual extra off the displayed single-unit price is **7%** (Rs 4,598 → Rs 4,276, and Rs 7,998 → Rs 7,438). The 5% is the gap between the 30% base and the 35% total. Understated, so the customer gains — harmless but inaccurate.
+- **"Get extra 11% off + free CHAM Brightening Cream"** on the mask Buy 3 pack. This one overstates. The charged Rs 11,997 is exactly 3 × Rs 3,999 — there is **no percentage off the masks at all**. The entire saving is the free cream (Rs 2,299). A customer reading this literally expects 11% off *and* a free cream, about Rs 1,320 more than they get. This is the one worth rewording.
+
+Suggested wording, for your approval rather than applied: "Buy 2 — 7% extra off" and "Buy 3 — free CHAM Brightening Cream, worth Rs 2,299". Offer copy is yours to sign off, so nothing was changed.
+
+### H5c. The regimen set offer is dead code
+
+`sections/product-regimen.liquid:116` gates the two-product set block on `... and product.available and false`, so the condition can never be true. The 5%-off set, its "You save X including an extra 5% off for the set" line and its "Add both to bag" button never render — confirmed absent from the live DOM on both CHAM product pages.
+
+Harmless as it stands, but it is roughly 60 lines of markup, CSS and JavaScript that look live when reading the file. Either re-enable it with a real Shopify discount behind it, or delete it.
+
 ---
 
 ## MEDIUM priority
