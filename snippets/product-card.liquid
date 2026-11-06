@@ -160,7 +160,21 @@
           <div class="product-card__compare">{{ product.compare_at_price | money }}</div>
           <div class="product-card__price">{{ product.price | money }}</div>
         {%- else -%}
-          {%- assign card_discounted_price = product.price | times: 0.9 | round -%}{%- if product.tags contains 'no-discount' -%}{%- assign card_discounted_price = product.price -%}{%- assign hide_card_compare = true -%}{%- endif -%}
+          {%- comment -%}
+            No compare-at price, so the Shopify storewide automatic discount is
+            what reduces this at cart. The percentage comes from settings rather
+            than being hardcoded here, so the card, the product page and the
+            Product structured data all read the same number.
+          {%- endcomment -%}
+          {%- liquid
+            assign card_discount_percent = settings.automatic_discount_percent | default: 0
+            assign card_discount_factor = 100 | minus: card_discount_percent | divided_by: 100.0
+            assign card_discounted_price = product.price | times: card_discount_factor | round
+            if card_discount_percent == 0 or product.tags contains 'no-discount'
+              assign card_discounted_price = product.price
+              assign hide_card_compare = true
+            endif
+          -%}
           {%- unless hide_card_compare -%}<div class="product-card__compare">{{ product.price | money }}</div>{%- endunless -%}
           <div class="product-card__price">{{ card_discounted_price | money }}</div>
         {%- endif -%}
@@ -380,9 +394,13 @@
     letter-spacing: 0;
   }
 
+  /* The 0.55 opacity that used to sit here faded --muted-foreground to
+     #959ba3, a 2.8:1 contrast ratio against white where 4.5:1 is required at
+     this size. The strikethrough already marks it as the old price, so the
+     colour token alone carries the de-emphasis. */
   .product-card__compare {
     font-size: 13px;
-    opacity: 0.55;
+    color: var(--muted-foreground);
     text-decoration: line-through;
   }
 

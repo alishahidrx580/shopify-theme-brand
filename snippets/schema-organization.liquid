@@ -1,0 +1,101 @@
+{% doc %}
+  Renders Organization and WebSite JSON-LD for the store.
+
+  Intended for the homepage only, so search engines see one authoritative
+  entity declaration rather than a repeated one on every page. All values
+  come from theme settings, so nothing is hardcoded in markup; any field
+  left blank in the theme editor is omitted from the output rather than
+  emitted empty.
+
+  Deliberately uses Organization, not LocalBusiness: the store has no
+  physical shop, so LocalBusiness would be a false signal.
+
+  @example
+  {% render 'schema-organization' %}
+{% enddoc %}
+
+{%- liquid
+  assign org_name = settings.brand_legal_name | default: shop.name
+  assign org_description = settings.brand_description | default: shop.description
+
+  assign logo_url = ''
+  if settings.brand_logo != blank
+    assign logo_url = settings.brand_logo | image_url: width: 512
+  endif
+
+  assign same_as = ''
+  if settings.brand_instagram_url != blank
+    assign same_as = same_as | append: '"' | append: settings.brand_instagram_url | append: '",'
+  endif
+  if settings.brand_facebook_url != blank
+    assign same_as = same_as | append: '"' | append: settings.brand_facebook_url | append: '",'
+  endif
+  if settings.brand_youtube_url != blank
+    assign same_as = same_as | append: '"' | append: settings.brand_youtube_url | append: '",'
+  endif
+  if settings.brand_tiktok_url != blank
+    assign same_as = same_as | append: '"' | append: settings.brand_tiktok_url | append: '",'
+  endif
+  assign same_as = same_as | split: ',' | join: ','
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": {{ shop.url | append: '/#organization' | json }},
+        "name": {{ org_name | json }},
+        "url": {{ shop.url | json }}
+        {%- if org_description != blank -%}
+          ,"description": {{ org_description | strip_html | strip_newlines | strip | json }}
+        {%- endif -%}
+        {%- if logo_url != blank -%}
+          ,"logo": {
+            "@type": "ImageObject",
+            "url": {{ logo_url | prepend: 'https:' | json }}
+          }
+        {%- endif -%}
+        {%- if same_as != blank -%}
+          ,"sameAs": [{{ same_as }}]
+        {%- endif -%}
+        {%- if settings.brand_phone != blank or settings.brand_email != blank -%}
+          ,"contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service"
+            {%- if settings.brand_phone != blank -%}
+              ,"telephone": {{ settings.brand_phone | json }}
+            {%- endif -%}
+            {%- if settings.brand_email != blank -%}
+              ,"email": {{ settings.brand_email | json }}
+            {%- endif -%}
+            {%- if settings.brand_area_served != blank -%}
+              ,"areaServed": {{ settings.brand_area_served | json }}
+            {%- endif -%}
+          }
+        {%- endif -%}
+      },
+      {
+        "@type": "WebSite",
+        "@id": {{ shop.url | append: '/#website' | json }},
+        "url": {{ shop.url | json }},
+        "name": {{ org_name | json }},
+        "publisher": { "@id": {{ shop.url | append: '/#organization' | json }} },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            {%- comment -%}
+              The {search_term_string} placeholder is written as literal text
+              outside the Liquid output tag. Inside one, its closing brace
+              terminates the tag early and the template fails to parse.
+            {%- endcomment -%}
+            "urlTemplate": "{{ shop.url }}{{ routes.search_url }}?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+</script>

@@ -40,6 +40,13 @@
     --accent: oklch(0.72 0.12 78);
     --accent-foreground: oklch(0.21 0.058 258);
 
+    /* Text-safe gold. The accent gold is #ce9a43, which is only 2.52:1
+       against white and fails WCAG AA as text at any size. This darker
+       gold in the same hue family is 4.73:1, so use it wherever gold is
+       readable text on a light surface; keep --accent for icons, borders,
+       fills and hover states, where the contrast rules do not apply. */
+    --accent-text: oklch(0.56 0.11 78);
+
     --destructive: oklch(0.55 0.20 27);
     --destructive-foreground: oklch(0.96 0.01 85);
 
@@ -92,6 +99,10 @@
 
     --accent: oklch(0.97 0 0);
     --accent-foreground: oklch(0.16 0 0);
+
+    /* On dark surfaces the near-white accent already has ample contrast,
+       so text uses the same value. */
+    --accent-text: oklch(0.97 0 0);
 
     --destructive: oklch(0.55 0.20 27);
     --destructive-foreground: oklch(0.96 0.01 85);

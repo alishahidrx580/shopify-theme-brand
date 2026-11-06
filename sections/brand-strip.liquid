@@ -6,7 +6,12 @@
 {%- for block in section.blocks -%}
 {%- assign bp = block.settings.product -%}
 <a class="brand-strip__item" href="{{ routes.root_url }}collections/vendors?q={{ block.settings.name | url_encode }}" style="--brand-color: {{ block.settings.color }};" {{ block.shopify_attributes }}>
-<span class="brand-strip__media">{%- if bp != blank and bp.featured_image -%}{{ bp.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 15vw, 45vw', alt: block.settings.name }}{%- endif -%}</span>
+{%- comment -%}
+  Empty alt on purpose. The brand name is already in the visible label below,
+  inside the same link, so alt text repeating it makes a screen reader announce
+  the brand twice for one link.
+{%- endcomment -%}
+<span class="brand-strip__media">{%- if bp != blank and bp.featured_image -%}{{ bp.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 15vw, 45vw', alt: '' }}{%- endif -%}</span>
 <span class="brand-strip__label">{{ block.settings.name }}</span>
 </a>
 {%- endfor -%}

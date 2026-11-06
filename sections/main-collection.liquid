@@ -23,12 +23,21 @@
       {%- if section.settings.eyebrow != blank -%}
         <span class="eyebrow">{{ section.settings.eyebrow }}</span>
       {%- endif -%}
+      {%- comment -%}
+        One template serves every collection, so a custom heading here puts the
+        same H1 on all of them. Defaulting to the collection's own title gives
+        each page a unique H1 carrying its own term.
+      {%- endcomment -%}
       <h1 class="main-collection__heading font-display">
-        {{- section.settings.heading_lead -}}
-        {%- if section.settings.heading_emphasis != blank %}
-          <em>{{ section.settings.heading_emphasis }}</em>
+        {%- if section.settings.heading_source == 'custom' -%}
+          {{- section.settings.heading_lead -}}
+          {%- if section.settings.heading_emphasis != blank %}
+            <em>{{ section.settings.heading_emphasis }}</em>
+          {%- endif -%}
+          {%- if section.settings.heading_tail != blank -%}{{ section.settings.heading_tail }}{%- endif -%}
+        {%- else -%}
+          {{- collection.title -}}
         {%- endif -%}
-        {%- if section.settings.heading_tail != blank -%}{{ section.settings.heading_tail }}{%- endif -%}
       </h1>
       {%- if section.settings.body != blank -%}
         <div class="main-collection__body">{{ section.settings.body }}</div>
@@ -143,6 +152,14 @@
       {%- endif -%}
     {%- endif -%}
     {%- if collection.products_count > 0 -%}
+      {%- comment -%}
+        Product cards use h3. Without an h2 between them and the page h1 the
+        heading outline skips a level, which breaks heading navigation for
+        screen-reader users. The heading is visually hidden because the grid
+        needs no visible label.
+      {%- endcomment -%}
+      <h2 class="visually-hidden">{{ 'sections.main_collection.grid_heading' | t }}</h2>
+
       <div class="main-collection__grid" data-collection-grid>
         {%- paginate collection.products by 250 -%}
           {%- for product in collection.products -%}
@@ -511,6 +528,17 @@
       "id": "eyebrow",
       "label": "t:labels.eyebrow",
       "default": "The Collection"
+    },
+    {
+      "type": "select",
+      "id": "heading_source",
+      "label": "Heading text",
+      "info": "The collection title gives every collection page a unique H1, which is what search engines rank. Use a custom heading only if you accept the same heading on every collection.",
+      "options": [
+        { "value": "collection_title", "label": "Collection title" },
+        { "value": "custom", "label": "Custom heading below" }
+      ],
+      "default": "collection_title"
     },
     {
       "type": "text",

@@ -169,6 +169,22 @@
 
           <div class="pgrid__media">
             {%- if block.settings.image != blank -%}
+              {%- comment -%}
+                The alt text has to be resolved before the filter call. A pipe
+                inside an `image_tag` argument list applies to the tag the
+                filter returns, not to the argument, so the previous
+                `alt: image.alt | default: title` silently produced alt="" for
+                every image whose alt was not set in admin.
+              {%- endcomment -%}
+              {%- liquid
+                assign card_alt = block.settings.image.alt
+                if card_alt == blank
+                  assign card_alt = block.settings.title
+                endif
+                if card_alt == blank
+                  assign card_alt = block.settings.caption
+                endif
+              -%}
               {{
                 block.settings.image
                 | image_url: width: 1200
@@ -176,7 +192,7 @@
                   loading: 'lazy',
                   widths: '340, 545, 680, 900, 1090, 1200',
                   sizes: '(max-width: 767px) 340px, 545px',
-                  alt: block.settings.image.alt | default: block.settings.title
+                  alt: card_alt
               }}
             {%- else -%}
               {{ 'image' | placeholder_svg_tag: 'pgrid__placeholder' }}

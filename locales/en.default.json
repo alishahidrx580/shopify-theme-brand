@@ -319,7 +319,8 @@
       "item_count": "{{ count }} {{ noun }}",
       "item_singular": "item",
       "item_plural": "items",
-      "no_products": "No products match this filter."
+      "no_products": "No products match this filter.",
+      "grid_heading": "Products"
     },
     "collections_list": {
       "eyebrow_default": "Discover",
