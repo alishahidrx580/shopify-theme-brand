@@ -92,7 +92,17 @@
           {%- for variant in product.variants -%}
             {%- liquid
               assign offer_cents = variant.price
-              if apply_auto_discount and variant.compare_at_price <= variant.price
+
+              # compare_at_price is nil on most products here, and Liquid will
+              # not compare nil with a number, so the sale test has to check
+              # for blank first. Getting this wrong silently skips the
+              # discount and publishes the pre-discount price.
+              assign variant_on_sale = false
+              if variant.compare_at_price != blank and variant.compare_at_price > variant.price
+                assign variant_on_sale = true
+              endif
+
+              if apply_auto_discount and variant_on_sale == false
                 assign offer_cents = variant.price | times: discount_factor | round
               endif
             -%}
