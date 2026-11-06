@@ -151,11 +151,27 @@
   content="{{ og_description | escape }}"
 >
 
+{%- comment -%}
+  The shop name used to be appended unconditionally, which pushed good titles
+  past the ~60 characters Google shows. The CHAM mask title was 73 and
+  truncated mid-phrase. Append it only when the result still fits: a title
+  that already reads well on its own loses nothing by dropping the suffix.
+{%- endcomment -%}
+{%- liquid
+  assign title_suffix = ' – ' | append: shop.name
+  assign title_with_suffix = seo_title | append: title_suffix
+  assign append_shop_name = true
+  if seo_title contains shop.name
+    assign append_shop_name = false
+  elsif title_with_suffix.size > 60
+    assign append_shop_name = false
+  endif
+-%}
 <title>
   {{- seo_title -}}
   {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
   {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-  {%- unless seo_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  {%- if append_shop_name %} &ndash; {{ shop.name }}{% endif -%}
 </title>
 
 <link
