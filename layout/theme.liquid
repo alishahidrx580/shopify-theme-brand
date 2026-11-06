@@ -57,6 +57,13 @@
     {% # Social, title, schema.org %}
     {% render 'meta-tags' %}
     
+    {% # Referrer policy. Shopify does not let the storefront set response %}
+    {% # headers, so this is the meta equivalent: it stops full URLs leaking %}
+    {% # to third parties on cross-origin requests while keeping the origin, %}
+    {% # which analytics and apps still need. A crawler that only inspects %}
+    {% # HTTP headers will keep reporting this as missing. %}
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
     {% # Google Search Console verification %}
     {%- comment -%}
       Driven by the theme setting rather than hardcoded, so the token can be
@@ -87,6 +94,18 @@
     {% sections 'header-group' %}
 
     <main id="main-content" role="main">
+      {%- comment -%}
+        The homepage has no h1. Its first section is the promo grid, which
+        starts at h2, so the page opens with no top-level heading at all —
+        the hero section that carries an h1 is not used on this template.
+        A visually hidden h1 gives the page a heading without changing the
+        design. Keep it descriptive and honest: it should read as a plain
+        description of the store, not a keyword list.
+      {%- endcomment -%}
+      {%- if request.page_type == 'index' -%}
+        {%- assign home_h1 = settings.seo_home_h1 | default: shop.name -%}
+        <h1 class="visually-hidden">{{ home_h1 }}</h1>
+      {%- endif -%}
       {{ content_for_layout }}
     </main>
 
