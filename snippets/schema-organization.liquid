@@ -86,7 +86,12 @@
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }}
+            {%- comment -%}
+              The {search_term_string} placeholder is written as literal text
+              outside the Liquid output tag. Inside one, its closing brace
+              terminates the tag early and the template fails to parse.
+            {%- endcomment -%}
+            "urlTemplate": "{{ shop.url }}{{ routes.search_url }}?q={search_term_string}"
           },
           "query-input": "required name=search_term_string"
         }
