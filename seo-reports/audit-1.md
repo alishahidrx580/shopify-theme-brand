@@ -78,8 +78,39 @@ The og:image gap is a theme bug, fixable on branch: `snippets/meta-tags.liquid` 
 
 **No `aggregateRating` and no `review` anywhere** — correct, since there are no real reviews yet. Judge.me is installed (`shopify://apps/judge-me-reviews` in `config/settings_data.json`) and `layout/theme.liquid` hides its badge with CSS. Keep ratings schema off until real reviews exist.
 
-### H5. Product schema shows the wrong price
-On `/products/depiwhite-advanced` the JSON-LD declares `price: "22200.00"` while the page sells at **Rs. 19,980**. The schema is emitting the compare-at price, not the selling price. A price mismatch between schema and page is a Google Merchant/rich-result violation and can suppress the rich result. Needs verification across the other 132 products.
+### H5. Product schema advertises the pre-discount price
+
+On `/products/depiwhite-advanced` the JSON-LD declares `price: "22200.00"` while the buyer pays **Rs. 19,980**. A price mismatch between schema and what is charged is a Google Merchant and rich-result violation and can suppress the rich result.
+
+**Correction to an earlier version of this report**, which said the schema was emitting the compare-at price. It was not. Verified in a real browser on 2026-11-06:
+
+```
+variant.price      2220000   Rs 22,200
+compare_at_price   null
+```
+
+There is no compare-at price on this product, and the schema figure matches `variant.price` exactly — Shopify's filter was behaving correctly. The gap comes from somewhere else. Adding one unit to a cart returns:
+
+```
+line_price        2220000   Rs 22,200
+line_final_price  1998000   Rs 19,980
+discounts         [{ amount: 222000, title: "10% Off" }]
+```
+
+A Shopify **automatic discount** does the reduction, and automatic discounts are invisible to Liquid. So `variant.price` is the pre-discount figure, and any schema built from it advertises a price nobody pays.
+
+This affects the storewide-discount tier only. CHAM products are discounted the other way — with real `compare_at_price` values, so `variant.price` is already the charged price and their schema was always correct:
+
+| Product | compare_at | price | Effective |
+|---|---|---|---|
+| `the-brightening-cream` | Rs 3,284 | Rs 2,299 | 30% off |
+| `brightening-face-mask` | Rs 5,712 | Rs 3,999 | 30% off |
+
+Both carry the `no-discount` tag and sit outside the automatic discount, so the 10% does not stack on top — confirmed by cart test (`line_discounts: []`).
+
+**Fixed** in `snippets/schema-product.liquid`: the offer price now applies the storewide percentage to products with no compare-at price and without the `no-discount` tag, matching both the storefront display and what Shopify charges. The percentage moved to a theme setting (`automatic_discount_percent`) that the product page, the product cards and the schema all read, so those three can no longer drift apart.
+
+**Standing risk worth knowing:** the theme cannot read Shopify's automatic discounts. That setting has to be kept equal to the discount in Discounts admin by hand. If someone changes the Shopify discount to 15% and not the setting, the store will display and advertise 10% while charging 15%.
 
 ---
 

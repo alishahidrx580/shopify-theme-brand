@@ -28,6 +28,31 @@
 
   assign description = product.description | strip_html | strip_newlines | strip | truncate: 500
 
+  # Google requires the price the customer is actually charged. This store
+  # discounts two different ways and the schema has to follow both:
+  #
+  #   CHAM products carry a real compare_at_price, so variant.price already IS
+  #   the charged price (for example Rs 3,284 struck through, Rs 2,299 charged).
+  #   Nothing to adjust.
+  #
+  #   Every other product has no compare_at_price and is covered by a Shopify
+  #   automatic discount. Automatic discounts are invisible to Liquid, so
+  #   variant.price is the PRE-discount figure. Left alone, the schema
+  #   advertises a price nobody pays.
+  #
+  # So mirror the same rule the storefront display uses. The percentage comes
+  # from settings so display and schema cannot drift apart, but it still has to
+  # be kept equal to the Shopify discount by hand.
+  assign discount_percent = settings.automatic_discount_percent | default: 0
+  assign apply_auto_discount = false
+  if discount_percent > 0
+    assign apply_auto_discount = true
+    if product.tags contains 'no-discount'
+      assign apply_auto_discount = false
+    endif
+  endif
+  assign discount_factor = 100 | minus: discount_percent | divided_by: 100.0
+
   assign breadcrumb_collection = collection
   if breadcrumb_collection == blank
     assign breadcrumb_collection = product.collections.first
@@ -65,10 +90,16 @@
       {%- if product.variants.size > 0 -%}
         ,"offers": [
           {%- for variant in product.variants -%}
+            {%- liquid
+              assign offer_cents = variant.price
+              if apply_auto_discount and variant.compare_at_price <= variant.price
+                assign offer_cents = variant.price | times: discount_factor | round
+              endif
+            -%}
             {
               "@type": "Offer",
               "url": {{ shop.url | append: variant.url | json }},
-              "price": {{ variant.price | divided_by: 100.0 }},
+              "price": {{ offer_cents | divided_by: 100.0 }},
               "priceCurrency": {{ currency_code | json }},
               "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
               "itemCondition": "https://schema.org/NewCondition"

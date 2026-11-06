@@ -141,6 +141,21 @@
         "default": 2500
       },
       {
+        "type": "header",
+        "content": "Storewide discount display"
+      },
+      {
+        "type": "range",
+        "id": "automatic_discount_percent",
+        "label": "Automatic discount shown on product prices (%)",
+        "info": "MUST match the Shopify automatic discount in Discounts admin. The theme only DISPLAYS this percentage and puts it in the Product structured data; Shopify decides what is actually charged. If the two disagree, customers see one price and pay another. Applies only to products with no compare-at price and without the 'no-discount' tag — CHAM products use real compare-at prices instead.",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "%",
+        "default": 10
+      },
+      {
         "type": "range",
         "id": "gift_message_max",
         "label": "t:settings_schema.commerce.gift_message_max.label",

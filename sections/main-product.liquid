@@ -25,19 +25,29 @@ assign price_formatted = current_variant.price | money
   assign atc_label       = 'Add to bag'
     assign sold_out_label  = 'products.sold_out' | t
 
-      assign compare_at_price = current_variant.compare_at_price
-        if compare_at_price > current_variant.price
-            assign original_price_formatted = compare_at_price | money
-                assign discounted_price_formatted = price_formatted
-                  else
-                      assign discounted_cents = current_variant.price | times: 0.9 | round
-if product.tags contains 'no-discount'
-assign discounted_cents = current_variant.price
-assign hide_compare_price = true
-endif
-                          assign original_price_formatted = price_formatted
-                              assign discounted_price_formatted = discounted_cents | money
-                                endif
+  # Two discount routes, and they must not be confused:
+  #   compare_at_price set (CHAM) -> a real Shopify sale. variant.price is what
+  #     is charged, so show compare_at struck through and price as the sale.
+  #   no compare_at_price -> the Shopify storewide automatic discount applies at
+  #     cart. Liquid cannot see automatic discounts, so the percentage is read
+  #     from settings and must be kept equal to the Shopify discount by hand.
+  # The 'no-discount' tag opts a product out of the computed percentage.
+  assign auto_discount_percent = settings.automatic_discount_percent | default: 0
+  assign auto_discount_factor = 100 | minus: auto_discount_percent | divided_by: 100.0
+
+  assign compare_at_price = current_variant.compare_at_price
+  if compare_at_price > current_variant.price
+    assign original_price_formatted = compare_at_price | money
+    assign discounted_price_formatted = price_formatted
+  else
+    assign discounted_cents = current_variant.price | times: auto_discount_factor | round
+    if auto_discount_percent == 0 or product.tags contains 'no-discount'
+      assign discounted_cents = current_variant.price
+      assign hide_compare_price = true
+    endif
+    assign original_price_formatted = price_formatted
+    assign discounted_price_formatted = discounted_cents | money
+  endif
 
                                   if product.has_only_default_variant
                                       assign variant_label = discounted_price_formatted
