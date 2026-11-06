@@ -28,6 +28,11 @@ Claims and trust
 - Anything you cannot source gets marked [SOURCE NEEDED].
 
 Technical safety
+- **Read [DEPLOYMENT-STATE.md](DEPLOYMENT-STATE.md) before any theme work.** As of
+  2026-11-06 the live theme is ahead of GitHub `main`: the SEO work was pushed
+  straight to the live theme with the Shopify CLI because this checkout has no
+  git credentials. A commit to `main`, or a GitHub re-sync, will overwrite what
+  is live. Merging `seo-fixes` into `main` closes the gap.
 - Never edit the live theme directly. Work only on the `seo-fixes` branch.
   Never push to or merge into the branch the live theme tracks. I do the merge.
 - Show me a diff summary before every commit.
