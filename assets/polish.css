@@ -697,8 +697,9 @@ html .brand-strip__nav:focus-visible {
   outline-offset: 2px;
 }
 
-/* Brand rail arrows: the desktop track is a fixed flex row that never
-   scrolls, so they belong on mobile only. */
+/* Brand rail arrows. The section's own base rule makes these visible, and
+   its script hides them again via brand--fits whenever the rail does not
+   overflow, so no breakpoint rule is needed here. */
 html .brand-strip__nav {
   position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
 }
@@ -708,8 +709,6 @@ html .brand-strip__nav[disabled] { opacity: 0; pointer-events: none; }
 html .brand-strip__nav:active { transform: translateY(-50%) scale(0.94); }
 
 @media (max-width: 749px) {
-  html .brand-strip:not(.brand--fits) .brand-strip__nav { display: flex; }
-
   html .hf-nav, html .pgrid__nav, html .brand-strip__nav { width: 38px; height: 38px; }
   html .hf-nav svg, html .pgrid__nav svg, html .brand-strip__nav svg { width: 10px; height: 14px; }
   html .hf-nav--prev { left: 2px; }

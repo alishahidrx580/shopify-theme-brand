@@ -119,13 +119,19 @@
     position: absolute;
     top: calc({{ section.settings.padding_top }}px + (100% - {{ section.settings.padding_top }}px - {{ section.settings.padding_bottom }}px - {{ section.settings.caption_height }}px) / 2);
     transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border: 0;
     border-radius: 50%;
-    background: #fff;
-    color: #000;
-    box-shadow: 0 1px 6px rgba(0,0,0,.28);
+    background: rgba(255, 255, 255, 0.78);
+    -webkit-backdrop-filter: blur(10px) saturate(1.3);
+    backdrop-filter: blur(10px) saturate(1.3);
+    color: var(--primary, #0d1c42);
+    box-shadow:
+      inset 0 0 0 1px rgba(206, 154, 67, 0.38),
+      0 10px 24px -12px rgba(13, 28, 66, 0.55);
+    transition: background-color .25s ease, color .25s ease,
+                box-shadow .25s ease, transform .25s ease;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -133,11 +139,20 @@
     padding: 0;
     z-index: 2;
   }
-  .pgrid-section-{{ section.id }} .pgrid__nav svg { width: 12px; height: 18px; }
+  .pgrid-section-{{ section.id }} .pgrid__nav svg { width: 11px; height: 16px; }
   .pgrid-section-{{ section.id }} .pgrid__nav--prev { left: 8px; }
   .pgrid-section-{{ section.id }} .pgrid__nav--next { right: 8px; }
   .pgrid-section-{{ section.id }} .pgrid__nav[disabled] { opacity: 0; pointer-events: none; }
   .pgrid-section-{{ section.id }}.pgrid--fits .pgrid__nav { display: none; }
+  {%- comment -%}
+    These two class selectors out-specify the shared `html .pgrid__nav`
+    rule in polish.css, so the arrow look has to be written here rather
+    than there. Keep it in step with section 25 of polish.css.
+  {%- endcomment -%}
+  @media screen and (max-width: 749px) {
+    .pgrid-section-{{ section.id }} .pgrid__nav { width: 38px; height: 38px; }
+    .pgrid-section-{{ section.id }} .pgrid__nav svg { width: 10px; height: 14px; }
+  }
 
   @media screen and (min-width: 768px) {
     .pgrid-section-{{ section.id }} .pgrid__slide { width: {{ section.settings.slide_width }}px; }
