@@ -6,30 +6,33 @@
 {%- for block in section.blocks -%}
 {%- assign bp = block.settings.product -%}
 {%- comment -%}
-  Two separate problems with this link, both confirmed against the live site.
+  Prefer the brand's own collection. Each brand now has an automated
+  collection keyed on Vendor, so /collections/cerave is a real indexable page
+  with its own title, description and schema, instead of the filtered
+  /collections/vendors?q= view.
 
-  1. url_encode turns spaces into "+", producing
-     /collections/vendors?q=La+Roche-Posay. Shopify's robots.txt disallows
-     /collections/*+*, so every multi-word brand link was blocked to crawlers
-     and passed no equity. Percent-encoding the space avoids that rule.
+  The query view is kept as a fallback for any brand that has no collection
+  yet, so adding a block here never produces a dead link. That fallback still
+  needs its own two fixes, both confirmed against the live site:
 
-  2. Shopify normalises the canonical on these pages to lowercase, so a link
-     to ?q=CeraVe lands on a page whose canonical is ?q=cerave. All nine brand
-     links were therefore "canonicalised" URLs. Lowercasing the query makes the
-     link match the canonical.
-
-  La Roche-Posay still cannot match exactly: its canonical uses "+", which is
-  the form robots.txt blocks. Crawlable-but-canonicalised beats blocked, so it
-  keeps %20. The real fix is per-brand collections rather than this filtered
-  vendors view — see the brand pages in the content briefs.
+  1. url_encode renders spaces as "+", and Shopify's robots.txt disallows
+     /collections/*+*, so multi-word brands were blocked to crawlers.
+  2. Shopify lowercases the canonical on those pages, so ?q=CeraVe was always
+     a "canonicalised" URL. downcase runs after url_encode so it also
+     lowercases the percent-encoding's hex digits, which Avene needs.
 {%- endcomment -%}
-{%- comment -%}
-  downcase runs after url_encode so it also lowercases the percent-encoding's
-  hex digits: Avène encodes to Av%C3%A8ne, while Shopify's canonical uses
-  av%c3%a8ne. Lowercasing only the name would leave that one mismatched.
-{%- endcomment -%}
-{%- assign vendor_query = block.settings.name | url_encode | downcase | replace: '+', '%20' -%}
-<a class="brand-strip__item" href="{{ routes.root_url }}collections/vendors?q={{ vendor_query }}" style="--brand-color: {{ block.settings.color }};" {{ block.shopify_attributes }}>
+{%- liquid
+  assign vendor_query = block.settings.name | url_encode | downcase | replace: '+', '%20'
+  assign brand_handle = block.settings.name | handle
+  assign brand_collection = collections[brand_handle]
+
+  if brand_collection != blank and brand_collection.products_count > 0
+    assign brand_url = brand_collection.url
+  else
+    assign brand_url = routes.root_url | append: 'collections/vendors?q=' | append: vendor_query
+  endif
+-%}
+<a class="brand-strip__item" href="{{ brand_url }}" style="--brand-color: {{ block.settings.color }};" {{ block.shopify_attributes }}>
 {%- comment -%}
   Empty alt on purpose. The brand name is already in the visible label below,
   inside the same link, so alt text repeating it makes a screen reader announce
