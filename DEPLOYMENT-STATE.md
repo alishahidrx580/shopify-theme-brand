@@ -10,13 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `54d53b8` |
+| **Live site** | Every commit on `seo-fixes` up to `ae9ec52` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | `ae9ec52`, 29 commits ahead of `main`, awaiting merge |
-
-`ae9ec52` (brand rail arrows, promo-grid arrow restyle) is committed and
-pushed but **not deployed** — it is verified on preview theme
-#190064099556 only, pending the owner's approval for a live push.
+| **`origin/seo-fixes`** | 30 commits ahead of `main`, awaiting merge |
 
 ### The risk
 
@@ -55,6 +51,15 @@ Both were found by pushing to an unpublished theme first. Keep doing that.
 - **Homepage has no `<h1>`.** Raised in audit 1, still unfixed.
 - **Collection meta descriptions are empty**, because the fallback reads `collection.description` and the collections have none.
 - **CHAM mask review markup.** 16 reviews, all timestamped inside one 3.5-hour window on 2026-10-24, publishing `aggregateRating` 4.88 to Google. See `seo-reports/audit-2.md`.
+
+## Verifying against the live site
+
+Two traps, both hit during this work:
+
+1. **The preview cookie outlives the URL.** A `preview_theme_id` cookie keeps serving an unpublished theme with no preview bar on the page. It surfaced only when a Buy Now redirect carried `?preview_theme_id=` into the checkout URL. Clear it by loading `https://theeditpk.com/?preview_theme_id=` with an empty value, then confirm `document.cookie` holds no `preview_theme`, no `.shopify-preview-bar` exists, and no link on the page carries the parameter.
+2. **MSYS `sed` and `grep` lie about CR on these files.** `grep -c '$'` reported every line of `sections/brand-strip.liquid` as CRLF when the file is pure LF, and `sed -n '95p' | od -c` showed no CR either. Line endings are mixed across the theme: `brand-strip.liquid` and `home-featured-products.liquid` are LF, `polish.css` and `home-promo-grid.liquid` are CRLF. Read bytes with python before editing, and preserve each file's own endings.
+
+With `core.autocrlf=true` and CRLF blobs in HEAD, always stage and commit with `git -c core.autocrlf=false`, and check `git diff --cached --numstat` first: a few dozen lines means the diff is real, several hundred means line-ending churn. A `.gitattributes` holding `* -text` would fix this permanently; the owner has been offered it and has not decided.
 
 ## Other live changes made outside the theme
 
