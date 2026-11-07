@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-07
+**Last updated:** 2026-11-08
 
 ## The live site and GitHub do not match
 
@@ -10,9 +10,23 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `ae9ec52` |
+| **Live site** | Every commit on `seo-fixes` up to `ae9ec52`, plus the two files from `779b6e7` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 30 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 33 commits ahead of `main`, awaiting merge |
+
+### One commit is deliberately NOT live
+
+`ab536ae` ("Add a Buy Now AddToCart fallback") is on the branch but was
+never pushed to the live theme, and must not be until it is verified.
+`779b6e7` was deployed with a two-file `--only` push for exactly that
+reason, so `sections/main-product.liquid` on the live theme is still at
+`ae9ec52`. Confirmed on the live page afterwards: neither
+`metaAddToCartThenCheckout` nor `__editAtcWatch` appears in
+`compiled_assets/scripts.js`.
+
+A full `shopify theme push` from this branch would put that unverified
+code live. Keep using `--only` until `ab536ae` is either verified or
+reverted. See its commit message for what is unresolved.
 
 ### The risk
 
@@ -37,6 +51,18 @@ Verified on the live site after the push:
 - `google-site-verification` meta tag, driven by the theme setting
 
 Search Console is verified and `https://theeditpk.com/sitemap.xml` is submitted (status Success).
+
+### Deployed 2026-11-08 (`779b6e7`, two files)
+
+Verified on the live product page with the preview cookie cleared:
+
+- WhatsApp float sends Meta's standard `Contact` event — observed firing with
+  `content_ids [67387891286244]` and `content_name "BRIGHTENING FACE MASK"`.
+- Its prefilled message on product pages reads "Hi! I'd like to order the
+  BRIGHTENING FACE MASK." with the product URL appended and no `+` signs.
+  Non-product pages keep the generic greeting; checked on the homepage.
+- `og:price:amount` is now `3999.0` instead of `3,999`. Non-product pages
+  emit no `og:price` tags at all, which is correct.
 
 ## Two bugs that only a preview caught
 
