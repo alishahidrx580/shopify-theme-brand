@@ -1097,66 +1097,6 @@ assign price_formatted = current_variant.price | money
     var track       = section.querySelector('[data-gallery-track]');
     var progress    = section.querySelector('[data-gallery-progress]');
 
-    // Meta pixel - Buy Now used to produce no AddToCart at all.
-    //
-    // The Facebook & Instagram app pixel emits AddToCart from Shopify's
-    // product_added_to_cart event. Buy Now calls location.assign('/checkout')
-    // the moment /cart/add.js resolves, which normally wins that race, so the
-    // page was torn down before the app pixel ran. Every Buy Now buyer was
-    // invisible to AddToCart-optimised ad sets and to "added to cart"
-    // retargeting audiences, while ADD TO BAG, which stays on the page, was
-    // tracked correctly.
-    //
-    // Firing our own event unconditionally would double-count whenever the
-    // app pixel does win the race, and the two cannot be deduped because its
-    // eventID is Shopify's internal event id. So watch for its event, give it
-    // a short head start, and emit ours only if it has not fired.
-    var metaAtcSeen = false;
-    (function () {
-      if (typeof window.fbq !== 'function' || window.fbq.__editAtcWatch) return;
-      var orig = window.fbq;
-      var wrapped = function () {
-        try {
-          if (arguments[1] === 'AddToCart' || arguments[2] === 'AddToCart') metaAtcSeen = true;
-        } catch (err) {}
-        return orig.apply(this, arguments);
-      };
-      for (var key in orig) { try { wrapped[key] = orig[key]; } catch (err) {} }
-      wrapped.__editAtcWatch = 1;
-      window.fbq = wrapped;
-      window._fbq = wrapped;
-    })();
-
-    // line is the cart line /cart/add.js returns, so the value and variant id
-    // come from what Shopify actually added rather than from the rendered
-    // price, which the CHAM pack buttons rewrite. This block sits inside the
-    // section's static JavaScript bundle, which Shopify does not render Liquid
-    // in, so every value here is read at runtime.
-    function metaAddToCartThenCheckout(line) {
-      var go = function () { window.location.assign('/checkout'); };
-      if (typeof window.fbq !== 'function') { go(); return; }
-
-      var waited = 0;
-      var poll = setInterval(function () {
-        waited += 100;
-        if (metaAtcSeen) { clearInterval(poll); go(); return; }
-        if (waited < 300) return;
-        clearInterval(poll);
-        try {
-          window.fbq('track', 'AddToCart', {
-            content_type: 'product',
-            content_ids: [Number((line && (line.variant_id || line.id)) || 0)],
-            content_name: (line && line.product_title) || document.title,
-            currency: (window.Shopify && Shopify.currency && Shopify.currency.active) || 'PKR',
-            value: ((line && line.final_line_price) || 0) / 100,
-            num_items: (line && line.quantity) || 1
-          }, { eventID: 'edit-buynow-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) });
-        } catch (err) {}
-        // Let the beacon leave before the page is replaced.
-        setTimeout(go, 150);
-      }, 100);
-    }
-
     function addToCart(btn, buyNow) {
       if (!form || btn.disabled) return;
       var fd = new FormData(form);
@@ -1166,9 +1106,9 @@ assign price_formatted = current_variant.price | money
           if (!r.ok) throw new Error('Add to cart failed');
           return r.json();
         })
-        .then(function (line) {
+        .then(function () {
           if (buyNow) {
-            metaAddToCartThenCheckout(line);
+            window.location.assign('/checkout');
             return;
           }
           btn.removeAttribute('data-loading');
