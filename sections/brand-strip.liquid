@@ -60,29 +60,57 @@
 
 <script>
   (function () {
-    document.querySelectorAll('.brand-strip').forEach(function (sec) {
-      if (sec.dataset.brandWired) return;
-      var rail = sec.querySelector('[data-brand-track]');
-      var prev = sec.querySelector('[data-brand-prev]');
-      var next = sec.querySelector('[data-brand-next]');
-      if (!rail || !prev || !next) return;
-      sec.dataset.brandWired = '1';
-      function step() {
-        var c = rail.firstElementChild;
-        return c ? c.getBoundingClientRect().width * 2 : 320;
-      }
-      function update() {
-        var max = rail.scrollWidth - rail.clientWidth;
-        sec.classList.toggle('brand--fits', max <= 2);
-        prev.disabled = rail.scrollLeft <= 2;
-        next.disabled = rail.scrollLeft >= max - 2;
-      }
-      prev.addEventListener('click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
-      next.addEventListener('click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
-      rail.addEventListener('scroll', update, { passive: true });
-      if (window.ResizeObserver) { new ResizeObserver(update).observe(rail); }
-      update();
-    });
+    if (window.__brandRailInit) return;
+    window.__brandRailInit = true;
+
+    function wire(root) {
+      (root || document).querySelectorAll('.brand-strip').forEach(function (sec) {
+        if (sec.dataset.brandWired) return;
+        var rail = sec.querySelector('[data-brand-track]');
+        var prev = sec.querySelector('[data-brand-prev]');
+        var next = sec.querySelector('[data-brand-next]');
+        if (!rail || !prev || !next) return;
+        sec.dataset.brandWired = '1';
+
+        function step() {
+          var c = rail.firstElementChild;
+          return c ? (c.getBoundingClientRect().width + 12) * 2 : 320;
+        }
+        function update() {
+          var max = rail.scrollWidth - rail.clientWidth;
+          sec.classList.toggle('brand--fits', max <= 2);
+          prev.disabled = rail.scrollLeft <= 2;
+          next.disabled = rail.scrollLeft >= max - 2;
+        }
+
+        prev.addEventListener('click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
+        next.addEventListener('click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
+        rail.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        window.addEventListener('load', update);
+
+        if (window.ResizeObserver) {
+          var ro = new ResizeObserver(update);
+          ro.observe(rail);
+          // The rail's own box does not change when its children grow, so the
+          // first item is observed as well. That is what actually resizes once
+          // the logo images land.
+          if (rail.firstElementChild) { ro.observe(rail.firstElementChild); }
+        }
+        update();
+      });
+    }
+
+    // This section emits its <style> block AFTER this script, so at parse time
+    // the items have no width, the rail measures as not overflowing, and
+    // brand--fits latched on and hid the arrows permanently. Waiting for
+    // DOMContentLoaded guarantees that stylesheet has been applied.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { wire(); });
+    } else {
+      wire();
+    }
+    document.addEventListener('shopify:section:load', function (e) { wire(e.target); });
   })();
 </script>
 
@@ -92,7 +120,7 @@
 .brand-strip__title{margin:.2em 0 0}
 .brand-strip__rail{position:relative}
 .brand-strip__track{display:flex;height:500px;background:#f1f1f1;overflow:hidden}
-.brand-strip__nav{display:none}
+.brand-strip__nav{display:flex;align-items:center;justify-content:center}
 .brand-strip.brand--fits .brand-strip__nav{display:none}
 .brand-strip__item{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;text-decoration:none;color:#fff;background:#f1f1f1;transition:background .3s ease}
 .brand-strip__media{flex:1;display:flex;align-items:center;justify-content:center;padding:0;min-height:0;overflow:hidden}
