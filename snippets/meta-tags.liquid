@@ -128,9 +128,28 @@
 {%- endcase -%}
 
 {%- if request.page_type == 'product' -%}
+  {%- liquid
+    # money_without_currency writes a thousands separator, so this tag shipped
+    # "3,999", which is not a number. Open Graph wants a bare decimal; a strict
+    # parser either drops the value or reads it as 3. Mirror the discount rule
+    # in schema-product so the two can never disagree.
+    assign og_variant = product.selected_or_first_available_variant
+    assign og_cents = og_variant.price
+    assign og_discount_percent = settings.automatic_discount_percent | default: 0
+    assign og_on_sale = false
+    if og_variant.compare_at_price != blank and og_variant.compare_at_price > og_variant.price
+      assign og_on_sale = true
+    endif
+    if og_discount_percent > 0 and og_on_sale == false
+      unless product.tags contains 'no-discount'
+        assign og_factor = 100 | minus: og_discount_percent | divided_by: 100.0
+        assign og_cents = og_variant.price | times: og_factor | round
+      endunless
+    endif
+  -%}
   <meta
     property="og:price:amount"
-    content="{{ product.price | money_without_currency | strip_html }}"
+    content="{{ og_cents | divided_by: 100.0 }}"
   >
   <meta
     property="og:price:currency"
