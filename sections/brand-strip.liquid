@@ -2,7 +2,8 @@
 {%- if section.settings.heading != blank -%}
 <header class="brand-strip__head">{% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}<h2 class="brand-strip__title">{{ section.settings.heading }}</h2></header>
 {%- endif -%}
-<div class="brand-strip__track">
+<div class="brand-strip__rail">
+<div class="brand-strip__track" data-brand-track>
 {%- for block in section.blocks -%}
 {%- assign bp = block.settings.product -%}
 {%- comment -%}
@@ -43,13 +44,56 @@
 </a>
 {%- endfor -%}
 </div>
+{%- comment -%}
+  On mobile the track scrolls but gives no visual cue that it does, so the
+  only way to reach brands past the second one was to guess and drag. These
+  match the arrows on the product rails.
+{%- endcomment -%}
+<button type="button" class="brand-strip__nav brand-strip__nav--prev" aria-label="Previous brands" data-brand-prev>
+  <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 1L2 9l8 8"/></svg>
+</button>
+<button type="button" class="brand-strip__nav brand-strip__nav--next" aria-label="Next brands" data-brand-next>
+  <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 1l8 8-8 8"/></svg>
+</button>
+</div>
 </section>
+
+<script>
+  (function () {
+    document.querySelectorAll('.brand-strip').forEach(function (sec) {
+      if (sec.dataset.brandWired) return;
+      var rail = sec.querySelector('[data-brand-track]');
+      var prev = sec.querySelector('[data-brand-prev]');
+      var next = sec.querySelector('[data-brand-next]');
+      if (!rail || !prev || !next) return;
+      sec.dataset.brandWired = '1';
+      function step() {
+        var c = rail.firstElementChild;
+        return c ? c.getBoundingClientRect().width * 2 : 320;
+      }
+      function update() {
+        var max = rail.scrollWidth - rail.clientWidth;
+        sec.classList.toggle('brand--fits', max <= 2);
+        prev.disabled = rail.scrollLeft <= 2;
+        next.disabled = rail.scrollLeft >= max - 2;
+      }
+      prev.addEventListener('click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
+      next.addEventListener('click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
+      rail.addEventListener('scroll', update, { passive: true });
+      if (window.ResizeObserver) { new ResizeObserver(update).observe(rail); }
+      update();
+    });
+  })();
+</script>
 
 <style>
 .brand-strip{padding:56px 0 64px}
 .brand-strip__head{padding:0 24px;margin-bottom:28px}
 .brand-strip__title{margin:.2em 0 0}
+.brand-strip__rail{position:relative}
 .brand-strip__track{display:flex;height:500px;background:#f1f1f1;overflow:hidden}
+.brand-strip__nav{display:none}
+.brand-strip.brand--fits .brand-strip__nav{display:none}
 .brand-strip__item{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;text-decoration:none;color:#fff;background:#f1f1f1;transition:background .3s ease}
 .brand-strip__media{flex:1;display:flex;align-items:center;justify-content:center;padding:0;min-height:0;overflow:hidden}
 .brand-strip__media img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transform:scale(1.6);transition:transform .35s ease}

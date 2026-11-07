@@ -44,10 +44,10 @@
       {%- endif -%}
     </div>
     <button type="button" class="hf-nav hf-nav--prev" aria-label="Previous products" data-hf-prev>
-        <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 1L2 9l8 8"/></svg>
+        <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 1L2 9l8 8"/></svg>
       </button>
       <button type="button" class="hf-nav hf-nav--next" aria-label="Next products" data-hf-next>
-        <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 1l8 8-8 8"/></svg>
+        <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 1l8 8-8 8"/></svg>
       </button>
     </div>
   </div>
@@ -214,12 +214,17 @@
   .hf-nav--next { right: -10px; }
   .hf-nav[disabled] { opacity: 0; pointer-events: none; }
   .home-featured.hf--fits .hf-nav { display: none; }
-  @media (max-width: 749px) { .hf-nav { display: none; } .home-featured__grid > * { flex: 0 0 160px; } }
+  /* Arrows stay on mobile: the rail gives no visual cue that it scrolls,
+     so a touch user has to discover the drag. Positioned over the card
+     image rather than at a fixed offset, which only suited desktop. */
+  @media (max-width: 749px) { .home-featured__grid > * { flex: 0 0 160px; } }
   /* --- Sephora rail geometry (measured from sephora.com) --- */
   .home-featured__grid { gap: 12px; padding-block: 8px 12px; }
   .home-featured__grid > * { flex: 0 0 198px; }
   .hf-nav { top: 107px; }
-  @media (max-width: 749px) { .home-featured__grid > * { flex: 0 0 160px; } }
+  @media (max-width: 749px) { .home-featured__grid > * { flex: 0 0 160px; }
+    /* centre the arrow on the shorter mobile card image */
+    .hf-nav { top: 92px; } }
 /* === SEPHORA-GRADE POLISH (end) === */
 
 {% endstylesheet %}

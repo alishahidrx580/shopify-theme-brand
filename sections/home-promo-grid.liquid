@@ -148,7 +148,6 @@
     .pgrid-section-{{ section.id }} .pgrid__text { font-size: 13px; line-height: 16px; }
     .pgrid-section-{{ section.id }} .pgrid__cta { font-size: 13px; margin-top: 10px; }
     .pgrid-section-{{ section.id }} .pgrid__tag { font-size: 10px; letter-spacing: 0.08em; padding: 6px 8px; }
-    .pgrid-section-{{ section.id }} .pgrid__nav { display: none; }
   }
 {% endstyle %}
 
@@ -229,10 +228,10 @@
 
   {%- if section.settings.show_arrows -%}
     <button type="button" class="pgrid__nav pgrid__nav--prev" aria-label="Previous slide" data-pgrid-prev>
-      <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 1L2 9l8 8"/></svg>
+      <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 1L2 9l8 8"/></svg>
     </button>
     <button type="button" class="pgrid__nav pgrid__nav--next" aria-label="Next slide" data-pgrid-next>
-      <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 1l8 8-8 8"/></svg>
+      <svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 1l8 8-8 8"/></svg>
     </button>
   {%- endif -%}
 </div>

@@ -648,3 +648,89 @@ nav.main-product__breadcrumb { display: none; }
     background: #fff;
   }
 }
+
+/* ------------------------------------------------------------------
+   25. Carousel arrows and mobile section headings
+   The rails scroll on mobile but gave no cue, so the arrows are no
+   longer hidden there. Restyled away from the default white disc with
+   a hard drop shadow: a translucent blurred face, a hairline gold ring
+   drawn from the brand accent, and a thin chevron.
+   ------------------------------------------------------------------ */
+html .hf-nav,
+html .pgrid__nav,
+html .brand-strip__nav {
+  width: 44px; height: 44px;
+  border: 0; border-radius: 50%; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--primary, #0d1c42);
+  background: rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  backdrop-filter: blur(10px) saturate(1.3);
+  box-shadow:
+    inset 0 0 0 1px rgba(206, 154, 67, 0.38),
+    0 10px 24px -12px rgba(13, 28, 66, 0.55);
+  transition: background-color .25s ease, color .25s ease,
+              box-shadow .25s ease, transform .25s ease;
+}
+html .hf-nav svg,
+html .pgrid__nav svg,
+html .brand-strip__nav svg { width: 11px; height: 16px; }
+
+html .hf-nav:hover,
+html .pgrid__nav:hover,
+html .brand-strip__nav:hover {
+  background: var(--primary, #0d1c42);
+  color: #fff;
+  box-shadow:
+    inset 0 0 0 1px rgba(206, 154, 67, 0.85),
+    0 14px 28px -12px rgba(13, 28, 66, 0.6);
+}
+html .hf-nav:active,
+html .pgrid__nav:active,
+html .brand-strip__nav:active { transform: scale(0.94); }
+
+html .hf-nav:focus-visible,
+html .pgrid__nav:focus-visible,
+html .brand-strip__nav:focus-visible {
+  outline: 2px solid var(--primary, #0d1c42);
+  outline-offset: 2px;
+}
+
+/* Brand rail arrows: the desktop track is a fixed flex row that never
+   scrolls, so they belong on mobile only. */
+html .brand-strip__nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+}
+html .brand-strip__nav--prev { left: 10px; }
+html .brand-strip__nav--next { right: 10px; }
+html .brand-strip__nav[disabled] { opacity: 0; pointer-events: none; }
+html .brand-strip__nav:active { transform: translateY(-50%) scale(0.94); }
+
+@media (max-width: 749px) {
+  html .brand-strip:not(.brand--fits) .brand-strip__nav { display: flex; }
+
+  html .hf-nav, html .pgrid__nav, html .brand-strip__nav { width: 38px; height: 38px; }
+  html .hf-nav svg, html .pgrid__nav svg, html .brand-strip__nav svg { width: 10px; height: 14px; }
+  html .hf-nav--prev { left: 2px; }
+  html .hf-nav--next { right: 2px; }
+
+  /* Headings: the eyebrow, title and "view all" each took a full line,
+     so the rail started well down the screen. Tighter type and the link
+     pulled up onto the title's line. */
+  html .home-featured__head,
+  html .brand-strip__head { margin-bottom: 14px; gap: 12px; }
+  html .home-featured__head .eyebrow,
+  html .brand-strip__head .eyebrow { font-size: 10px; letter-spacing: 0.18em; }
+  html .home-featured__heading,
+  html .home-featured__heading.font-display,
+  html .brand-strip__title { font-size: 1.375rem; line-height: 1.2; margin-top: 2px; }
+  /* The link is display:block, so in the wrapping flex head it claimed a
+     full row and pushed itself under the title left-aligned. Sizing it to
+     its content and pushing it right makes that second row deliberate. */
+  html .home-featured__view-all,
+  html .home-featured__view-all.gold-link {
+    font-size: 11px; letter-spacing: 0.1em; white-space: nowrap;
+    flex: 0 0 auto; width: auto; margin-left: auto; margin-top: 2px;
+  }
+}
