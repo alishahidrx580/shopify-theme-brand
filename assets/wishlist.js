@@ -26,11 +26,14 @@
   /* ---------------- money ----------------
      Mirrors the Liquid in main-product.liquid / the product card: when there is
      a real compare-at price we show the price as-is, otherwise the theme shows
-     a 10% "member" price. Formatting matches the storefront's money filter
-     (Rs.1,234.56) rather than the cart drawer's PKR style, because these rows
-     sit next to card prices in the shopper's head. */
+     a 10% "member" price.
+
+     The prefix is "PKR" to match the store's money format. It used to be "Rs.",
+     which is shared by the Indian, Pakistani, Sri Lankan and Nepali rupee;
+     Google resolved that ambiguity to INR and published an Indian-rupee price
+     for this store in search results. */
   function formatMoney(cents) {
-    return 'Rs. ' + (Math.round(cents) / 100).toLocaleString('en-US', {
+    return 'PKR ' + (Math.round(cents) / 100).toLocaleString('en-US', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     });
