@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-06
+**Last updated:** 2026-11-07
 
 ## The live site and GitHub do not match
 
@@ -10,9 +10,13 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` |
+| **Live site** | Every commit on `seo-fixes` up to `54d53b8` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | Pushed to GitHub, awaiting merge into `main` |
+| **`origin/seo-fixes`** | `ae9ec52`, 29 commits ahead of `main`, awaiting merge |
+
+`ae9ec52` (brand rail arrows, promo-grid arrow restyle) is committed and
+pushed but **not deployed** — it is verified on preview theme
+#190064099556 only, pending the owner's approval for a live push.
 
 ### The risk
 
