@@ -302,7 +302,7 @@ assign price_formatted = current_variant.price | money
       var qty = parseInt(b.getAttribute('data-qty'), 10) || 1;
       var strong = b.querySelector('.cham-pack__price strong');
       var num = function (t) { return parseInt(String(t || '').replace(/[^0-9]/g, ''), 10) || 0; };
-      var fmt = function (n) { return 'Rs. ' + n.toLocaleString('en-US'); };
+      var fmt = function (n) { return 'PKR ' + n.toLocaleString('en-US'); };
       function field(sel) {
         var el = root.querySelector(sel);
         if (!el) return null;
