@@ -10,9 +10,9 @@ That is not how the current contents got there. On 2026-11-06 the branch below w
 
 | Where | What it holds |
 |---|---|
-| **Live site** | All 22 commits of SEO work |
+| **Live site** | All 25 commits of SEO work |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **Local `seo-fixes`** | All 22 commits, **unpushed** |
+| **Local `seo-fixes`** | All 25 commits, **unpushed** |
 
 ### The risk
 
