@@ -6,13 +6,13 @@
 
 The live theme is **`shopify-theme-brand/main` (#160960577764)** and it is **connected to GitHub**, so in normal operation a commit to `main` deploys to the live site.
 
-That is not how the current contents got there. On 2026-11-06 the branch below was pushed straight to the live theme with the Shopify CLI, because this working copy has no git credentials and no `gh` CLI, so GitHub could not be updated.
+That is not how the current contents got there. The branch below was pushed straight to the live theme with the Shopify CLI. It has since also been pushed to GitHub as `seo-fixes`, so the work is no longer only on this machine, but `main` still does not contain it.
 
 | Where | What it holds |
 |---|---|
-| **Live site** | All 25 commits of SEO work |
+| **Live site** | Every commit on `seo-fixes` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **Local `seo-fixes`** | All 25 commits, **unpushed** |
+| **`origin/seo-fixes`** | Pushed to GitHub, awaiting merge into `main` |
 
 ### The risk
 
@@ -20,7 +20,7 @@ That is not how the current contents got there. On 2026-11-06 the branch below w
 
 ### How to close it
 
-Push `seo-fixes` and merge it into `main`. Once `main` contains these commits, GitHub and the live theme agree again and the normal pipeline resumes. This needs credentials that are not available in this working copy.
+Merge `seo-fixes` into `main`. The branch is already on GitHub, so this is a pull request away. Once `main` contains these commits, GitHub and the live theme agree again and the normal pipeline resumes. The merge is the owner's to make.
 
 Until that happens, treat the live theme as the only complete copy, and do not let anyone push to `main`.
 
