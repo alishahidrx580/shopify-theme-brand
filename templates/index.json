@@ -21,7 +21,7 @@
             "title": "CHAM Brightening Duo",
             "text": "Deep moisture and visible radiance. The face cream and facial mask.",
             "cta": "SHOP NOW",
-            "link": "https://theeditpk.com/collections/vendors?q=CHAM",
+            "link": "/collections/cham",
             "caption_bg": "#0d1c42",
             "caption_fg": "#ffffff"
           }
@@ -35,7 +35,7 @@
             "title": "CHAM Sale — 30% Off",
             "text": "CHAM Brightening Face Cream & Face Mask. Limited time",
             "cta": "Shop now",
-            "link": "https://theeditpk.com/collections/vendors?q=CHAM",
+            "link": "/collections/cham",
             "caption_bg": "#fcf1d0",
             "caption_fg": "#0d1c42"
           }
@@ -43,13 +43,13 @@
         "promo_DdNFUz": {
           "type": "promo",
           "settings": {
-            "image": "shopify://shop_images/edit_tile_cerave_1200x800_c6b02564-351d-4437-b946-69acccd03b85.jpg",
+            "image": "shopify://shop_images/edit_tile_cerave_cleansers_2400x1600_db2d8b63-39cf-44af-b8fd-cea5df97924f.jpg",
             "tag": "",
             "tag_position": "bottom",
             "title": "CeraVe Cleansers",
             "text": "Dermatologist-developed, fragrance-free. For every skin type.",
             "cta": "Shop now",
-            "link": "",
+            "link": "/collections/cerave",
             "caption_bg": "#ce9a43",
             "caption_fg": "#0d1c42"
           }
@@ -63,7 +63,7 @@
             "title": "Medicube Capsule Creams",
             "text": "K-beauty capsules — collagen, niacinamide and vitamin C.",
             "cta": "Shop now",
-            "link": "",
+            "link": "/collections/medicube",
             "caption_bg": "#22396f",
             "caption_fg": "#ffffff"
           }
