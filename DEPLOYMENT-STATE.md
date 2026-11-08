@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-08 (fourth update)
+**Last updated:** 2026-11-08 (fifth update)
 
 ## The live site and GitHub do not match
 
@@ -10,9 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `f32271c` |
+| **Live site** | Every commit on `seo-fixes` up to `d9061e6` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 43 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 45 commits ahead of `main`, awaiting merge |
 
 ### The Buy Now fallback was reverted, not shipped
 
@@ -204,3 +204,35 @@ MutationObserver in `polish.js`.
 This adds a ~70-line inline script to the theme. It adds no app and no external
 file, but it falls under the "ask before adding a script" rule; it was disclosed
 and the deploy was approved.
+
+### Style-recalc cost: `html:has()` scroll lock replaced — deployed 2026-11-08 (`d9061e6`)
+
+The product page produced ~250-300 style recalcs in 11s with no script on the
+stack. The cause was Shopify's own `/checkouts/internal/preloads.js`
+`prefetch()`, which appends ~160 `<link rel="prefetch">` elements to the page,
+combined with `html:has([data-drawer-open])` rules in `assets/critical.css` and
+`sections/whatsapp-float.liquid`. A `:has()` anchored on `<html>` is re-checked on
+every DOM insertion anywhere, making each of those recalcs ~5x dearer. The
+announcement-bar marquee and `polish.js`'s MutationObserver were tested and ruled
+out; do not spend more time on them for this.
+
+The scroll lock is now `html[data-drawer-open="true"]`. The drawer code sets that
+attribute on `<html>` as well as `<body>` (`assets/cart-drawer.js` open/close and
+`layout/theme.liquid` fallback `openDrawer()`). **Anything new that opens or closes
+the cart drawer must set and clear it on `<html>` too**, or the page will not lock
+or will stay locked.
+
+Verified on the real live theme (`t/3`, preview cookie cleared):
+
+- Served `critical.css` has the new rule and no `:has()` scroll-lock rules; served
+  `styles.css` has the new WhatsApp rule and no old one. (Shopify strips the quotes
+  from attribute values when it serves CSS, so match `[data-drawer-open=true]`.)
+- Drawer: `<html>` and `<body>` attributes set and cleared together; html overflow
+  hidden while open; released after closing via the X button and via the overlay.
+- Cart: correct row, total `PKR 3,999`, test cart cleared.
+- Live trace: 250 recalcs costing 112 ms (was 747 / 591 ms), layout 188 ms (was
+  228 / 214 ms). A second live capture recorded zero events and was discarded as an
+  empty run, probably Shopify throttling repeated requests.
+
+Gain is a reduction in CPU work (less battery and heat on a phone) and a small LCP
+improvement, not a performance-score change. See `seo-reports/perf-2026-11-08.md`.
