@@ -286,7 +286,10 @@
       var total = drawer.querySelector('.cart-drawer__total-amount');
       if (total) total.textContent = money(cart.total_price);
     var chamTok = (window.__chamTok = (window.__chamTok || 0) + 1);
-          fetch('/cart?cb=' + Date.now(), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (h) {
+          // Section Rendering instead of the whole cart page: 7 KB and ~340ms rather
+    // than 242 KB and ~545ms, for the one value read out of it below.
+    fetch('/cart?sections=cart&cb=' + Date.now(), { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (j) {
+      var h = (j && j.cart) || '';
       var doc = new DOMParser().parseFromString(h, 'text/html');
       if (chamTok !== window.__chamTok) return;
       var src = doc.querySelector('.main-cart__row--saved');
@@ -412,6 +415,17 @@ var countText = drawer.querySelector('[data-cart-count-text]');
       var buyNow = btn.hasAttribute('data-buy-now');
       var fd = new FormData(form);
       btn.setAttribute('data-loading', 'true');
+      // Open the drawer before the request rather than after it. /cart/add.js
+      // measured 0.7-2.2s on this store, so the drawer used to appear about a
+      // second after the click with nothing on screen in between, which reads
+      // as the button having been ignored. It opens now in a busy state
+      // (data-cart-adding, styled in polish.css) and fills in on rerender.
+      // Buy Now is excluded: that path leaves for checkout, so a drawer would
+      // only flash.
+      if (!buyNow) {
+        document.documentElement.setAttribute('data-cart-adding', 'true');
+        openDrawer();
+      }
       queue(function () {
         return fetch('/cart/add.js', {
           method: 'POST', body: fd, credentials: 'same-origin',
@@ -426,11 +440,15 @@ var countText = drawer.querySelector('[data-cart-count-text]');
           .then(function () {
         if (buyNow) { return rerender().then(function () { window.location.assign('/checkout'); }); }
             openDrawer();
-            return rerender().then(function () { btn.removeAttribute('data-loading'); });
+            return rerender().then(function () {
+              btn.removeAttribute('data-loading');
+              document.documentElement.removeAttribute('data-cart-adding');
+            });
           })
           .catch(function (e) {
             console.error('[cart] add', e);
             btn.removeAttribute('data-loading');
+            document.documentElement.removeAttribute('data-cart-adding');
             try { form.submit(); } catch (x) {}
           });
       });
