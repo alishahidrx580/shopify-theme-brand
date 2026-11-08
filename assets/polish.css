@@ -733,3 +733,49 @@ html .brand-strip__nav:active { transform: translateY(-50%) scale(0.94); }
     flex: 0 0 auto; width: auto; margin-left: auto; margin-top: 2px;
   }
 }
+
+/* ==========================================================================
+   26. Add-to-cart busy state
+   The drawer now opens the moment ADD TO BAG is clicked instead of waiting for
+   /cart/add.js, which measured 0.7-2.2s on this store. For that window it is
+   showing the PREVIOUS cart, so it has to read as busy rather than as the new
+   state. main-product.liquid sets data-cart-adding on <html> for the duration.
+   ========================================================================== */
+
+html[data-cart-adding] .cart-drawer__items,
+html[data-cart-adding] .cart-drawer__footer {
+  opacity: 0.45;
+  transition: opacity 0.18s ease;
+}
+
+html[data-cart-adding] .cart-drawer__items {
+  pointer-events: none;
+}
+
+html[data-cart-adding] .cart-drawer__panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: 5;
+  background-image: linear-gradient(90deg, transparent, var(--primary, #0d1c42), transparent);
+  background-size: 40% 100%;
+  background-repeat: no-repeat;
+  animation: edit-cart-bar 0.9s linear infinite;
+}
+
+@keyframes edit-cart-bar {
+  from { background-position: -40% 0; }
+  to   { background-position: 140% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-cart-adding] .cart-drawer__panel::before {
+    animation: none;
+    background-size: 100% 100%;
+    background-position: 0 0;
+    opacity: 0.5;
+  }
+}
