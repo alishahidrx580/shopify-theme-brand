@@ -240,6 +240,7 @@
       if (window.CartDrawer && window.CartDrawer.open) { window.CartDrawer.open(); return; }
       drawer.setAttribute('aria-hidden', 'false');
       document.body.setAttribute('data-drawer-open', 'true');
+      document.documentElement.setAttribute('data-drawer-open', 'true');
       document.body.style.overflow = 'hidden';
     }
 

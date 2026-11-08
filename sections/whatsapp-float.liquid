@@ -183,7 +183,7 @@
   }
 
   /* Step aside while the cart drawer (or any drawer) owns the screen. */
-  html:has([data-drawer-open="true"]) .whatsapp-float {
+  html[data-drawer-open="true"] .whatsapp-float {
     opacity: 0;
     pointer-events: none;
   }

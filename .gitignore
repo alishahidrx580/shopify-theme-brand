@@ -22,3 +22,5 @@ seo-reports/ab/*.json
 seo-reports/ab/trace/
 seo-reports/ab2/*.json
 seo-reports/ab3/*.json
+seo-reports/ab3/tr-*/
+seo-reports/ab4/*.json

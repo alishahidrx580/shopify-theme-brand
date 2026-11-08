@@ -32,12 +32,14 @@
   function open() {
     drawer.setAttribute('aria-hidden', 'false');
     document.body.setAttribute('data-drawer-open', 'true');
+    document.documentElement.setAttribute('data-drawer-open', 'true');
     document.body.style.overflow = 'hidden';
   }
 
   function close() {
     drawer.setAttribute('aria-hidden', 'true');
     document.body.removeAttribute('data-drawer-open');
+    document.documentElement.removeAttribute('data-drawer-open');
     document.body.style.overflow = '';
   }
 

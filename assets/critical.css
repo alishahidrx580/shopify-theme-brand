@@ -31,8 +31,14 @@ body {
   overflow-x: clip;
 }
 
-html:has(dialog[scroll-lock][open], details[scroll-lock][open]),
-html:has([data-drawer-open="true"]) {
+/* Scroll lock while the cart drawer is open. The attribute is set on <html> by the drawer
+   code as well as on <body>. This used to be html:has([data-drawer-open]), and a :has() whose
+   subject is <html> makes Chrome re-check it on every DOM insertion anywhere in the page.
+   Shopify's checkout prefetch appends ~160 <link> elements per page view, and each one
+   turned a ~0.5ms style recalc into ~2.7ms: 590-750ms of style work down to ~140ms when the
+   rule was removed. The dialog/details[scroll-lock] half of the old rule matched nothing
+   in this theme. */
+html[data-drawer-open="true"] {
   overflow: hidden;
 }
 
