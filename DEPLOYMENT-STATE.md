@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-08 (third update)
+**Last updated:** 2026-11-08 (fourth update)
 
 ## The live site and GitHub do not match
 
@@ -10,9 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `23d8b86` |
+| **Live site** | Every commit on `seo-fixes` up to `f32271c` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 39 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 43 commits ahead of `main`, awaiting merge |
 
 ### The Buy Now fallback was reverted, not shipped
 
@@ -166,3 +166,41 @@ With `core.autocrlf=true` and CRLF blobs in HEAD, always stage and commit with `
 
 - **Anti-Aging collection** rule changed from `Vendor is equal to THE EDIT` to `Tag includes anti-ageing`. 3 products to 10.
 - **GA4 connected** as a Shopify custom pixel, Measurement ID `G-4TWCDBLYZ4`. `page_view`, `view_item` and `add_to_cart` confirmed in Realtime. It runs in Shopify's sandbox, so it reaches checkout but appears nowhere in page source — which is why Search Console's Google Analytics verification method cannot work on this store.
+
+### Judge.me widget held until the reviews are near — deployed 2026-11-08 (`f32271c`)
+
+Goal: the CHAM mask ad landing page was losing 33-45% of link clicks before a
+landing page view was recorded. The Meta pixel is healthy (2.8K PageViews in
+Events Manager), so the cause is main-thread load on slow phones. The Judge.me
+review widget sits ~8,100px down a ~10,200px page yet fired ~100 requests and
+~1.4MB of JS from 300ms in.
+
+`layout/theme.liquid` now carries an inline guard, product template only, that
+parks script and `<link>` elements inserted at runtime by Judge.me's loader.js
+and releases them when `#reviews` comes within 1,200px of the viewport, on a
+`#reviews` deep link, or immediately where IntersectionObserver is missing. It
+matches only `judgeme`/`judge.me` URLs and fails open. There is deliberately no
+timer fallback. To undo it, delete the commented block above
+`{{ content_for_header }}` in `layout/theme.liquid`.
+
+Verified on live with the preview cookie cleared (theme `t/3`):
+
+- 7 Judge.me requests on load, down from 104.
+- Reviews 3,000px away: still 7 requests, nothing rendered.
+- Reviews in range: 97 requests by 500ms, 214 elements by 1s, **68 review cards,
+  widget height 1,350px**, identical to before.
+- Rating/review JSON-LD still present in the page HTML (server-rendered).
+- Cart path unaffected: drawer opens at 87ms, correct row and total.
+
+Measured gain (8 interleaved Lighthouse runs per arm, medians): style and layout
+-42%, script -18%, requests -18%, TBT -20%, but the performance score did not
+move (73 vs 73). It is a real but modest improvement, not a fix for the
+click-to-landing-page-view rate. `seo-reports/perf-2026-11-08.md` has the full
+numbers and what remains: Shopify loads the Meta pixel itself late (its
+`fbevents`/`signals` scripts are the last long tasks, pinning TTI near 16s),
+~340 idle style recalcs with no script on the stack, and a document-wide
+MutationObserver in `polish.js`.
+
+This adds a ~70-line inline script to the theme. It adds no app and no external
+file, but it falls under the "ask before adding a script" rule; it was disclosed
+and the deploy was approved.
