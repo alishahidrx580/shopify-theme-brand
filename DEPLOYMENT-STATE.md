@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-08 (second update)
+**Last updated:** 2026-11-08 (third update)
 
 ## The live site and GitHub do not match
 
@@ -10,9 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `fa5efe1` |
+| **Live site** | Every commit on `seo-fixes` up to `23d8b86` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 36 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 39 commits ahead of `main`, awaiting merge |
 
 ### The Buy Now fallback was reverted, not shipped
 
@@ -100,6 +100,44 @@ Google re-crawls on its own schedule, so the ₹ snippet can persist for
 days. If it survives a re-crawl, the next suspect is the second
 `Product` node Judge.me injects client-side with the same `@id` and no
 `offers`, which is also what publishes the unverified `aggregateRating`.
+
+### Cart drawer opened late — fixed 2026-11-08 (`23d8b86`)
+
+Adding to cart felt unresponsive: the drawer appeared 729-1096ms after the
+click with nothing on screen in between. Measured on live, three samples each:
+
+| Request | ms |
+|---|---|
+| `POST /cart/add.js` | 677 / 2235 / 672 |
+| `GET /cart.js` | 289 / 245 / 266 |
+| `GET /cart?view=drawer` | 319 / 512 / 254 |
+| `GET /cart` (full page) | 1044 / 1961 / 396 |
+
+The add request dominates and is Shopify's, not ours. What the theme controlled
+was that all of it ran before anything appeared. The drawer now opens
+immediately in a busy state (`data-cart-adding` on `<html>`, styled as section
+26 of polish.css) and fills in when the cart responds. Buy Now is excluded.
+
+The full cart-page fetch that existed only to read the "Total savings" row was
+replaced with Section Rendering of that one section: 242 KB and ~545ms becomes
+7 KB and ~336ms. Both copies were updated.
+
+Verified on live after the push: drawer visible at 50 / 54 / 76 ms, busy state
+cleared at 1135-2420ms when the cart lands, totals and savings correct.
+
+### `sections/main-product.liquid` has a dead add-to-cart path
+
+Read this before touching add-to-cart. That section defines its own
+`addToCart()`, but `layout/theme.liquid` registers a **capture-phase** `submit`
+listener that calls `stopImmediatePropagation()`, so the section's handler never
+runs. `submitForm()` in layout/theme.liquid is the live path.
+
+Two changes were made in that dead code before this was noticed: the reverted
+Buy Now fallback (`ab536ae`), and a first attempt at this drawer fix. Neither
+had any effect on the storefront. `ab536ae`'s commit message blames a race for
+the missing Buy Now AddToCart; the real reason that code never fired is that it
+was never reached.
+
 
 ## Two bugs that only a preview caught
 
