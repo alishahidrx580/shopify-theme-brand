@@ -81,6 +81,75 @@
    
     {% # Pinterest Domain verification %}
     <meta name="p:domain_verify" content="ce5593d2b86b30d7c75f174f6e501528"/>   
+    {%- comment -%}
+      Judge.me review widget: load it when the reviews are about to be seen, not at first render.
+
+      Measured on the CHAM mask page: the widget sits ~8,100px down a ~10,200px page, yet it fired
+      about 100 requests and ~1.4MB of JavaScript from 300ms in, competing with the first paint and
+      with the Meta pixel, which is what Meta counts a landing page view from. Blocking it in a
+      Lighthouse A/B cut median interactive time by ~3s and style/layout work by ~1.7s.
+
+      The app embed's loader.js is injected by Shopify after this file's head markup and cannot be
+      edited from Liquid. What it does at runtime is insert review_widget.js and siws_bridge.js
+      itself, and that insertion can be held back. Only script and link elements whose URL matches
+      judgeme/judge.me are held; everything else passes straight through. It fails open: if the
+      pattern ever stops matching, Judge.me loads exactly as it did before.
+
+      Released when the reviews come within 1,200px of the viewport, on a #reviews deep link, or
+      immediately where IntersectionObserver is missing. There is deliberately no timer fallback: a
+      first version released after 15s idle, which landed Judge.me's whole burst of work in the
+      middle of the page's lifetime for a visitor who never scrolled to the reviews.
+
+      The Product / aggregateRating / Review JSON-LD is rendered into the page's HTML on the server
+      by the app block and does not depend on this JavaScript, so search engines are unaffected.
+      To undo this, delete this block.
+    {%- endcomment -%}
+    {%- if template.name == 'product' -%}
+    <script>
+      (function () {
+        var JM = /judgeme|judge\.me/i;
+        var held = [];
+        var open = false;
+        var NP = Node.prototype;
+        var append = NP.appendChild;
+        var insert = NP.insertBefore;
+
+        // Scripts, plus the <link> preloads and stylesheets loader.js adds alongside them
+        // (those alone were ~870KB of JavaScript preloaded for a form nobody has opened yet).
+        function isJm(n) {
+          if (!n || n.nodeType !== 1) return false;
+          var url = n.tagName === 'SCRIPT' ? n.src : (n.tagName === 'LINK' ? n.href : '');
+          return JM.test(url || '');
+        }
+        NP.appendChild = function (n) {
+          if (!open && isJm(n)) { held.push([this, n, null]); return n; }
+          return append.apply(this, arguments);
+        };
+        NP.insertBefore = function (n, ref) {
+          if (!open && isJm(n)) { held.push([this, n, ref]); return n; }
+          return insert.apply(this, arguments);
+        };
+
+        function release() {
+          if (open) return;
+          open = true;
+          held.splice(0).forEach(function (h) {
+            try { insert.call(h[0], h[1], h[2] && h[2].parentNode === h[0] ? h[2] : null); } catch (e) {}
+          });
+        }
+
+        function arm() {
+          var target = document.getElementById('reviews') || document.getElementById('judgeme_product_reviews');
+          if (!target || !('IntersectionObserver' in window) || location.hash === '#reviews') { release(); return; }
+          new IntersectionObserver(function (entries, io) {
+            if (entries.some(function (e) { return e.isIntersecting; })) { io.disconnect(); release(); }
+          }, { rootMargin: '1200px 0px' }).observe(target);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arm); else arm();
+
+      })();
+    </script>
+    {%- endif -%}
     {{ content_for_header }}
   {%- comment -%} Review counts and the star badge under the product title hidden for now. Delete this style block to show them again. {%- endcomment -%}
   <style>
