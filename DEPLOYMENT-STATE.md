@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-08
+**Last updated:** 2026-11-08 (second update)
 
 ## The live site and GitHub do not match
 
@@ -10,23 +10,21 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `ae9ec52`, plus the two files from `779b6e7` |
+| **Live site** | Every commit on `seo-fixes` up to `fa5efe1` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 33 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 36 commits ahead of `main`, awaiting merge |
 
-### One commit is deliberately NOT live
+### The Buy Now fallback was reverted, not shipped
 
-`ab536ae` ("Add a Buy Now AddToCart fallback") is on the branch but was
-never pushed to the live theme, and must not be until it is verified.
-`779b6e7` was deployed with a two-file `--only` push for exactly that
-reason, so `sections/main-product.liquid` on the live theme is still at
-`ae9ec52`. Confirmed on the live page afterwards: neither
-`metaAddToCartThenCheckout` nor `__editAtcWatch` appears in
-`compiled_assets/scripts.js`.
+`ab536ae` ("Add a Buy Now AddToCart fallback") was never put live and has
+since been reverted by `eafc95c`, because it lived in
+`sections/main-product.liquid` and was blocking every deploy of that
+file. The work is preserved in history: reverting `eafc95c` restores it
+when there is time to measure the behaviour properly. `ab536ae`'s commit
+message records what is unresolved.
 
-A full `shopify theme push` from this branch would put that unverified
-code live. Keep using `--only` until `ab536ae` is either verified or
-reverted. See its commit message for what is unresolved.
+Confirmed on the live product page after the `fa5efe1` push: neither
+`metaAddToCartThenCheckout` nor `__editAtcWatch` is present.
 
 ### The risk
 
@@ -63,6 +61,45 @@ Verified on the live product page with the preview cookie cleared:
   Non-product pages keep the generic greeting; checked on the homepage.
 - `og:price:amount` is now `3999.0` instead of `3,999`. Non-product pages
   emit no `og:price` tags at all, which is correct.
+
+### Currency display changed 2026-11-08 — "Rs." to "PKR"
+
+Google published the CHAM mask's price in search as **₹7,438.00**: an
+Indian-rupee symbol, and a Buy-2 pack price rather than the unit price.
+
+The cause was not Merchant Center. There is no Google sales channel on
+this store and Markets holds only Pakistan, so Shopify feeds Google
+nothing. Google was extracting a price from the page itself, and "Rs." is
+shared by the Indian, Pakistani, Sri Lankan and Nepali rupee — Google
+resolved it to INR.
+
+Fixed in two places:
+
+1. **Settings > General > Currency formatting**, all four fields, from
+   `Rs. {{amount_no_decimals}}` to `PKR {{amount_no_decimals}}`. This is
+   a shop setting, not theme code, so it is not captured in this repo.
+2. **Four hardcoded prefixes** the setting could not reach, because they
+   build price strings in JavaScript rather than using the money filter
+   (`5657471`, `fa5efe1`):
+   - `assets/wishlist.js` `formatMoney()`
+   - `sections/edit-search.liquid` price-bucket filter labels
+   - `sections/edit-search.liquid` `money()` — every search result price
+   - `sections/main-product.liquid` `fmt()` — the CHAM pack prices, and
+     the literal source of the "Rs. 7,438" Google published
+
+Verified live: product page 11/11 prices PKR, search results 32/32 PKR,
+zero visible "Rs." after selecting each of the three CHAM packs. The
+Product JSON-LD and `og:price` tags were never affected — they carry the
+ISO code, not the symbol.
+
+Two `"unit": "Rs"` strings remain in `sections/main-product.liquid` and
+`config/settings_schema.json`. Those are range-setting labels in the
+theme editor, admin-facing only, and deliberately left alone.
+
+Google re-crawls on its own schedule, so the ₹ snippet can persist for
+days. If it survives a re-crawl, the next suspect is the second
+`Product` node Judge.me injects client-side with the same `@id` and no
+`offers`, which is also what publishes the unverified `aggregateRating`.
 
 ## Two bugs that only a preview caught
 
