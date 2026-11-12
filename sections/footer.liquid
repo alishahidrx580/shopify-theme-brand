@@ -77,7 +77,7 @@
 
         {%- if has_menu or auto_shop -%}
           <div class="footer__col {% if key == 'shop' %}footer__col--wide{% endif %}">
-            <h4 class="eyebrow eyebrow--bare footer__col-title">{{ title_key | t }}</h4>
+            <h2 class="eyebrow eyebrow--bare footer__col-title">{{ title_key | t }}</h2>
             <ul class="footer__links">
               {%- if has_menu -%}
                 {%- for link in menu.links -%}
