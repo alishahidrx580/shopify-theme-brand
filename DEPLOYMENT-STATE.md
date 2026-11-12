@@ -10,9 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `5bfc12a` |
+| **Live site** | Every commit on `seo-fixes` up to `af84d2d` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 52 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 54 commits ahead of `main`, awaiting merge |
 
 ### The Buy Now fallback was reverted, not shipped
 
@@ -288,3 +288,31 @@ for mobile data. A smaller mobile rendition would be the fix if wanted.
 
 Verified on live (`t/3`, preview cookie cleared): picture downloads once (1000w);
 pressing play hides the cover and the video plays.
+
+### Slow-network: early downloads moved out of the first seconds — deployed 2026-11-12 (`af84d2d`)
+
+- Gallery slides 2+ on phones (<1024px) start from a 1x1 GIF `<source>` and load
+  on first touch/scroll of the gallery or after the load event + idle. Desktop grid
+  unaffected. `polish.js` thumbnails read `src` first for this reason.
+- Key-ingredients video `preload="none"` when the click-to-play cover is shown.
+- Search no longer preloads `/products.json` on every page view; the panel loads it
+  when opened.
+- Gallery srcset gains 700w/1000w.
+
+Verified on live: desktop shows all six real photos and real thumbnails; search
+returns results when opened (catalogue fetched on open, not before); video plays.
+
+Live before vs after, mobile Lighthouse, medians (before = 6 live runs earlier the same
+day, after = 4 runs after deploy; not interleaved, so treat timings as indicative):
+
+| | before | after |
+|---|---|---|
+| Downloaded before page load | 1,951 KB | **1,203 KB** (-748 KB; ranges do not overlap) |
+| Total downloaded | 2,677 KB | 2,258 KB |
+| First Contentful Paint | 2.01 s | 1.33 s |
+| Largest Contentful Paint | 2.79 s | 2.21 s |
+| Speed Index | 3.71 s | 3.13 s |
+| Time to Interactive | 13.34 s | **11.27 s** (ranges do not overlap) |
+| Total Blocking Time | 0.84 s | 1.14 s (ranges overlap; noise) |
+
+products.json fetched on load: 6/6 before, 0/4 after. Video bytes: 66-303 KB before, 0 after.
