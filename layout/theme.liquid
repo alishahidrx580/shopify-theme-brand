@@ -25,17 +25,39 @@
     {% render 'css-variables' %}
 
     {% # Arimo: free metric-compatible Helvetica clone (Dermalogica uses Helvetica LT Pro) %}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-    >
-    <link
-      rel="stylesheet" media="print" onload="this.media='all'"
-      href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-    >
+    {%- comment -%}
+      Self-hosted, not loaded from Google Fonts. Same Arimo files Google serves (v36, Latin subset),
+      so the lettering is identical; they now come from this store's own domain, on the connection
+      the page already has open, instead of two extra third-party origins (fonts.googleapis.com and
+      fonts.gstatic.com) that each cost DNS, connect and TLS round trips on a slow phone.
+
+      Arimo is a variable font: one file covers weights 400-700, one more covers 400 italic.
+      There is no preload on purpose: the font stack puts Helvetica first, so iPhones and Macs never
+      use Arimo, and a preload would make them download 20KB for nothing.
+
+      Source: https://fonts.google.com/specimen/Arimo  Licence: Apache License 2.0
+      Files:  assets/arimo-latin.woff2        (fonts.gstatic.com/s/arimo/v36/P5sMzZCDf9_T_10ZxCE.woff2)
+              assets/arimo-latin-italic.woff2 (fonts.gstatic.com/s/arimo/v36/P5sdzZCDf9_T_10c3i9MeUcyat4iJY-ERCrDfQY.woff2)
+      Characters outside the Latin range fall back to Arial, as the font stack already allows.
+    {%- endcomment -%}
+    <style>
+      @font-face {
+        font-family: 'Arimo';
+        font-style: normal;
+        font-weight: 400 700;
+        font-display: swap;
+        src: url({{ 'arimo-latin.woff2' | asset_url }}) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'Arimo';
+        font-style: italic;
+        font-weight: 400;
+        font-display: swap;
+        src: url({{ 'arimo-latin-italic.woff2' | asset_url }}) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+    </style>
 
     {% # Critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
