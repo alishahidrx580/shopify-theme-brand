@@ -1,3 +1,10 @@
+{%- liquid
+  # The logo is shown logo_height px tall (30 by default) but was always served 200px tall:
+  # about 24KB wasted on every page view. Serve 1x/2x/3x of the displayed height instead.
+  assign logo_h1 = section.settings.logo_height | default: 30
+  assign logo_h2 = logo_h1 | times: 2
+  assign logo_h3 = logo_h1 | times: 3
+-%}
 <header class="header full-width" data-header role="banner">
   <div class="header__inner">
     {%- assign links = section.settings.menu.links -%}
@@ -29,7 +36,7 @@
          the theme's existing font-display serif class. This removes the
          dependency on the malformed SVG asset entirely. -->
     <a href="{{ routes.root_url }}" class="header__logo font-display" aria-label="{{ 'general.brand.name' | t }}">
-      {%- if section.settings.logo -%}<img class="site-logo-img" src="{{ section.settings.logo | image_url: height: 200 }}" alt="{{ shop.name | escape }}" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}" style="height: {{ section.settings.logo_height | default: 30 }}px;">{%- else -%}THE EDIT{%- endif -%}
+      {%- if section.settings.logo -%}<img class="site-logo-img" src="{{ section.settings.logo | image_url: height: logo_h2 }}" srcset="{{ section.settings.logo | image_url: height: logo_h1 }} 1x, {{ section.settings.logo | image_url: height: logo_h2 }} 2x, {{ section.settings.logo | image_url: height: logo_h3 }} 3x" alt="{{ shop.name | escape }}" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}" style="height: {{ section.settings.logo_height | default: 30 }}px;">{%- else -%}THE EDIT{%- endif -%}
     </a>
 
     <div class="header__right">
@@ -91,7 +98,7 @@
     <!-- FIXED: same text-based wordmark swap applied to the mobile menu logo
          for consistency. -->
     <a href="{{ routes.root_url }}" class="mobile-menu__logo font-display" aria-label="{{ 'general.brand.name' | t }}">
-      {%- if section.settings.logo -%}<img class="site-logo-img" src="{{ section.settings.logo | image_url: height: 200 }}" alt="{{ shop.name | escape }}" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}" style="height: {{ section.settings.logo_height | default: 30 }}px;">{%- else -%}THE EDIT{%- endif -%}
+      {%- if section.settings.logo -%}<img class="site-logo-img" src="{{ section.settings.logo | image_url: height: logo_h2 }}" srcset="{{ section.settings.logo | image_url: height: logo_h1 }} 1x, {{ section.settings.logo | image_url: height: logo_h2 }} 2x, {{ section.settings.logo | image_url: height: logo_h3 }} 3x" alt="{{ shop.name | escape }}" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}" style="height: {{ section.settings.logo_height | default: 30 }}px;">{%- else -%}THE EDIT{%- endif -%}
     </a>
     <button
       type="button"
