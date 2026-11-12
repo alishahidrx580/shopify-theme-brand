@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-08 (fifth update)
+**Last updated:** 2026-11-12
 
 ## The live site and GitHub do not match
 
@@ -10,9 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `d9061e6` |
+| **Live site** | Every commit on `seo-fixes` up to `1d6cc18` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 45 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 48 commits ahead of `main`, awaiting merge |
 
 ### The Buy Now fallback was reverted, not shipped
 
@@ -236,3 +236,22 @@ Verified on the real live theme (`t/3`, preview cookie cleared):
 
 Gain is a reduction in CPU work (less battery and heat on a phone) and a small LCP
 improvement, not a performance-score change. See `seo-reports/perf-2026-11-08.md`.
+
+### Arimo self-hosted — deployed 2026-11-12 (`1d6cc18`)
+
+Google Fonts links in `layout/theme.liquid` replaced by two `@font-face` rules
+pointing at `assets/arimo-latin.woff2` (variable, 400-700, 20KB) and
+`assets/arimo-latin-italic.woff2` (12KB). Same Arimo v36 Latin files; Apache 2.0;
+source URLs recorded in the theme comment.
+
+Verified on live (`t/3`, preview cookie cleared): zero requests to Google Fonts;
+both files served from the store's own domain (200, valid WOFF2); the only
+preconnect left in the HTML is Shopify's own `cdn.shopify.com`; product title
+width 512.65px, identical to before.
+
+Note for anyone touching fonts: the stack is `"Helvetica Neue", Helvetica, Arimo,
+Arial`. On Windows "Helvetica" maps to Arial, so Arimo is never used there (all faces
+stay unloaded on live), and Android is believed to alias Helvetica to Roboto too
+(not verified). Arimo is therefore rarely if ever rendered. Making it actually appear
+means reordering the stack, which changes how the site looks: a design decision, not
+a speed fix.
