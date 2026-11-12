@@ -58,7 +58,18 @@
       {%- comment -%} ===== Media (video / external embed / image) ===== {%- endcomment -%}
       <div class="product-feature-media__media{% if use_poster %} product-feature-media__media--has-poster{% endif %}" data-reveal data-feature-media>
         {%- if video != blank -%}
-          {{ video | video_tag: image_size: '1200x', autoplay: autoplay, loop: loop_video, muted: true, controls: controls, playsinline: true, preload: 'metadata', class: 'product-feature-media__video', poster: image }}
+          {%- comment -%}
+            The poster has to be a full URL. Passing the image object itself printed a relative path
+            ("files/Mask_box...jpg"), which on a product page resolved to /products/files/... and
+            404'd on every view. Lighthouse logged it as a console error.
+          {%- endcomment -%}
+          {%- liquid
+            assign poster_url = nil
+            if image != blank
+              assign poster_url = image | image_url: width: 1200
+            endif
+          -%}
+          {{ video | video_tag: image_size: '1200x', autoplay: autoplay, loop: loop_video, muted: true, controls: controls, playsinline: true, preload: 'metadata', class: 'product-feature-media__video', poster: poster_url }}
 
           {%- if use_poster -%}
             <button type="button" class="product-feature-media__poster" data-feature-poster aria-label="Play video">
