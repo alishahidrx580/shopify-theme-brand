@@ -198,7 +198,7 @@ $('.es__cancel',root).addEventListener('click',close);
 d.addEventListener('click',function(e){if(!root.contains(e.target)&&!e.target.closest('.es__hbtn')&&!panel.hidden)close()});
 d.addEventListener('keydown',function(e){if(e.key==='Escape'&&!panel.hidden)close()});
 form.addEventListener('submit',function(e){if(!input.value.trim())e.preventDefault()});
-(window.requestIdleCallback||function(f){setTimeout(f,1200)})(function(){load(function(){})});
+/* No idle preload of /products.json: it downloaded the whole catalogue (~63KB compressed, plus parsing) on every page view for a search panel most visitors never open. open() loads it on demand. */
 var PLUS='<svg class="product-card__quick-add-icon product-card__quick-add-icon--plus" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false"><path d="M10 3.5V16.5M3.5 10H16.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>';
 var CHK='<svg class="product-card__quick-add-icon product-card__quick-add-icon--check" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function pcard(p,i){
