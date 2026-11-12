@@ -10,9 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `1d6cc18` |
+| **Live site** | Every commit on `seo-fixes` up to `d946eae` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 48 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 50 commits ahead of `main`, awaiting merge |
 
 ### The Buy Now fallback was reverted, not shipped
 
@@ -255,3 +255,23 @@ stay unloaded on live), and Android is believed to alias Helvetica to Roboto too
 (not verified). Arimo is therefore rarely if ever rendered. Making it actually appear
 means reordering the stack, which changes how the site looks: a design decision, not
 a speed fix.
+
+### Heading order, pack price contrast, poster 404 — deployed 2026-11-12 (`d946eae`)
+
+- Footer column titles and the Shipping / Returns / Order Cancellation subheadings
+  changed from `<h4>` to `<h2>` (no heading-level skips left on the product page).
+- **Trap:** the admin Custom CSS for the product section contains
+  `#shopify-section-...__main h2 { font-size: 32px }`. Any new `<h2>` inside
+  `main-product` will be 32px unless its class pins the size; `.cham-sr__h` does so
+  with `font-size:12px!important`.
+- CHAM pack strike-through prices: opacity 0.55 -> 0.7 (contrast 4.0:1 -> 6.7:1).
+- Key-ingredients video poster was a relative path and 404'd on every product view;
+  now a full `image_url`.
+
+Verified on live (`t/3`, preview cookie cleared): no heading skips; footer titles
+H2 11px/500 and subheadings H2 12px/600, same as before; strike opacity 0.7; poster
+URL absolute and 200.
+
+Not changed: the key-ingredients video is a single ~70MB 1080p MP4. It only
+downloads when played, but Lighthouse's lab connection fails on it and it is heavy
+for mobile data. A smaller mobile rendition would be the fix if wanted.
