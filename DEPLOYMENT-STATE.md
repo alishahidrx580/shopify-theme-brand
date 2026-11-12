@@ -10,9 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `d946eae` |
+| **Live site** | Every commit on `seo-fixes` up to `5bfc12a` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 50 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 52 commits ahead of `main`, awaiting merge |
 
 ### The Buy Now fallback was reverted, not shipped
 
@@ -275,3 +275,16 @@ URL absolute and 200.
 Not changed: the key-ingredients video is a single ~70MB 1080p MP4. It only
 downloads when played, but Lighthouse's lab connection fails on it and it is heavy
 for mobile data. A smaller mobile rendition would be the fix if wanted.
+
+### Logo sizing and key-ingredients image — deployed 2026-11-12 (`5bfc12a`)
+
+- Header logo: 1x/2x/3x sources from `logo_height` instead of a fixed 200px.
+  Live: shown 108x30, downloads 60px / 6KB (was 26KB), every page.
+- Key-ingredients image srcset gains 800w and 1000w steps.
+- Key-ingredients `<video>` poster: when the click-to-play cover is shown, the poster
+  is a 1x1 transparent GIF data URI. A real URL there downloaded the same picture a
+  second time (144KB) behind the cover; this was introduced by `d946eae` and is fixed
+  here.
+
+Verified on live (`t/3`, preview cookie cleared): picture downloads once (1000w);
+pressing play hides the cover and the video plays.
