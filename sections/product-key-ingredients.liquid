@@ -67,6 +67,12 @@
             # When the click-to-play cover image is shown (use_poster), it sits over the video until
             # it plays, so the video's own poster is never seen. A real URL there downloaded the same
             # picture a second time (144KB). Give it a 1x1 transparent GIF instead: no request, no 404.
+            # With the click-to-play cover shown, preload nothing: 'metadata' made Chrome fetch
+            # ~256KB of this 70MB file at 1s, before anyone pressed play.
+            assign video_preload = 'metadata'
+            if use_poster
+              assign video_preload = 'none'
+            endif
             assign poster_url = nil
             if use_poster
               assign poster_url = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
@@ -74,7 +80,7 @@
               assign poster_url = image | image_url: width: 1200
             endif
           -%}
-          {{ video | video_tag: image_size: '1200x', autoplay: autoplay, loop: loop_video, muted: true, controls: controls, playsinline: true, preload: 'metadata', class: 'product-feature-media__video', poster: poster_url }}
+          {{ video | video_tag: image_size: '1200x', autoplay: autoplay, loop: loop_video, muted: true, controls: controls, playsinline: true, preload: video_preload, class: 'product-feature-media__video', poster: poster_url }}
 
           {%- if use_poster -%}
             <button type="button" class="product-feature-media__poster" data-feature-poster aria-label="Play video">

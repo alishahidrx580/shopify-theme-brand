@@ -119,9 +119,21 @@ assign price_formatted = current_variant.price | money
                 assign img_focal = sx | append: '% ' | append: sy | append: '%'
               -%}
               <figure class="main-product__tile" data-gallery-tile>
+                {%- unless forloop.first -%}
+                {%- comment -%}
+                  Phones only: slides 2+ sit beside slide 1 in a sideways strip, so "lazy" did not stop
+                  the browser fetching all of them at once (~300KB at 0.85s on the CHAM mask page,
+                  competing with the first photo on slow connections). Under 1024px this <source>
+                  points at a 1x1 GIF, so nothing is fetched; the script after the gallery removes it
+                  on first touch of the gallery, or once the page has finished loading. Desktop shows
+                  a two-column grid and ignores this <source>, so it loads the real images as before.
+                {%- endcomment -%}
+                <picture class="main-product__tile-picture">
+                <source media="(max-width: 1023px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-gallery-defer>
+                {%- endunless -%}
                 <img
                   src="{{ image | image_url: width: 800 }}"
-                  srcset="{{ image | image_url: width: 400 }} 400w, {{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1800 }} 1800w"
+                  srcset="{{ image | image_url: width: 400 }} 400w, {{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 700 }} 700w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1000 }} 1000w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1800 }} 1800w"
                   sizes="(min-width: 1024px) 30vw, 88vw"
                   alt="{{ product.title | escape }}"
                   width="{{ image.width }}"
@@ -131,6 +143,7 @@ assign price_formatted = current_variant.price | money
                   {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
                   decoding="async"
                 >
+                {%- unless forloop.first -%}</picture>{%- endunless -%}
               </figure>
             {%- endfor -%}
           {%- else -%}
@@ -139,6 +152,25 @@ assign price_formatted = current_variant.price | money
             </figure>
           {%- endif -%}
         </div>
+        <script>
+          (function () {
+            var gal = document.currentScript && document.currentScript.closest('[data-gallery]');
+            if (!gal || !gal.querySelector('[data-gallery-defer]')) return;
+            var done = false;
+            function release() {
+              if (done) return;
+              done = true;
+              gal.querySelectorAll('[data-gallery-defer]').forEach(function (s) { s.remove(); });
+            }
+            ['pointerdown', 'touchstart', 'keydown'].forEach(function (t) {
+              gal.addEventListener(t, release, { once: true, passive: true });
+            });
+            var track = gal.querySelector('[data-gallery-track]');
+            if (track) track.addEventListener('scroll', release, { once: true, passive: true });
+            function idle() { (window.requestIdleCallback || function (f) { setTimeout(f, 1500); })(release, { timeout: 3000 }); }
+            if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle, { once: true });
+          })();
+        </script>
 
         {%- if product.images.size > 1 -%}
           <div class="main-product__gallery-progress" aria-hidden="true">
@@ -708,6 +740,8 @@ assign price_formatted = current_variant.price | money
     overflow: hidden;
     background-color: #fff;
   }
+
+  .main-product__tile-picture { display: contents; }
 
   .main-product__tile-img {
     width: 100%;

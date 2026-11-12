@@ -173,7 +173,9 @@
     Array.prototype.forEach.call(tiles, function (tile, i) {
       var img = tile.querySelector('img');
       if (!img) return;
-      var src = img.currentSrc || img.getAttribute('src') || (img.getAttribute('srcset') || '').split(',')[0].trim().split(' ')[0] || '';
+      // getAttribute('src') first: on phones, slides 2+ show a 1x1 placeholder until released
+      // (see the gallery in main-product.liquid), so currentSrc would be that placeholder.
+      var src = img.getAttribute('src') || img.currentSrc || (img.getAttribute('srcset') || '').split(',')[0].trim().split(' ')[0] || '';
       src = src.replace(/([?&])width=\d+/, '$1width=160');
       var b = document.createElement('button');
       b.type = 'button';
