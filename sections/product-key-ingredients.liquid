@@ -64,8 +64,13 @@
             404'd on every view. Lighthouse logged it as a console error.
           {%- endcomment -%}
           {%- liquid
+            # When the click-to-play cover image is shown (use_poster), it sits over the video until
+            # it plays, so the video's own poster is never seen. A real URL there downloaded the same
+            # picture a second time (144KB). Give it a 1x1 transparent GIF instead: no request, no 404.
             assign poster_url = nil
-            if image != blank
+            if use_poster
+              assign poster_url = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+            elsif image != blank
               assign poster_url = image | image_url: width: 1200
             endif
           -%}
@@ -75,7 +80,7 @@
             <button type="button" class="product-feature-media__poster" data-feature-poster aria-label="Play video">
               <img
                 src="{{ image | image_url: width: 1200 }}"
-                srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1800 }} 1800w"
+                srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1000 }} 1000w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1800 }} 1800w"
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 alt="{{ heading_lead | escape }}"
                 width="{{ image.width | default: 1200 }}"
@@ -114,7 +119,7 @@
         {%- elsif image != blank -%}
           <img
             src="{{ image | image_url: width: 1200 }}"
-            srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1800 }} 1800w"
+            srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1000 }} 1000w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1800 }} 1800w"
             sizes="(min-width: 1024px) 50vw, 100vw"
             alt="{{ heading_lead | escape }}"
             width="{{ image.width | default: 1200 }}"
