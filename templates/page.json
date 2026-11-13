@@ -190,12 +190,28 @@
         "gsc_instagram_feed_instafeed_AecYiP"
       ],
       "settings": {}
+    },
+    "page_video_text_cham": {
+      "type": "page-video-text",
+      "settings": {
+        "video_url": "https://theeditpk.com/cdn/shop/videos/c/vp/55ea086435d14932a15a0f58c71e298d/55ea086435d14932a15a0f58c71e298d.HD-1080p-7.2Mbps-96364340.mp4",
+        "poster": "shopify://shop_images/Mask_box_with_roses_ice_202606121910.jpg",
+        "video_side": "left",
+        "autoplay": false,
+        "eyebrow": "CHAM",
+        "show_rule": false,
+        "heading_lead": "Considered formulas.",
+        "heading_emphasis": "Quiet results.",
+        "heading_tail": "",
+        "body": "<p>Every Cham formula is built around restraint — fewer ingredients, chosen precisely. This is what that looks like in practice. Made to be felt, not explained.</p>"
+      }
     }
   },
   "order": [
     "main",
     "home_image_text_CjPz7G",
     "home_image_text_egwpph",
+    "page_video_text_cham",
     "home_image_text_GgTP88",
     "home_brand_logos_J7hYdb",
     "178750218704cf1e1e"
