@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-12
+**Last updated:** 2026-11-14
 
 ## The live site and GitHub do not match
 
@@ -10,9 +10,9 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `af84d2d` |
+| **Live site** | Every commit on `seo-fixes` up to `771b4ec` |
 | **GitHub `main`** | `be5aa3a` — none of it |
-| **`origin/seo-fixes`** | 54 commits ahead of `main`, awaiting merge |
+| **`origin/seo-fixes`** | 56 commits ahead of `main`, awaiting merge |
 
 ### The Buy Now fallback was reverted, not shipped
 
@@ -316,3 +316,19 @@ day, after = 4 runs after deploy; not interleaved, so treat timings as indicativ
 | Total Blocking Time | 0.84 s | 1.14 s (ranges overlap; noise) |
 
 products.json fetched on load: 6/6 before, 0/4 after. Video bytes: 66-303 KB before, 0 after.
+
+### CHAM video moved off the mask page to About — deployed 2026-11-14 (`771b4ec`)
+
+- `templates/product.portrait.json` (the CHAM mask's template): the Feature media
+  section's `video` is empty, so it shows its thumbnail as a plain image.
+- `templates/page.json` (used by `/pages/our-story`, the "About us" link): new
+  "Video + text" section `page_video_text_cham` with the same video (full CDN URL),
+  poster and copy, after the "Born near Paris" section; `show_rule` off.
+
+**Templates are edited in the admin.** These two were pulled from live, edited, and
+re-pulled just before the push to confirm nothing had changed in between. Do the same
+for any template change: never push the repo's copy without comparing it to live.
+
+Verified on live (`t/3`, preview cookie cleared): mask page has no video element, no
+play button, 0 .mp4 requests, image and heading present; About page video section
+present after "Born near Paris", poster set, plays on click.
