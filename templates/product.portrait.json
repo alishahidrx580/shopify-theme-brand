@@ -56,7 +56,7 @@
     },
     "product_key_ingredients_8xX9FC": {
       "type": "product-key-ingredients",
-      "name": "Feature media (video)",
+      "name": "Feature media (image)",
       "settings": {
         "media_position": "left",
         "eyebrow": "CHAM",
@@ -64,7 +64,6 @@
         "heading_emphasis": "Quiet results.",
         "claim": "",
         "footnote": "<p>Every Cham formula is built around restraint — fewer ingredients, chosen precisely. This is what that looks like in practice. Made to be felt, not explained.</p>",
-        "video": "shopify://files/videos/cham video.mp4",
         "video_url": "",
         "poster_metafield": "custom.feature_poster",
         "image": "shopify://shop_images/Mask_box_with_roses_ice_202606121910.jpg",
