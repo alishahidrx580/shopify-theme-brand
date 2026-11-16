@@ -27,7 +27,7 @@
       "type": "home-announcement-bar",
       "custom_css": [
         ".home-announcement-bar {background-color: #ce9a43;}",
-        ".home-announcement-bar .home-announcement-bar__msg {color: #0d1c42;}"
+        ".home-announcement-bar .home-announcement-bar__msg {color: #061832;}"
       ],
       "name": "Announcement Bar",
       "settings": {

@@ -23,7 +23,7 @@
             "cta": "SHOP NOW",
             "link": "/products/brightening-face-mask",
             "show_price": true,
-            "caption_bg": "#0d1c42",
+            "caption_bg": "#061832",
             "caption_fg": "#ffffff"
           }
         },
@@ -38,7 +38,7 @@
             "cta": "Shop now",
             "link": "/collections/cham",
             "caption_bg": "#fcf1d0",
-            "caption_fg": "#0d1c42"
+            "caption_fg": "#061832"
           }
         },
         "promo_DdNFUz": {
@@ -51,8 +51,8 @@
             "text": "Dermatologist-developed, fragrance-free. For every skin type.",
             "cta": "Shop now",
             "link": "/collections/cerave",
-            "caption_bg": "#ce9a43",
-            "caption_fg": "#0d1c42"
+            "caption_bg": "#061832",
+            "caption_fg": "#ffffff"
           }
         },
         "promo_d83Q4k": {
@@ -65,8 +65,8 @@
             "text": "K-beauty capsules — collagen, niacinamide and vitamin C.",
             "cta": "Shop now",
             "link": "/collections/medicube",
-            "caption_bg": "#22396f",
-            "caption_fg": "#ffffff"
+            "caption_bg": "#fcf1d0",
+            "caption_fg": "#061832"
           }
         }
       },

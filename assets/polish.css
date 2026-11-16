@@ -663,7 +663,7 @@ html .brand-strip__nav {
   border: 0; border-radius: 50%; padding: 0;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
-  color: var(--primary, #0d1c42);
+  color: var(--primary, #061832);
   background: rgba(255, 255, 255, 0.78);
   -webkit-backdrop-filter: blur(10px) saturate(1.3);
   backdrop-filter: blur(10px) saturate(1.3);
@@ -680,7 +680,7 @@ html .brand-strip__nav svg { width: 11px; height: 16px; }
 html .hf-nav:hover,
 html .pgrid__nav:hover,
 html .brand-strip__nav:hover {
-  background: var(--primary, #0d1c42);
+  background: var(--primary, #061832);
   color: #fff;
   box-shadow:
     inset 0 0 0 1px rgba(206, 154, 67, 0.85),
@@ -693,7 +693,7 @@ html .brand-strip__nav:active { transform: scale(0.94); }
 html .hf-nav:focus-visible,
 html .pgrid__nav:focus-visible,
 html .brand-strip__nav:focus-visible {
-  outline: 2px solid var(--primary, #0d1c42);
+  outline: 2px solid var(--primary, #061832);
   outline-offset: 2px;
 }
 
@@ -760,7 +760,7 @@ html[data-cart-adding] .cart-drawer__panel::before {
   top: 0;
   height: 2px;
   z-index: 5;
-  background-image: linear-gradient(90deg, transparent, var(--primary, #0d1c42), transparent);
+  background-image: linear-gradient(90deg, transparent, var(--primary, #061832), transparent);
   background-size: 40% 100%;
   background-repeat: no-repeat;
   animation: edit-cart-bar 0.9s linear infinite;
