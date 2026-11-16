@@ -8,7 +8,7 @@
   endif
 -%}
 
-<section class="product-ritual full-width">
+<section class="product-ritual full-width{% if product.vendor == 'CHAM' %} product-ritual--swipe{% endif %}">
   <div class="product-ritual__inner cham-container">
     {%- if section.settings.eyebrow != blank or section.settings.heading_lead != blank or section.settings.body != blank -%}
       <div class="product-ritual__head" data-reveal>
@@ -72,6 +72,24 @@
 </section>
 
 {% stylesheet %}
+  /* CHAM pages on phones: the steps sit side by side and swipe, instead of
+     stacking three tall photos (the section was ~3,500px tall at 375px). */
+  @media (max-width: 767px) {
+    .product-ritual--swipe { padding-block: 3.5rem; }
+    .product-ritual--swipe .product-ritual__steps {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding-bottom: 0.5rem;
+    }
+    .product-ritual--swipe .product-ritual__steps::-webkit-scrollbar { display: none; }
+    .product-ritual--swipe .product-ritual__step {
+      flex: 0 0 78%;
+      scroll-snap-align: start;
+    }
+  }
   .product-ritual {
     width: 100%;
     background-color: var(--surface);

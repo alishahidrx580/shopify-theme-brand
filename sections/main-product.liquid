@@ -95,7 +95,8 @@ assign price_formatted = current_variant.price | money
   endif
 -%}
 
-<section class="main-product full-width" data-product-section data-product-handle="{{ product.handle }}" style="--gallery-ratio: {{ gallery_ratio }}; --gallery-col-width: {{ image_container_width }}fr;">
+{%- assign cham_lp = false -%}{%- if product.vendor == 'CHAM' -%}{%- assign cham_lp = true -%}{%- endif -%}
+<section class="main-product full-width{% if cham_lp %} main-product--lp{% endif %}" data-product-section data-product-handle="{{ product.handle }}" style="--gallery-ratio: {{ gallery_ratio }}; --gallery-col-width: {{ image_container_width }}fr;">
   <div class="main-product__inner cham-container">
     <div class="main-product__grid">
 
@@ -192,6 +193,12 @@ assign price_formatted = current_variant.price | money
 
           <h1 class="main-product__title font-display">{{ product.title }}</h1>
 
+          {%- comment -%}
+            CHAM landing layout: the subtitle, ingredient line and description
+            bullets print below the buy buttons instead of above the price, so
+            price, packs and Add to bag come straight after the title.
+          {%- endcomment -%}
+          {%- capture lp_meta -%}
           {%- if subtitle != blank -%}
             <p class="main-product__subtitle">{{ subtitle }}</p>
           {%- endif -%}
@@ -207,6 +214,8 @@ assign price_formatted = current_variant.price | money
               {%- endfor -%}
             </p>
           {%- endif -%}
+          {%- endcapture -%}
+          {%- unless cham_lp -%}{{ lp_meta }}{%- endunless -%}
 
           {%- if product.metafields.judgeme.badge != blank -%}
             <a href="#reviews" class="main-product__rating">{{ product.metafields.judgeme.badge }}</a>
@@ -217,12 +226,15 @@ assign price_formatted = current_variant.price | money
           <p class="main-product__hero-statement font-display">{{ hero_statement }}</p>
         {%- endif -%}
 
+        {%- capture lp_description -%}
         {%- if product.description != blank -%}
           <div class="main-product__description rte" data-description>{{ product.description }}</div>
           <button type="button" class="main-product__see-more" data-see-more aria-expanded="false" data-more="See more" data-less="See less">
             See more
           </button>
         {%- endif -%}
+        {%- endcapture -%}
+        {%- unless cham_lp -%}{{ lp_description }}{%- endunless -%}
         <form
           method="post"
           action="{{ routes.cart_add_url }}"
@@ -453,6 +465,37 @@ assign price_formatted = current_variant.price | money
 
         {%- if product.vendor == 'CHAM' -%}
 <div class="cham-assure" role="note" aria-label="Delivery, returns and payment">
+  {%- if settings.cart_dispatch_enable -%}
+  <p class="cham-assure__eta cham-assure__eta--dispatch" data-pdp-dispatch data-cutoff="{{ settings.cart_dispatch_cutoff | default: 18 }}" data-days="{{ settings.cart_dispatch_days | default: '1,2,3,4,5,6' }}" hidden></p>
+  <script>
+    /* Same-day dispatch line. Same rule and settings as the cart drawer timer
+       (Theme settings > Cart drawer > Dispatch timer), in Pakistan time. */
+    (function () {
+      var el = document.querySelector('[data-pdp-dispatch]');
+      if (!el) return;
+      var N = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      function set(a, b, c) { el.textContent = a; var s = document.createElement('strong'); s.textContent = b; el.appendChild(s); el.appendChild(document.createTextNode(c)); el.hidden = false; }
+      function tick() {
+        var cut = parseInt(el.getAttribute('data-cutoff'), 10) || 18;
+        var days = (el.getAttribute('data-days') || '').split(',').map(Number);
+        var t = new Date(Date.now() + 5 * 3600 * 1000), dow = t.getUTCDay();
+        var secs = cut * 3600 - (t.getUTCHours() * 3600 + t.getUTCMinutes() * 60 + t.getUTCSeconds());
+        var left = Math.floor(secs / 60);
+        if (days.indexOf(dow) !== -1 && secs > 0) {
+          var h = Math.floor(left / 60), m = left % 60;
+          if (left < 1) set('Order in the next ', 'minute', ' and it ships today');
+          else set('Order within ', h ? h + 'h' + (m ? ' ' + m + 'm' : '') : m + 'm', ' and it ships today');
+        } else {
+          var k = 1; while (k < 8 && days.indexOf((dow + k) % 7) === -1) k++;
+          if (k >= 8) { el.hidden = true; return; }
+          set('Order now and it ships ', k === 1 ? 'tomorrow' : 'on ' + N[(dow + k) % 7], '');
+        }
+      }
+      tick();
+      setInterval(function () { if (!document.hidden) tick(); }, 30000);
+    })();
+  </script>
+  {%- endif -%}
   <p class="cham-assure__eta" data-cham-eta>Estimated delivery time: <strong data-eta-o>2-5 days</strong></p>
   <ul class="cham-assure__grid">
     <li>
@@ -485,6 +528,12 @@ assign price_formatted = current_variant.price | money
   .cham-pay__item a{color:inherit;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
   .main-product__concern{margin:6px 0 0;font-size:13px;line-height:1.45;letter-spacing:.01em;opacity:.78}
 </style>
+{%- endif -%}
+{%- if cham_lp -%}
+<div class="main-product__lp-details">
+  {{ lp_meta }}
+  {{ lp_description }}
+</div>
 {%- endif -%}
 {%- if product.vendor == 'CHAM' -%}
 <style>
@@ -659,6 +708,25 @@ assign price_formatted = current_variant.price | money
       align-items: start;
     }
   }
+
+  /* === CHAM landing layout (phones and tablets) ===
+     The first screen has to carry the name, the price and the offer, so the
+     photo is square instead of 3:4 and the type above the price is tighter.
+     Desktop keeps the two-column layout unchanged. */
+  @media (max-width: 1023px) {
+    .main-product.main-product--lp { padding-top: calc(var(--header-height) + 0.25rem); }
+    .main-product--lp .main-product__grid { gap: 0.625rem; }
+    .main-product--lp .main-product__tile { aspect-ratio: 1 / 1; }
+    .main-product--lp .main-product__breadcrumb { display: none; }
+    .main-product--lp .main-product__header { margin-bottom: 0.5rem; }
+    .main-product--lp .main-product__title { font-size: 1.375rem; line-height: 1.15; font-weight: 400; }
+    .main-product--lp .main-product__hero-statement { margin: 0 0 0.25rem; font-size: 1rem; }
+    .main-product--lp .main-product__size-line { margin-top: 0.5rem; }
+  }
+  .main-product__lp-details { margin-top: 1.5rem; }
+  .main-product__lp-details .main-product__subtitle { margin-top: 0; }
+  .main-product__lp-details .main-product__description { margin-top: 1rem; }
+  .cham-assure__eta[hidden] { display: none; }
 
   .main-product__gallery { grid-area: gallery; align-self: start; }
   .main-product__info    { grid-area: info; }
