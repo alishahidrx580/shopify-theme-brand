@@ -469,3 +469,31 @@ Left for the owner: slide 1's photo still shows cream + mask; slide 2 is an "11.
 graphic that says "Limited time", as does the announcement bar, though the CHAM offer
 has no end date; nine product rows with repeated products; no delivery-time note for
 pharmacy brands (14-21 working days).
+
+### Brand colour pass: one navy, gold buy buttons, cream pills, square boxes — deployed 2026-11-16
+
+`snippets/css-variables.liquid`, `sections/main-product.liquid`, `sections/home-promo-grid.liquid`,
+`sections/home-pillars.liquid`, `sections/cart.liquid`, `snippets/cart-drawer.liquid`,
+`snippets/product-card.liquid`, `layout/theme.liquid`, `assets/polish.css`,
+`templates/index.json`, `sections/header-group.json` (all 11 pulled from live and compared
+with the last commit right before the push; no admin changes).
+
+- New tokens in `:root`: `--brand-navy` (the theme navy, #061832), `--brand-gold` #ce9a43,
+  `--brand-cream` #fcf1d0, and `--cta-bg` / `--cta-fg` / `--cta-bg-hover` for the buy action.
+- The second navy (#0d1c42), the black banner tag and the near-black quick-add button
+  are now the one brand navy.
+- Add to bag (and the sticky bar that mirrors it), drawer Checkout and /cart Checkout are
+  gold with navy text (6.6:1), weight 700. Gold stays for these and the announcement bar.
+- Discount pills (product page, banner) are cream with navy text; the "5 pieces" badge is
+  an outline, so neither reads as a second button.
+- Banner captions alternate navy and cream; the three trust cards are navy, cream, navy.
+- Pack boxes, delivery/returns boxes and product cards use `var(--radius, 2px)`.
+  Pills and badges stay round.
+
+Verified on live (`t/3`, theme 160960577764) at 375px: Add to bag `rgb(206,154,67)` with
+navy text, outline pieces badge, 2px pack boxes, /cart and drawer Checkout gold, banner
+pill cream, card radius 2px, quick-add navy, no horizontal overflow on product, cart and
+home. Dark mode checked on the preview theme only. Speed not re-measured (colour and
+radius changes only).
+
+Left for the owner: a brand typeface for headings; the logo red is not used elsewhere.

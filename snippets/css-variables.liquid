@@ -30,6 +30,19 @@
     --primary-foreground: oklch(0.99 0 0);
     --primary-glow: oklch(0.30 0.05 258);
 
+    /* Brand constants: one navy, one gold, one cream. The same in light and
+       dark mode, for surfaces that carry the brand whatever the theme. */
+    --brand-navy: oklch(0.21 0.058 258);
+    --brand-gold: #ce9a43;
+    --brand-cream: #fcf1d0;
+
+    /* The buy action (Add to bag, Checkout): gold with navy text, 6.6:1.
+       Gold is kept for this and the announcement bar so the one thing to
+       tap stands out on a navy-and-white page. */
+    --cta-bg: var(--brand-gold);
+    --cta-fg: var(--brand-navy);
+    --cta-bg-hover: #bd8a35;
+
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.21 0.058 258);
 
