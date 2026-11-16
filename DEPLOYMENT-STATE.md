@@ -10,7 +10,7 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to the CHAM landing layout commit (2026-11-16; the cart drawer commits from `ea38805` on are local only: not yet pushed to GitHub) |
+| **Live site** | Every commit on `seo-fixes` up to the homepage banner commit (2026-11-16; the cart drawer commits from `ea38805` on are local only: not yet pushed to GitHub) |
 | **GitHub `main`** | `be5aa3a` — none of it |
 | **`origin/seo-fixes`** | 56 commits ahead of `main`, awaiting merge |
 
@@ -443,3 +443,29 @@ Speed: three live runs right after the deploy read slower (LCP 1.87 s -> 3.18 s,
 blocks, 6 mobile Lighthouse runs each. Medians old vs new: perf 74.5 vs 74.5, LCP 2.71 s
 vs 2.66 s, TBT 812 ms vs 754 ms, CLS 0 vs 0. No difference; the post-deploy reading was
 evening noise.
+
+### Homepage: banner loads first, offer on slide 1, trust section moved up — deployed 2026-11-16
+
+`sections/home-promo-grid.liquid`, `templates/index.json` (pulled from live and compared
+before the edit and again before the push; no admin changes in between).
+
+- Slides 1 and 2 of the promo slider load eagerly; slide 1 has `fetchpriority="high"`.
+  They were `loading="lazy"`, which left the first screen an empty grey box for the
+  first seconds.
+- New block setting "Show the product's live price": when a slide links to a product,
+  it prints that product's price, compare-at price and % off from Shopify. On for
+  slide 1, which now reads "CHAM Brightening Face Mask" and links to the mask page
+  (was "CHAM Brightening Duo" -> /collections/cham).
+- New section setting "Reassurance line under the slider":
+  "Cash on delivery | Free delivery | Original sealed packaging".
+- `trust-strip` moved from after the nine product rows to after "New In"
+  (about 5,090px -> 1,340px from the top at 375px).
+
+Verified on live (`t/3`) at 375px: both images loaded, price row "PKR 3,999 / PKR 5,713 /
+30% OFF", link to the mask page, reassurance line, new order, no horizontal overflow.
+Speed not re-measured.
+
+Left for the owner: slide 1's photo still shows cream + mask; slide 2 is an "11.11 Sale"
+graphic that says "Limited time", as does the announcement bar, though the CHAM offer
+has no end date; nine product rows with repeated products; no delivery-time note for
+pharmacy brands (14-21 working days).

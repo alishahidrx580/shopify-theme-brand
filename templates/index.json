@@ -18,10 +18,11 @@
             "image": "shopify://shop_images/cham_3x2_1500x1000_8b9afc4b-8ee2-4eaa-a6bd-7461e1be9196.png",
             "tag": "The Edit — Official Partner of CHAM",
             "tag_position": "top",
-            "title": "CHAM Brightening Duo",
-            "text": "Deep moisture and visible radiance. The face cream and facial mask.",
+            "title": "CHAM Brightening Face Mask",
+            "text": "Pack of 5 bio-cellulose sheet masks for brighter, more even-looking skin.",
             "cta": "SHOP NOW",
-            "link": "/collections/cham",
+            "link": "/products/brightening-face-mask",
+            "show_price": true,
             "caption_bg": "#0d1c42",
             "caption_fg": "#ffffff"
           }
@@ -78,6 +79,7 @@
       "name": "Promo grid (4-up)",
       "settings": {
         "heading": "",
+        "assurance": "Cash on delivery | Free delivery | Original sealed packaging",
         "slide_width": 545,
         "slide_width_mobile": 340,
         "image_ratio": "3 / 2",
@@ -626,6 +628,7 @@
     "home_promo_grid_Pw9z4C",
     "brand-strip",
     "new-in",
+    "trust-strip",
     "brand-logos",
     "brightening",
     "ticker",
@@ -636,7 +639,6 @@
     "home_featured_products_W3dFeN",
     "home_featured_products_HNDweb",
     "home_featured_products_DYV4wg",
-    "trust-strip",
     "178747941860776144",
     "17874816673bfe4182"
   ]
