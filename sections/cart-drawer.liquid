@@ -1,0 +1,16 @@
+{%- comment -%}
+  Section Rendering target for the cart drawer. It is not placed on any page:
+  layout/theme.liquid renders the snippet directly, and the drawer code asks
+  for this section by name (/cart?sections=cart-drawer, or the `sections`
+  parameter on /cart/add.js and /cart/change.js) to refresh the drawer after a
+  cart change without reloading the page. Settings live in Theme settings >
+  Cart drawer, so this section has none of its own.
+{%- endcomment -%}
+{%- render 'cart-drawer' -%}
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": []
+}
+{% endschema %}

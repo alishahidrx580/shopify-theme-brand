@@ -1,0 +1,63 @@
+{%- comment -%}
+  One card in the cart drawer's upsell row (sections/cart-upsells.liquid).
+  Prices mirror snippets/product-card.liquid, including the storewide
+  automatic-discount display.
+
+  @param {product} product - The product to show.
+{%- endcomment -%}
+{%- liquid
+  assign up_discount_percent = settings.automatic_discount_percent | default: 0
+  assign up_discount_factor = 100 | minus: up_discount_percent | divided_by: 100.0
+-%}
+{%- liquid
+  assign up_variant = product.selected_or_first_available_variant
+  assign up_compare = blank
+  assign up_price = product.price
+  if product.compare_at_price > product.price
+    assign up_compare = product.compare_at_price
+  elsif up_discount_percent > 0
+    unless product.tags contains 'no-discount'
+      assign up_compare = product.price
+      assign up_price = product.price | times: up_discount_factor | round
+    endunless
+  endif
+-%}
+<li class="cart-upsell" data-product-id="{{ product.id }}">
+  <a href="{{ product.url }}" class="cart-upsell__image" tabindex="-1" aria-hidden="true">
+    {%- if product.featured_image -%}
+      {{
+        product.featured_image
+        | image_url: width: 288
+        | image_tag:
+          loading: 'lazy',
+          widths: '96, 144, 192, 288',
+          sizes: '96px',
+          alt: '',
+          width: 96,
+          height: 120
+      }}
+    {%- endif -%}
+  </a>
+  <div class="cart-upsell__body">
+    <a href="{{ product.url }}" class="cart-upsell__title">{{ product.title }}</a>
+    <p class="cart-upsell__price">
+      <span>{{ up_price | money }}</span>
+      {%- if up_compare -%}
+        <s class="cart-upsell__compare"><span class="visually-hidden">Regular price </span>{{ up_compare | money }}</s>
+      {%- endif -%}
+    </p>
+    {%- if product.has_only_default_variant and up_variant.available -%}
+      <button
+        type="button"
+        class="cart-upsell__add"
+        data-quick-add
+        data-variant-id="{{ up_variant.id }}"
+        aria-label="Add {{ product.title | escape }} to cart"
+      >
+        Add
+      </button>
+    {%- else -%}
+      <a href="{{ product.url }}" class="cart-upsell__add" aria-label="Choose options for {{ product.title | escape }}">Choose</a>
+    {%- endif -%}
+  </div>
+</li>

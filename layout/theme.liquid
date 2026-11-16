@@ -260,6 +260,7 @@
 
     function openDrawer() {
       if (window.CartDrawer && window.CartDrawer.open) { window.CartDrawer.open(); return; }
+      drawer.removeAttribute('inert');
       drawer.setAttribute('aria-hidden', 'false');
       document.body.setAttribute('data-drawer-open', 'true');
       document.documentElement.setAttribute('data-drawer-open', 'true');
@@ -280,26 +281,58 @@
         .then(function (h) { return new DOMParser().parseFromString(h || '', 'text/html'); });
     }
 
+    // The drawer is refreshed through the Section Rendering API: sections/cart-drawer.liquid
+    // renders the same snippet. Cart requests ask for it in the same round trip
+    // (`sections` on /cart/add.js and /cart/change.js), so a change costs one request.
+    var SEC = 'cart-drawer';
+    function withSections(body) { body.sections = SEC; body.sections_url = '/cart'; return body; }
+
+    function applyDoc(doc) {
+      var fresh = doc.querySelector('.cart-drawer__panel');
+      var panel = drawer.querySelector('.cart-drawer__panel');
+      if (fresh && panel) {
+        // Keep keyboard focus and scroll position across the swap.
+        var a = document.activeElement;
+        var fid = a && panel.contains(a) ? a.getAttribute('data-focus-id') : null;
+        var lostFocus = a && panel.contains(a);
+        var body = panel.querySelector('.cart-drawer__body');
+        var top = body ? body.scrollTop : 0;
+        panel.innerHTML = fresh.innerHTML;
+        var nb = panel.querySelector('.cart-drawer__body');
+        if (nb) nb.scrollTop = top;
+        if (lostFocus) {
+          var target = fid && panel.querySelector('[data-focus-id="' + (window.CSS && CSS.escape ? CSS.escape(fid) : fid) + '"]');
+          (target || panel.querySelector('.cart-drawer__close')).focus({ preventScroll: true });
+        }
+      }
+      var sync = doc.querySelector('[data-cart-count-sync]');
+      var marker = doc.querySelector('#cart-count-sync');
+      var badge = doc.querySelector('[data-cart-count]');
+      if (sync) setCount(sync.getAttribute('data-cart-count-sync'));
+      else if (marker) setCount(marker.getAttribute('data-count'));
+      else if (badge) setCount((badge.getAttribute('data-cart-count') || badge.textContent || '').trim());
+      state.cart = null;
+      document.dispatchEvent(new CustomEvent('cart-drawer:rendered'));
+    }
+
+    function applyHtml(html) { applyDoc(new DOMParser().parseFromString(html, 'text/html')); }
+
     var rerendering = null;
-    function rerender() {
+    function rerender(html) {
+      if (html) { applyHtml(html); return Promise.resolve(); }
       if (rerendering) return rerendering;
-      rerendering = fetchDoc(viewUrl)
-        .then(function (doc) {
-          if (!doc.querySelector('.cart-drawer__panel') && viewUrl !== '/cart') {
-            viewUrl = '/cart';
-            return fetchDoc(viewUrl);
-          }
-          return doc;
-        })
-        .then(function (doc) {
-          var fresh = doc.querySelector('.cart-drawer__panel');
-          var panel = drawer.querySelector('.cart-drawer__panel');
-          if (fresh && panel) panel.innerHTML = fresh.innerHTML;
-          var marker = doc.querySelector('#cart-count-sync');
-          var badge = doc.querySelector('[data-cart-count]');
-          if (marker) setCount(marker.getAttribute('data-count'));
-          else if (badge) setCount((badge.getAttribute('data-cart-count') || badge.textContent || '').trim());
-          state.cart = null;
+      rerendering = fetch('/cart?sections=' + SEC, { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (j && j[SEC]) return applyHtml(j[SEC]);
+          // Fallback: the alternate cart template, then the full cart page.
+          return fetchDoc(viewUrl).then(function (doc) {
+            if (!doc.querySelector('.cart-drawer__panel') && viewUrl !== '/cart') {
+              viewUrl = '/cart';
+              return fetchDoc(viewUrl);
+            }
+            return doc;
+          }).then(applyDoc);
         })
         .catch(function (e) { console.error('[cart] rerender', e); })
         .then(function () { rerendering = null; });
@@ -352,7 +385,7 @@
   var chamPaintOrig = paint;
   paint = function (cart) {
     try { if (cart && cart.items) chamBonus(cart); } catch (e) {}
-    return chamPaintOrig(cart);
+    return chamPaintOrig.apply(this, arguments);
   };
   fetch('/cart.js', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (c) {
     if (chamPrev !== null) return;
@@ -371,35 +404,18 @@
     }).catch(function () {});
   };
 
-    function paint(cart) {
+    // Paints the parts a cart JSON can fill at once (qty, line price, total,
+    // badges), then swaps in the server-rendered drawer for everything else
+    // (savings, progress, line details). `html` is that rendering when the cart
+    // request already returned it; without it, one Section Rendering request
+    // fetches it. That request replaces the old /cart?sections=cart fetch that
+    // existed only to read the Total savings row.
+    function paint(cart, html) {
       if (!cart || !cart.items) return;
       state.cart = cart;
 
       var total = drawer.querySelector('.cart-drawer__total-amount');
       if (total) total.textContent = money(cart.total_price);
-    var chamTok = (window.__chamTok = (window.__chamTok || 0) + 1);
-          // Section Rendering instead of the whole cart page: 7 KB and ~340ms rather
-    // than 242 KB and ~545ms, for the one value read out of it below.
-    fetch('/cart?sections=cart&cb=' + Date.now(), { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (j) {
-      var h = (j && j.cart) || '';
-      var doc = new DOMParser().parseFromString(h, 'text/html');
-      if (chamTok !== window.__chamTok) return;
-      var src = doc.querySelector('.main-cart__row--saved');
-      var row = drawer.querySelector('.cart-drawer__row--saved');
-      var totals = drawer.querySelector('.cart-drawer__totals');
-      if (src) {
-        var val = src.lastElementChild.textContent;
-        if (row) { row.lastElementChild.textContent = val; }
-        else if (totals) {
-          row = document.createElement('div');
-          row.className = 'cart-drawer__row cart-drawer__row--saved';
-          row.setAttribute('style', 'color:var(--primary);font-weight:600');
-          row.innerHTML = '<span>Total savings</span><span></span>';
-          row.lastElementChild.textContent = val;
-          totals.insertBefore(row, totals.firstChild);
-        }
-      } else if (row) { row.remove(); }
-    }).catch(function () {});
 var countText = drawer.querySelector('[data-cart-count-text]');
       if (countText) countText.textContent = cart.item_count > 0 ? '(' + cart.item_count + ')' : '';
       setCount(cart.item_count);
@@ -426,10 +442,10 @@ var countText = drawer.querySelector('[data-cart-count-text]');
         row.removeAttribute('data-removing');
       });
 
-      var orphan = false;
-      used.forEach(function (u) { if (!u) orphan = true; });
-      var hasList = !!drawer.querySelector('.cart-drawer__items');
-      if (orphan || (cart.item_count === 0 && hasList) || (cart.item_count > 0 && !hasList)) return rerender();
+      // While more +/- clicks are queued, leave the optimistic numbers alone;
+      // the last response in the queue carries the final rendering.
+      for (var p in pending) return;
+      return rerender(html);
     }
 
     function sync() {
@@ -450,7 +466,7 @@ var countText = drawer.querySelector('[data-cart-count-text]');
     function post(key, qty) {
       return fetch('/cart/change.js', {
         method: 'POST', credentials: 'same-origin', headers: J,
-        body: JSON.stringify({ id: key, quantity: qty })
+        body: JSON.stringify(withSections({ id: key, quantity: qty }))
       }).then(function (r) { return r.ok ? r.json() : null; });
     }
 
@@ -473,7 +489,7 @@ var countText = drawer.querySelector('[data-cart-count-text]');
         delete pending[key];
         var k = resolve(key);
         return post(k, target).then(function (cart) {
-          if (cart) return paint(cart);
+          if (cart) return paint(cart, cart.sections && cart.sections[SEC]);
           return sync().then(function () {
             var k2 = resolve(key);
             if (k2 === k) return;
@@ -487,7 +503,7 @@ var countText = drawer.querySelector('[data-cart-count-text]');
       return queue(function () {
         return fetch('/cart/add.js', {
           method: 'POST', credentials: 'same-origin', headers: J,
-          body: JSON.stringify({ id: id, quantity: qty || 1 })
+          body: JSON.stringify(withSections({ id: id, quantity: qty || 1 }))
         })
           .then(function (r) {
             return r.json().then(function (d) {
@@ -495,7 +511,7 @@ var countText = drawer.querySelector('[data-cart-count-text]');
               return d;
             });
           })
-          .then(function () { return rerender(); });
+          .then(function (d) { return rerender(d.sections && d.sections[SEC]); });
       });
     }
 
@@ -506,6 +522,8 @@ var countText = drawer.querySelector('[data-cart-count-text]');
       if (!form || btn.disabled) return;
       var buyNow = btn.hasAttribute('data-buy-now');
       var fd = new FormData(form);
+      fd.append('sections', SEC);
+      fd.append('sections_url', '/cart');
       btn.setAttribute('data-loading', 'true');
       // Open the drawer before the request rather than after it. /cart/add.js
       // measured 0.7-2.2s on this store, so the drawer used to appear about a
@@ -529,10 +547,10 @@ var countText = drawer.querySelector('[data-cart-count-text]');
               return d;
             });
           })
-          .then(function () {
-        if (buyNow) { return rerender().then(function () { window.location.assign('/checkout'); }); }
+          .then(function (d) {
+        if (buyNow) { return rerender(d.sections && d.sections[SEC]).then(function () { window.location.assign('/checkout'); }); }
             openDrawer();
-            return rerender().then(function () {
+            return rerender(d.sections && d.sections[SEC]).then(function () {
               btn.removeAttribute('data-loading');
               document.documentElement.removeAttribute('data-cart-adding');
             });

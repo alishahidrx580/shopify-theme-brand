@@ -11,10 +11,11 @@
   {% render 'cart-drawer' %}
 {% enddoc %}
 
-<div class="cart-drawer" data-cart-drawer aria-hidden="true">
+<div class="cart-drawer" data-cart-drawer aria-hidden="true" inert>
   <div class="cart-drawer__overlay" data-cart-close></div>
 
   <aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
+    <span data-cart-count-sync="{{ cart.item_count }}" hidden></span>
     <header class="cart-drawer__header">
       <h3 class="eyebrow" id="cart-drawer-title">
         {{ 'sections.cart_drawer.title' | t }}
@@ -22,7 +23,7 @@
           {%- if cart.item_count > 0 -%}({{ cart.item_count }}){%- endif -%}
         </span>
       </h3>
-      <button type="button" class="cart-drawer__close" data-cart-close aria-label="{{ 'general.accessibility.close_cart' | t }}">
+      <button type="button" class="cart-drawer__close" data-cart-close data-focus-id="close" aria-label="{{ 'general.accessibility.close_cart' | t }}">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
@@ -44,22 +45,72 @@
         </a>
       </div>
     {%- else -%}
+      {%- comment -%}
+        Reward progress. Off by default: it must only be switched on when a
+        matching reward actually exists in Shopify (see Theme settings > Cart
+        drawer). Measured against the items subtotal, which is what an
+        automatic discount's minimum purchase is checked against.
+      {%- endcomment -%}
+      {%- assign progress_goal = settings.cart_progress_threshold | default: 0 | times: 100 -%}
+      {%- if settings.cart_progress_enable and progress_goal > 0 -%}
+        {%- liquid
+          assign progress_spent = cart.items_subtotal_price
+          assign progress_left = progress_goal | minus: progress_spent
+          assign progress_ratio = progress_spent | times: 1.0 | divided_by: progress_goal
+          if progress_ratio > 1
+            assign progress_ratio = 1
+          endif
+          assign progress_pct = progress_ratio | times: 100 | floor
+          assign progress_amount = progress_left | money | prepend: '<strong>' | append: '</strong>'
+        -%}
+        <div class="cart-progress{% if progress_left <= 0 %} cart-progress--done{% endif %}">
+          <p class="cart-progress__message">
+            {%- if progress_left > 0 -%}
+              {{ settings.cart_progress_message | escape | replace: '[amount]', progress_amount }}
+            {%- else -%}
+              {{ settings.cart_progress_success | escape }}
+            {%- endif -%}
+          </p>
+          <div
+            class="cart-progress__track"
+            role="progressbar"
+            aria-label="Progress towards reward"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="{{ progress_pct }}"
+          >
+            <span class="cart-progress__fill" style="--progress: {{ progress_ratio }}"></span>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <div class="cart-drawer__body">
       <ul class="cart-drawer__items">
         {%- for item in cart.items -%}
           {%- assign volume = item.product.metafields.custom.volume -%}
           {%- unless item.product.has_only_default_variant -%}
             {%- assign volume = item.variant.title -%}
           {%- endunless -%}
-          {%- assign has_compare = false -%}
-          {%- if item.variant.compare_at_price > item.final_price -%}
-            {%- assign has_compare = true -%}
-          {%- endif -%}
-          <li class="cart-drawer__item" data-line-key="{{ item.key }}">
-            <a href="{{ item.url }}" class="cart-drawer__item-image" data-cart-close>
+          {%- comment -%}
+            Reference price for the strike-through and "You save": the real
+            compare-at price, or the pre-discount price when an automatic
+            discount lowers the line. Same rule as the Total savings row below.
+          {%- endcomment -%}
+          {%- liquid
+            assign line_ref = item.variant.compare_at_price | default: 0
+            if line_ref < item.original_price
+              assign line_ref = item.original_price
+            endif
+            assign line_saved = line_ref | minus: item.final_price | times: item.quantity
+          -%}
+          <li class="cart-drawer__item" data-line-key="{{ item.key }}" data-product-id="{{ item.product_id }}">
+            <a href="{{ item.url }}" class="cart-drawer__item-image" data-cart-close tabindex="-1" aria-hidden="true">
               {%- if item.image -%}
                 <img
                   src="{{ item.image | image_url: width: 160 }}"
-                  alt="{{ item.product.title | escape }}"
+                  srcset="{{ item.image | image_url: width: 80 }} 80w, {{ item.image | image_url: width: 160 }} 160w, {{ item.image | image_url: width: 240 }} 240w"
+                  sizes="80px"
+                  alt=""
                   loading="lazy"
                   width="80"
                   height="96"
@@ -76,12 +127,43 @@
               {%- if volume != blank -%}
                 <p class="cart-drawer__item-volume">{{ volume }}</p>
               {%- endif -%}
+              {%- if settings.cart_show_line_details -%}
+                {%- liquid
+                  assign shown_props = 0
+                  for prop in item.properties
+                    assign prop_first = prop.first | slice: 0
+                    if prop.last != blank and prop_first != '_'
+                      assign shown_props = shown_props | plus: 1
+                    endif
+                  endfor
+                -%}
+                {%- if shown_props > 0 -%}
+                  <ul class="cart-drawer__item-details">
+                    {%- for prop in item.properties -%}
+                      {%- assign prop_first = prop.first | slice: 0 -%}
+                      {%- if prop.last != blank and prop_first != '_' -%}
+                        <li>{{ prop.first }}: {{ prop.last }}</li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+                {%- if item.item_components.size > 0 -%}
+                  <ul class="cart-drawer__item-details cart-drawer__item-details--bundle" aria-label="Bundle contents">
+                    {%- for component in item.item_components -%}
+                      <li>{{ component.quantity }} &times; {{ component.title }}</li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              {%- endif -%}
               <p class="cart-drawer__item-unit-pricing">
                 <span class="cart-drawer__item-unit-price">{{ item.final_price | money }}</span>
-                {%- if has_compare -%}
-                  <span class="cart-drawer__item-compare">{{ item.variant.compare_at_price | money }}</span>
+                {%- if line_ref > item.final_price -%}
+                  <s class="cart-drawer__item-compare"><span class="visually-hidden">Regular price </span>{{ line_ref | money }}</s>
                 {%- endif -%}
               </p>
+              {%- if settings.cart_show_savings and line_saved > 0 -%}
+                <p class="cart-drawer__item-saved">You save {{ line_saved | money }}</p>
+              {%- endif -%}
               <div class="cart-drawer__item-controls">
                 <div class="cart-drawer__qty">
                   <button
@@ -90,20 +172,22 @@
                     data-cart-qty
                     data-line="{{ forloop.index }}"
                     data-delta="-1"
-                    aria-label="{{ 'general.accessibility.decrease_quantity' | t }}"
+                    data-focus-id="dec-{{ item.variant_id }}"
+                    aria-label="{{ 'general.accessibility.decrease_quantity' | t }}: {{ item.product.title | escape }}"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
                       <line x1="5" y1="12" x2="19" y2="12"/>
                     </svg>
                   </button>
-                  <span class="cart-drawer__qty-value">{{ item.quantity }}</span>
+                  <span class="cart-drawer__qty-value" aria-label="Quantity">{{ item.quantity }}</span>
                   <button
                     type="button"
                     class="cart-drawer__qty-btn"
                     data-cart-qty
                     data-line="{{ forloop.index }}"
                     data-delta="1"
-                    aria-label="{{ 'general.accessibility.increase_quantity' | t }}"
+                    data-focus-id="inc-{{ item.variant_id }}"
+                    aria-label="{{ 'general.accessibility.increase_quantity' | t }}: {{ item.product.title | escape }}"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
                       <line x1="12" y1="5" x2="12" y2="19"/>
@@ -116,7 +200,7 @@
                   class="cart-drawer__item-remove"
                   data-cart-remove
                   data-line="{{ forloop.index }}"
-                  aria-label="{{ 'general.accessibility.remove_item' | t }}"
+                  aria-label="{{ 'general.accessibility.remove_item' | t }}: {{ item.product.title | escape }}"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <polyline points="3 6 5 6 21 6"/>
@@ -130,6 +214,52 @@
           </li>
         {%- endfor -%}
       </ul>
+
+      {%- comment -%}
+        Paired products (CHAM mask <-> CHAM cream by default): if the cart holds
+        one of the pair, the other is the only suggestion; with both, none.
+      {%- endcomment -%}
+      {%- liquid
+        assign up_pair = ''
+        assign up_show = settings.cart_upsell_enable
+        if settings.cart_pair_enable
+          assign pair_a = settings.cart_pair_a | default: all_products['brightening-face-mask']
+          assign pair_b = settings.cart_pair_b | default: all_products['the-brightening-cream']
+          assign has_a = false
+          assign has_b = false
+          for item in cart.items
+            if pair_a and item.product_id == pair_a.id
+              assign has_a = true
+            endif
+            if pair_b and item.product_id == pair_b.id
+              assign has_b = true
+            endif
+          endfor
+          if has_a and has_b
+            assign up_show = false
+          elsif has_a and pair_b
+            assign up_pair = pair_b.handle
+          elsif has_b and pair_a
+            assign up_pair = pair_a.handle
+          endif
+        endif
+      -%}
+      {%- if up_show -%}
+        {%- comment -%}
+          Filled by assets/cart-drawer.js when the drawer opens; nothing is
+          requested before that. The reserved height keeps the row from
+          pushing anything when it arrives.
+        {%- endcomment -%}
+        <div
+          class="cart-upsells-slot"
+          data-cart-upsells
+          data-pair="{{ up_pair }}"
+          data-product-id="{{ cart.items.first.product_id }}"
+          data-fallback="{{ settings.cart_upsell_collection.handle }}"
+          data-limit="{{ settings.cart_upsell_limit | default: 8 }}"
+        ></div>
+      {%- endif -%}
+      </div>
 
       <footer class="cart-drawer__footer">
         {%- assign gift_message = cart.attributes['Gift Message'] -%}
@@ -192,6 +322,7 @@
               name="discount"
               class="cart-drawer__discount-input"
               placeholder="{{ 'sections.cart_drawer.discount_placeholder' | t }}"
+              aria-label="{{ 'sections.cart_drawer.discount_label' | t }}"
               autocomplete="off"
               spellcheck="false"
               data-discount-input
@@ -232,7 +363,7 @@
         endfor
         assign cham_saved = cham_full | minus: cart.total_price
       -%}
-      {%- if cham_saved > 0 -%}
+      {%- if settings.cart_show_savings and cham_saved > 0 -%}
         <div class="cart-drawer__row cart-drawer__row--saved" style="color:var(--primary);font-weight:600">
           <span>Total savings</span>
           <span>&minus; {{ cham_saved | money }}</span>
@@ -247,12 +378,22 @@
         <a href="/checkout" class="cart-drawer__checkout">
           {{ 'sections.cart_drawer.checkout' | t }}
         </a>
+        {%- if settings.cart_trust_enable and settings.cart_trust_text != blank -%}
+          <p class="cart-drawer__trust">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+            <span>{{ settings.cart_trust_text | escape }}</span>
+          </p>
+        {%- endif -%}
         <a href="{{ routes.all_products_collection_url }}" class="cart-drawer__continue" data-cart-close>
           {{ 'sections.cart_drawer.continue_shopping' | t }}
         </a>
       </footer>
     {%- endif -%}
   </aside>
+  <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-cart-live></p>
 </div>
 
 {% stylesheet %}
@@ -362,9 +503,14 @@
     color: var(--primary-foreground);
   }
 
-  .cart-drawer__items {
+  .cart-drawer__body {
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .cart-drawer__items {
     padding: 0;
     margin: 0;
   }
@@ -752,5 +898,89 @@
 
   .cart-drawer__continue:hover {
     color: var(--primary);
+  }
+  /* === Line details, savings === */
+  .cart-drawer__item-details {
+    list-style: none;
+    margin: 0.4rem 0 0;
+    padding: 0;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--muted-foreground);
+  }
+
+  .cart-drawer__item-details--bundle li::before {
+    content: "2 a0";
+  }
+
+  .cart-drawer__item-saved {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  /* === Reward progress === */
+  .cart-progress {
+    padding: 0.875rem 2rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cart-progress__message {
+    margin: 0 0 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--foreground);
+  }
+
+  .cart-progress__track {
+    height: 6px;
+    border-radius: 999px;
+    background-color: var(--surface, #f1f1f1);
+    overflow: hidden;
+  }
+
+  .cart-progress__fill {
+    display: block;
+    height: 100%;
+    background-color: var(--primary);
+    transform: scaleX(var(--progress, 0));
+    transform-origin: left center;
+    transition: transform 0.4s ease;
+  }
+
+  /* === Upsells === */
+  .cart-upsells-slot {
+    min-height: 13rem;
+    padding: 1.25rem 0 1.5rem;
+  }
+
+  .cart-upsells-slot[hidden] {
+    display: none;
+  }
+
+  /* === Trust row === */
+  .cart-drawer__trust {
+    margin: 0.75rem 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--muted-foreground);
+    text-align: center;
+  }
+
+  .cart-drawer__trust svg {
+    flex-shrink: 0;
+    color: var(--primary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cart-progress__fill {
+      transition: none;
+    }
   }
 {% endstylesheet %}
