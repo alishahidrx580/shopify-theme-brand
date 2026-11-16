@@ -1,6 +1,6 @@
 # Deployment state — read before touching the theme
 
-**Last updated:** 2026-11-14
+**Last updated:** 2026-11-16
 
 ## The live site and GitHub do not match
 
@@ -10,7 +10,7 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `771b4ec` |
+| **Live site** | Every commit on `seo-fixes` up to `ea38805` (the cart drawer commit is local only: not yet pushed to GitHub) |
 | **GitHub `main`** | `be5aa3a` — none of it |
 | **`origin/seo-fixes`** | 56 commits ahead of `main`, awaiting merge |
 
@@ -332,3 +332,43 @@ for any template change: never push the repo's copy without comparing it to live
 Verified on live (`t/3`, preview cookie cleared): mask page has no video element, no
 play button, 0 .mp4 requests, image and heading present; About page video section
 present after "Born near Paris", poster set, plays on click.
+
+### Cart drawer: slide-cart features without an app — deployed 2026-11-16 (`ea38805`)
+
+Eight files: `layout/theme.liquid`, `snippets/cart-drawer.liquid`,
+`snippets/cart-upsell-card.liquid`, `assets/cart-drawer.js`,
+`config/settings_schema.json`, `sections/cart-drawer.liquid` (new),
+`sections/cart-upsells.liquid` (new), `sections/cart.liquid`.
+
+- Settings in **Theme settings > Cart drawer**. The reward progress bar is **off**:
+  only enable it alongside a matching automatic discount in Shopify.
+- Upsells: Shopify recommendations for the first cart item (fallback collection
+  optional), fetched only when the drawer opens. **Pair rule (owner):** CHAM mask in
+  cart suggests only The Brightening Cream and vice versa; both in cart, none.
+- Per-line "You save", item properties / bundle components, trust row
+  "Cash on delivery · Free delivery · 100% original".
+- The drawer now refreshes through the Section Rendering API: `/cart/add.js` and
+  `/cart/change.js` carry `sections=cart-drawer`, so a cart change is one request.
+  The old `/cart?sections=cart` savings fetch is gone. Anything new that changes the
+  cart should call `CartDrawer.applyCart(cart)` or dispatch `cart:refresh`.
+- The closed drawer carries `inert`; anything that opens it without
+  `CartDrawer.open()` must remove `inert` too (the `layout/theme.liquid` fallback does).
+- "Taxes and shipping calculated at checkout" (drawer) and "Shipping calculated at
+  checkout." (`/cart`) removed: delivery is free. The drawer line had already been
+  removed on live before this push.
+
+Before pushing, the live copies of all eight files were pulled and compared with the
+base of this work: the only difference was that already-removed drawer line.
+
+Verified on live (`t/3`, preview cookie cleared): drawer `inert` when closed; no upsell
+request before opening; add = `/cart/add.js` with the drawer HTML in the same response;
+cream offered as the only upsell for the mask; qty +1 gives PKR 7,438; remove leaves the
+empty state with no reload; trust row present; no "calculated at checkout" on drawer or
+`/cart`; test cart emptied.
+
+Lighthouse mobile, product page on the preview theme, 3 runs each, medians, not
+interleaved: perf 67 -> 78, TBT 1.41 s -> 0.69 s, LCP 2.55 s -> 2.02 s, CLS 0 -> 0.
+Read as no regression, not as a gain.
+
+Deliberately not built: countdown timer (no stock is reserved, so it would be false
+urgency), shipping protection (delivery is free), reviews on upsells (none real).
