@@ -173,5 +173,126 @@
         "default": 240
       }
     ]
+  },
+  {
+    "name": "Cart drawer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Reward progress bar"
+      },
+      {
+        "type": "paragraph",
+        "content": "Only turn this on when a matching automatic discount (or other reward) is live in Shopify admin > Discounts, with the same minimum amount. The theme only displays progress; Shopify decides what is actually given at checkout."
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_progress_enable",
+        "label": "Show reward progress bar",
+        "default": false
+      },
+      {
+        "type": "number",
+        "id": "cart_progress_threshold",
+        "label": "Reward threshold (PKR)",
+        "info": "Cart subtotal needed to reach the reward, in whole rupees, e.g. 10000."
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_message",
+        "label": "Message before the threshold",
+        "info": "[amount] is replaced with the amount still to spend.",
+        "default": "Spend [amount] more to unlock your reward"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_success",
+        "label": "Message once reached",
+        "default": "You've unlocked your reward"
+      },
+      {
+        "type": "header",
+        "content": "Upsells"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_upsell_enable",
+        "label": "Show product recommendations",
+        "info": "Uses Shopify's product recommendations for the first item in the cart. Loaded only when the drawer is opened.",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_upsell_heading",
+        "label": "Heading",
+        "default": "You might also like"
+      },
+      {
+        "type": "collection",
+        "id": "cart_upsell_collection",
+        "label": "Fallback collection",
+        "info": "Shown when Shopify has no recommendations for the product yet."
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_pair_enable",
+        "label": "Paired products only suggest each other",
+        "info": "When the cart holds one product of the pair, the other is the only suggestion; with both in the cart, no suggestions are shown. Blank pickers use the CHAM Brightening Face Mask and The Brightening Cream.",
+        "default": true
+      },
+      {
+        "type": "product",
+        "id": "cart_pair_a",
+        "label": "Pair: product A"
+      },
+      {
+        "type": "product",
+        "id": "cart_pair_b",
+        "label": "Pair: product B"
+      },
+      {
+        "type": "range",
+        "id": "cart_upsell_limit",
+        "label": "Products to request",
+        "min": 4,
+        "max": 10,
+        "step": 1,
+        "default": 8
+      },
+      {
+        "type": "header",
+        "content": "Line items"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_savings",
+        "label": "Show \"You save\" per item and total savings",
+        "info": "Calculated from real compare-at prices and applied discounts only.",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_line_details",
+        "label": "Show item options and bundle contents",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Trust row"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_trust_enable",
+        "label": "Show trust row under checkout",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_trust_text",
+        "label": "Trust row text",
+        "info": "Separate items with ·. Keep to facts in your store policies.",
+        "default": "Cash on delivery · Free delivery · 100% original"
+      }
+    ]
   }
 ]
