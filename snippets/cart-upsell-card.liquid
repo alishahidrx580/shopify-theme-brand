@@ -4,6 +4,9 @@
   automatic-discount display.
 
   @param {product} product - The product to show.
+  @param {number} [pair_percent] - For the paired suggestion: the extra % an
+    automatic discount takes off once both products are in the cart. The card
+    then shows the price the shopper will actually get.
 {%- endcomment -%}
 {%- liquid
   assign up_discount_percent = settings.automatic_discount_percent | default: 0
@@ -20,6 +23,14 @@
       assign up_compare = product.price
       assign up_price = product.price | times: up_discount_factor | round
     endunless
+  endif
+  assign up_pair_percent = pair_percent | default: 0
+  if up_pair_percent > 0
+    if up_compare == blank
+      assign up_compare = up_price
+    endif
+    assign up_pair_factor = 100 | minus: up_pair_percent | divided_by: 100.0
+    assign up_price = up_price | times: up_pair_factor | round
   endif
 -%}
 <li class="cart-upsell" data-product-id="{{ product.id }}">
@@ -46,6 +57,9 @@
         <s class="cart-upsell__compare"><span class="visually-hidden">Regular price </span>{{ up_compare | money }}</s>
       {%- endif -%}
     </p>
+    {%- if up_pair_percent > 0 -%}
+      <p class="cart-upsell__note">Offer price with both in your bag</p>
+    {%- endif -%}
     {%- if product.has_only_default_variant and up_variant.available -%}
       <button
         type="button"

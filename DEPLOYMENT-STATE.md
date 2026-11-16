@@ -497,3 +497,36 @@ home. Dark mode checked on the preview theme only. Speed not re-measured (colour
 radius changes only).
 
 Left for the owner: a brand typeface for headings; the logo red is not used elsewhere.
+
+### Cart drawer: six fixes for add-to-cart drop-off — deployed 2026-11-16
+
+`snippets/cart-drawer.liquid`, `sections/cart-upsells.liquid`, `snippets/cart-upsell-card.liquid`,
+`assets/cart-drawer.js`, `config/settings_schema.json`, `locales/en.default.json` (all pulled
+from live and compared with the last commit right before the push; no admin changes).
+
+- Discount code box off by default (`cart_discount_enable`); it still shows when a code is
+  already on the cart. Offers apply automatically, so an empty code box only sent
+  shoppers away to look for a code.
+- Paired suggestion (mask <-> cream): heading "Buy both, save 35% in total"
+  (`cart_pair_heading`) and the price the shopper gets with both in the cart
+  (`cart_pair_discount`, 7%). **This mirrors the live "CHAM: buy 2" automatic discount:
+  3,999 -> 3,719 and 2,299 -> 2,138 as priced on 2026-11-16. If that discount changes in
+  Shopify admin, change the setting, or the card shows a wrong price.**
+- Header 5rem -> 3.5rem and tighter footer, item and progress spacing, so the suggestion
+  and its Add button are on screen when the drawer opens at 375x812 (they were below
+  the fold). Close, quantity and remove buttons are 44px.
+- "Estimated total" -> "Total", with "Free delivery included" under it (`cart_total_note`).
+- Checkout button reads "Checkout · Pay on delivery" (`cart_checkout_label`).
+- "Order on WhatsApp" link under Checkout (`cart_whatsapp_enable`). The floating WhatsApp
+  button is covered by the drawer (z-index 40 vs 70). The link takes its number from that
+  button, opens the chat with the cart lines and total typed, and fires the same Meta
+  `Contact` event (content_name "Cart drawer").
+
+Verified on live (`t/3`, theme 160960577764) at 375x812 with one mask in the cart: no code
+box, card "PKR 2,138 / PKR 3,284" fully visible, "Total", "Free delivery included",
+button label on one line, WhatsApp link with the right message, no horizontal overflow.
+Two-item cart checked on the preview theme: cream charged 2,138 (matches the card),
+suggestion gone, WhatsApp text lists both lines and PKR 5,857.
+
+Not checked: the WhatsApp chat itself was not opened; the Contact event from the new link
+was not confirmed in Meta; phones shorter than 812px; desktop and dark mode.
