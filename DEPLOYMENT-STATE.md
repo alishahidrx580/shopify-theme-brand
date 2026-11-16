@@ -10,7 +10,7 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to the dispatch timer commit (2026-11-16; the cart drawer commits from `ea38805` on are local only: not yet pushed to GitHub) |
+| **Live site** | Every commit on `seo-fixes` up to the CHAM landing layout commit (2026-11-16; the cart drawer commits from `ea38805` on are local only: not yet pushed to GitHub) |
 | **GitHub `main`** | `be5aa3a` — none of it |
 | **`origin/seo-fixes`** | 56 commits ahead of `main`, awaiting merge |
 
@@ -415,3 +415,25 @@ both declined: no stock is reserved and the CHAM offer has no end date.
 Verified on live (`t/3`): "Order within 57m and it ships today" at 17:03 PKT, cutoff
 18 and days 1-6 in the markup, test cart emptied. Six weekday/weekend/cutoff cases
 checked on the preview theme with a mocked clock.
+
+### CHAM product page: buy box above the bullets — deployed 2026-11-16
+
+`sections/main-product.liquid`, `sections/product-ritual.liquid`. CHAM products only
+(`main-product--lp` / `product-ritual--swipe` classes); other brands render as before.
+
+- Order is now title, one-line promise, price, packs, Add to bag / Buy now, the
+  delivery and returns boxes, then the subtitle, ingredient line and description
+  bullets (captured in Liquid and printed lower; nothing deleted).
+- Phones and tablets (<1024px): square gallery photo instead of 3:4, smaller one-line
+  title, breadcrumb hidden, tighter gaps.
+- Dispatch line under the buttons ("Order within 27m and it ships today"), same
+  settings and rule as the cart drawer timer.
+- "How to apply" steps swipe sideways on phones (<768px).
+
+At 375px, live before -> after: price 1,427px -> 634px from the top, Add to bag
+1,748px -> 956px, "How to apply" 3,551px -> 925px, page 12,461px -> 9,648px. Add to bag
+checked on live; no horizontal overflow; desktop keeps two columns.
+
+Not done: shortening the six description bullets. They are the product description in
+Shopify admin, not theme code. The star rating was deliberately not moved up while the
+review timestamps flagged in `seo-reports/audit-2.md` are unresolved.
