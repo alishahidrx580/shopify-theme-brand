@@ -187,8 +187,15 @@
       },
       {
         "type": "checkbox",
+        "id": "cart_cham_progress_enable",
+        "label": "Show CHAM offer progress",
+        "info": "When the cart holds the CHAM mask or cream, shows progress towards the live CHAM offers: buy 2 save 35% in total, buy 3 masks get a free cream, buy 3 creams get 1 free. Turn off if those automatic discounts change or end. Takes the place of the spend bar below while CHAM is in the cart.",
+        "default": true
+      },
+      {
+        "type": "checkbox",
         "id": "cart_progress_enable",
-        "label": "Show reward progress bar",
+        "label": "Show spend progress bar",
         "default": false
       },
       {
