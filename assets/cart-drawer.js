@@ -49,6 +49,7 @@
       if (closeBtn) closeBtn.focus({ preventScroll: true });
     }
     loadUpsells();
+    startDispatch();
   }
 
   function close() {
@@ -162,10 +163,66 @@
     track.scrollBy({ left: dir * track.clientWidth * 0.85 });
   });
 
+  // ---- Same-day dispatch timer (CHAM only; markup in snippets/cart-drawer.liquid) ----
+  // Counts down to the owner's real daily dispatch cutoff in Pakistan time
+  // (UTC+5, no daylight saving), whatever the shopper's own clock zone. Past
+  // the cutoff, or on a non-dispatch day, it says when the order will ship.
+  // Minute resolution; it only ticks while the drawer is open.
+  const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  let dispatchTimer = 0;
+
+  function setDispatchText(target, before, strong, after) {
+    target.textContent = before;
+    const b = document.createElement('strong');
+    b.textContent = strong;
+    target.appendChild(b);
+    target.appendChild(document.createTextNode(after));
+  }
+
+  function updateDispatch() {
+    const el = drawer.querySelector('[data-cart-dispatch]');
+    if (!el) return false;
+    const text = el.querySelector('[data-cart-dispatch-text]');
+    const cutoff = parseInt(el.getAttribute('data-cutoff'), 10) || 18;
+    const days = (el.getAttribute('data-days') || '').split(',').map(Number);
+    const pkt = new Date(Date.now() + 5 * 3600 * 1000);
+    const dow = pkt.getUTCDay();
+    const secs = pkt.getUTCHours() * 3600 + pkt.getUTCMinutes() * 60 + pkt.getUTCSeconds();
+    const left = Math.floor((cutoff * 3600 - secs) / 60);
+    if (days.indexOf(dow) !== -1 && cutoff * 3600 - secs > 0) {
+      const h = Math.floor(left / 60);
+      const m = left % 60;
+      if (left < 1) {
+        setDispatchText(text, 'Order in the next ', 'minute', ' and it ships today');
+      } else {
+        const span = h ? h + 'h' + (m ? ' ' + m + 'm' : '') : m + 'm';
+        setDispatchText(text, 'Order within ', span, ' and it ships today');
+      }
+    } else {
+      let k = 1;
+      while (k < 8 && days.indexOf((dow + k) % 7) === -1) k++;
+      if (k >= 8) { el.hidden = true; return false; }
+      setDispatchText(text, 'Order now and it ships ', k === 1 ? 'tomorrow' : 'on ' + DAY_NAMES[(dow + k) % 7], '');
+    }
+    el.hidden = false;
+    return true;
+  }
+
+  function startDispatch() {
+    if (!updateDispatch() || dispatchTimer) return;
+    dispatchTimer = setInterval(() => {
+      if (!isOpen() || !updateDispatch()) {
+        clearInterval(dispatchTimer);
+        dispatchTimer = 0;
+      }
+    }, 15000);
+  }
+
   // ---- After every server re-render of the drawer (layout/theme.liquid) ----
   const live = drawer.querySelector('[data-cart-live]');
   document.addEventListener('cart-drawer:rendered', () => {
     loadUpsells();
+    if (isOpen()) startDispatch();
     if (!live || !isOpen()) return;
     const count = drawer.querySelector('[data-cart-count-sync]');
     const total = drawer.querySelector('.cart-drawer__total-amount');

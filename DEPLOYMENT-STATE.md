@@ -10,7 +10,7 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to the CHAM cart progress commit (2026-11-16; the cart drawer commits from `ea38805` on are local only: not yet pushed to GitHub) |
+| **Live site** | Every commit on `seo-fixes` up to the dispatch timer commit (2026-11-16; the cart drawer commits from `ea38805` on are local only: not yet pushed to GitHub) |
 | **GitHub `main`** | `be5aa3a` — none of it |
 | **`origin/seo-fixes`** | 56 commits ahead of `main`, awaiting merge |
 
@@ -394,3 +394,24 @@ in Theme settings > Cart drawer > Show CHAM offer progress. The spend-threshold 
 Verified: 14 cart combinations on the preview theme, a real mobile add/+/+ run (cream added
 free at 3 masks, bar reads "Free Brightening Cream unlocked"), and 5 combinations on live
 (`t/3`). Test carts emptied.
+
+### Same-day dispatch timer in the cart drawer — deployed 2026-11-16
+
+`assets/cart-drawer.js`, `snippets/cart-drawer.liquid`, `config/settings_schema.json`.
+Above Checkout, CHAM carts only: "Order within 1h 7m and it ships today" before the
+cutoff on a dispatch day, otherwise "Order now and it ships tomorrow / on Monday".
+Computed in Pakistan time (UTC+5) whatever the shopper's clock zone; minute resolution;
+ticks only while the drawer is open; hidden without JS.
+
+The owner set the facts it rests on (2026-11-16): **same-day dispatch for orders before
+6 pm PKT, Monday to Saturday, CHAM only** (pharmacy brands are sourced to order, so it
+never shows for them). Settings: Theme settings > Cart drawer > Dispatch timer. Turn it
+off on holidays. The shipping policy still says orders are processed "excluding
+weekends"; the owner was told to align it with Saturday dispatch.
+
+A fake "keep your items" countdown and a countdown to an offer that does not end were
+both declined: no stock is reserved and the CHAM offer has no end date.
+
+Verified on live (`t/3`): "Order within 57m and it ships today" at 17:03 PKT, cutoff
+18 and days 1-6 in the markup, test cart emptied. Six weekday/weekend/cutoff cases
+checked on the preview theme with a mocked clock.

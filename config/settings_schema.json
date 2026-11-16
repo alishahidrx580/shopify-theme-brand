@@ -285,6 +285,41 @@
       },
       {
         "type": "header",
+        "content": "Dispatch timer"
+      },
+      {
+        "type": "paragraph",
+        "content": "While CHAM is in the cart, shows above Checkout how long is left to order for same-day dispatch, e.g. \"Order within 2h 14m and it ships today\". After the cutoff, or on a non-dispatch day, it says when the order will ship instead. Turn it off on holidays or any day orders will not go out."
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_dispatch_enable",
+        "label": "Show dispatch timer (CHAM only)",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "cart_dispatch_cutoff",
+        "label": "Same-day dispatch cutoff (Pakistan time, hour)",
+        "min": 10,
+        "max": 22,
+        "step": 1,
+        "unit": "h",
+        "default": 18
+      },
+      {
+        "type": "select",
+        "id": "cart_dispatch_days",
+        "label": "Dispatch days",
+        "options": [
+          { "value": "1,2,3,4,5", "label": "Monday to Friday" },
+          { "value": "1,2,3,4,5,6", "label": "Monday to Saturday" },
+          { "value": "0,1,2,3,4,5,6", "label": "Every day" }
+        ],
+        "default": "1,2,3,4,5,6"
+      },
+      {
+        "type": "header",
         "content": "Trust row"
       },
       {

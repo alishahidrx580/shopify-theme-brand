@@ -477,6 +477,36 @@
           </div>
         </div>
 
+        {%- comment -%}
+          Same-day dispatch timer, CHAM only (pharmacy brands are sourced to
+          order, so "ships today" would not be true for them). The cutoff and
+          days come from the owner (Theme settings > Cart drawer); the text is
+          filled in by assets/cart-drawer.js in Pakistan time and stays hidden
+          without JS.
+        {%- endcomment -%}
+        {%- if settings.cart_dispatch_enable -%}
+          {%- assign dispatch_cham = false -%}
+          {%- for item in cart.items -%}
+            {%- if item.vendor == 'CHAM' -%}{%- assign dispatch_cham = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if dispatch_cham -%}
+            <p
+              class="cart-drawer__dispatch"
+              data-cart-dispatch
+              data-cutoff="{{ settings.cart_dispatch_cutoff | default: 18 }}"
+              data-days="{{ settings.cart_dispatch_days | default: '1,2,3,4,5,6' }}"
+              hidden
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="1" y="3" width="15" height="13"/>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/>
+                <circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+              <span data-cart-dispatch-text></span>
+            </p>
+          {%- endif -%}
+        {%- endif -%}
         <a href="/checkout" class="cart-drawer__checkout">
           {{ 'sections.cart_drawer.checkout' | t }}
         </a>
@@ -1060,6 +1090,32 @@
 
   .cart-upsells-slot[hidden] {
     display: none;
+  }
+
+  /* === Dispatch timer === */
+  .cart-drawer__dispatch {
+    margin: 1rem 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: var(--foreground);
+    text-align: center;
+  }
+
+  .cart-drawer__dispatch[hidden] {
+    display: none;
+  }
+
+  .cart-drawer__dispatch svg {
+    flex-shrink: 0;
+    color: var(--primary);
+  }
+
+  .cart-drawer__dispatch strong {
+    font-variant-numeric: tabular-nums;
   }
 
   /* === Trust row === */
