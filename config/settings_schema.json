@@ -291,7 +291,7 @@
         "id": "cart_trust_text",
         "label": "Trust row text",
         "info": "Separate items with ·. Keep to facts in your store policies.",
-        "default": "Cash on delivery · Free delivery · 100% original"
+        "default": "Pay cash when your order arrives · Free delivery across Pakistan"
       }
     ]
   }
