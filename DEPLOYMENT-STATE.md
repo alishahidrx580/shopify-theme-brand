@@ -437,3 +437,9 @@ checked on live; no horizontal overflow; desktop keeps two columns.
 Not done: shortening the six description bullets. They are the product description in
 Shopify admin, not theme code. The star rating was deliberately not moved up while the
 review timestamps flagged in `seo-reports/audit-2.md` are unresolved.
+
+Speed: three live runs right after the deploy read slower (LCP 1.87 s -> 3.18 s, perf
+73 -> 66), so old and new layouts were A/B tested on the preview theme, alternating in
+blocks, 6 mobile Lighthouse runs each. Medians old vs new: perf 74.5 vs 74.5, LCP 2.71 s
+vs 2.66 s, TBT 812 ms vs 754 ms, CLS 0 vs 0. No difference; the post-deploy reading was
+evening noise.
