@@ -258,6 +258,24 @@
         "label": "Pair: product B"
       },
       {
+        "type": "text",
+        "id": "cart_pair_heading",
+        "label": "Pair: heading above the suggestion",
+        "info": "Must match a discount that is live in Shopify. Leave blank to use the normal heading.",
+        "default": "Buy both, save 35% in total"
+      },
+      {
+        "type": "range",
+        "id": "cart_pair_discount",
+        "label": "Pair: extra discount when both are in the cart",
+        "info": "The % Shopify's automatic discount takes off each product once both are in the cart (7% as checked on 2026-11-16). The suggestion shows that price. Set to 0 to show the normal price.",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "%",
+        "default": 7
+      },
+      {
         "type": "range",
         "id": "cart_upsell_limit",
         "label": "Products to request",
@@ -334,6 +352,43 @@
         "label": "Trust row text",
         "info": "Separate items with ·. Keep to facts in your store policies.",
         "default": "Pay cash when your order arrives · Free delivery across Pakistan"
+      },
+      {
+        "type": "header",
+        "content": "Total and checkout button"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_discount_enable",
+        "label": "Show the discount code box",
+        "info": "Keep off while offers apply automatically: an empty code box sends shoppers away to look for a code.",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "cart_total_note",
+        "label": "Note under the total",
+        "info": "Keep to facts in your store policies. Leave blank to hide.",
+        "default": "Free delivery included"
+      },
+      {
+        "type": "text",
+        "id": "cart_checkout_label",
+        "label": "Checkout button text",
+        "default": "Checkout · Pay on delivery"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_whatsapp_enable",
+        "label": "Show an Order on WhatsApp link",
+        "info": "Uses the number of the WhatsApp button (Footer group). The chat opens with the cart items and total already typed.",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_whatsapp_label",
+        "label": "WhatsApp link text",
+        "default": "Order on WhatsApp"
       }
     ]
   }

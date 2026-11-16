@@ -50,6 +50,7 @@
     }
     loadUpsells();
     startDispatch();
+    wireWhatsapp();
   }
 
   function close() {
@@ -218,10 +219,42 @@
     }, 15000);
   }
 
+  // ---- Order on WhatsApp ----
+  // The number lives in one place: the floating WhatsApp button (Footer
+  // group). This link borrows it and opens the chat with the cart already
+  // typed (data-text, written by snippets/cart-drawer.liquid). No floating
+  // button, or one pointing at a custom link: the link stays hidden.
+  function wireWhatsapp() {
+    const link = drawer.querySelector('[data-cart-whatsapp]');
+    if (!link) return;
+    const float = document.querySelector('a.whatsapp-float[href]');
+    let base = '';
+    try {
+      const u = new URL(float.href);
+      if (u.hostname === 'wa.me') base = u.origin + u.pathname;
+    } catch (err) {}
+    if (!base) return;
+    link.href = base + '?text=' + encodeURIComponent(link.getAttribute('data-text') || '');
+    link.hidden = false;
+  }
+
+  // Same Meta event as the floating button, so chat orders from the cart are
+  // counted with the rest.
+  drawer.addEventListener('click', (e) => {
+    const link = e.target.closest && e.target.closest('[data-cart-whatsapp]');
+    if (!link || typeof window.fbq !== 'function') return;
+    try {
+      window.fbq('track', 'Contact', { content_name: 'Cart drawer' }, {
+        eventID: 'edit-wa-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+      });
+    } catch (err) {}
+  });
+
   // ---- After every server re-render of the drawer (layout/theme.liquid) ----
   const live = drawer.querySelector('[data-cart-live]');
   document.addEventListener('cart-drawer:rendered', () => {
     loadUpsells();
+    wireWhatsapp();
     if (isOpen()) startDispatch();
     if (!live || !isOpen()) return;
     const count = drawer.querySelector('[data-cart-count-sync]');
