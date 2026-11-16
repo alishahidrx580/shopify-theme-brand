@@ -46,13 +46,115 @@
       </div>
     {%- else -%}
       {%- comment -%}
+        CHAM offer progress. Mirrors the three automatic discounts live in
+        Shopify (checked 2026-11-16) and the free-cream rule in
+        layout/theme.liquid (one free cream per full set of 3 masks):
+          "CHAM: buy 2, save 35% in total"      any 2+ CHAM items
+          "CHAM: buy 3 masks, get a free cream" 3, 6, ... masks
+          "CHAM: buy 3 creams, get 1 free"      4 creams
+        If any of those discounts changes or ends in Shopify admin, change
+        this block or switch it off in Theme settings > Cart drawer.
+      {%- endcomment -%}
+      {%- assign cham_shown = false -%}
+      {%- if settings.cart_cham_progress_enable -%}
+        {%- liquid
+          assign cham_mask = all_products['brightening-face-mask']
+          assign cham_cream = all_products['the-brightening-cream']
+          assign cham_m = 0
+          assign cham_c = 0
+          assign cham_free_c = 0
+          for item in cart.items
+            if item.product_id == cham_mask.id
+              assign cham_m = cham_m | plus: item.quantity
+            elsif item.product_id == cham_cream.id
+              assign cham_c = cham_c | plus: item.quantity
+              if item.final_line_price == 0
+                assign cham_free_c = cham_free_c | plus: item.quantity
+              endif
+            endif
+          endfor
+          assign cham_n = cham_m | plus: cham_c
+          assign cham_msg = ''
+          assign cham_done = false
+          assign cham_ratio = 0
+          if cham_n > 0
+            assign cham_shown = true
+            if cham_m > 0
+              assign cham_rem = cham_m | modulo: 3
+              assign cham_need = 3 | minus: cham_rem
+              assign cham_next_free = cham_m | plus: cham_need | divided_by: 3
+              assign cham_ratio = cham_rem | times: 1.0 | divided_by: 3
+              assign cham_s = 's'
+              if cham_need == 1
+                assign cham_s = ''
+              endif
+              assign cham_cs = 's'
+              if cham_next_free == 1
+                assign cham_cs = ''
+              endif
+              if cham_rem == 0 and cham_free_c > 0
+                assign cham_done = true
+                assign cham_ratio = 1
+                if cham_free_c == 1
+                  assign cham_msg = 'Free Brightening Cream unlocked'
+                else
+                  assign cham_msg = cham_free_c | append: ' free Brightening Creams unlocked'
+                endif
+              elsif cham_n == 1
+                assign cham_msg = 'Add 1 more CHAM product to <strong>save 35% in total</strong>'
+              elsif cham_rem == 0
+                assign cham_msg = 'Save 35% in total unlocked'
+                assign cham_done = true
+                assign cham_ratio = 1
+              else
+                assign cham_msg = 'Add ' | append: cham_need | append: ' more mask' | append: cham_s | append: ' to get <strong>' | append: cham_next_free | append: ' free Brightening Cream' | append: cham_cs | append: '</strong>'
+              endif
+            else
+              assign cham_rem = cham_c | modulo: 4
+              assign cham_ratio = cham_rem | times: 1.0 | divided_by: 4
+              if cham_rem == 0
+                assign cham_done = true
+                assign cham_ratio = 1
+                assign cham_msg = 'Buy 3 + 1 Free unlocked'
+              elsif cham_c == 1
+                assign cham_msg = 'Add 1 more CHAM product to <strong>save 35% in total</strong>'
+              else
+                assign cham_need = 4 | minus: cham_rem
+                assign cham_s = 's'
+                if cham_need == 1
+                  assign cham_s = ''
+                endif
+                assign cham_msg = 'Add ' | append: cham_need | append: ' more cream' | append: cham_s | append: ' to get <strong>Buy 3 + 1 Free</strong>'
+              endif
+            endif
+          endif
+          assign cham_pct = cham_ratio | times: 100 | floor
+        -%}
+        {%- if cham_shown -%}
+          <div class="cart-progress{% if cham_done %} cart-progress--done{% endif %}">
+            <p class="cart-progress__message">{{ cham_msg }}</p>
+            <div
+              class="cart-progress__track"
+              role="progressbar"
+              aria-label="Progress towards the CHAM offer"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="{{ cham_pct }}"
+            >
+              <span class="cart-progress__fill" style="--progress: {{ cham_ratio }}"></span>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- comment -%}
         Reward progress. Off by default: it must only be switched on when a
         matching reward actually exists in Shopify (see Theme settings > Cart
         drawer). Measured against the items subtotal, which is what an
         automatic discount's minimum purchase is checked against.
       {%- endcomment -%}
       {%- assign progress_goal = settings.cart_progress_threshold | default: 0 | times: 100 -%}
-      {%- if settings.cart_progress_enable and progress_goal > 0 -%}
+      {%- if settings.cart_progress_enable and progress_goal > 0 and cham_shown == false -%}
         {%- liquid
           assign progress_spent = cart.items_subtotal_price
           assign progress_left = progress_goal | minus: progress_spent

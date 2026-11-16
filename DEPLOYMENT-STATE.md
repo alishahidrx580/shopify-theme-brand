@@ -10,7 +10,7 @@ That is not how the current contents got there. The branch below was pushed stra
 
 | Where | What it holds |
 |---|---|
-| **Live site** | Every commit on `seo-fixes` up to `ea38805` (the cart drawer commit is local only: not yet pushed to GitHub) |
+| **Live site** | Every commit on `seo-fixes` up to the CHAM cart progress commit (2026-11-16; the cart drawer commits from `ea38805` on are local only: not yet pushed to GitHub) |
 | **GitHub `main`** | `be5aa3a` — none of it |
 | **`origin/seo-fixes`** | 56 commits ahead of `main`, awaiting merge |
 
@@ -375,3 +375,22 @@ Read as no regression, not as a gain.
 
 Deliberately not built: countdown timer (no stock is reserved, so it would be false
 urgency), shipping protection (delivery is free), reviews on upsells (none real).
+
+### CHAM offer progress bar in the cart drawer — deployed 2026-11-16
+
+`snippets/cart-drawer.liquid`, `config/settings_schema.json`. While the cart holds the
+CHAM mask or cream, the drawer's progress bar tracks the three automatic discounts that
+were live in Shopify on 2026-11-16 (found by pricing test carts, not from the product page):
+
+- "CHAM: buy 2, save 35% in total" — any 2+ CHAM items
+- "CHAM: buy 3 masks, get a free cream" — 3, 6, ... masks (theme adds the cream)
+- "CHAM: buy 3 creams, get 1 free" — 4 creams
+
+They do not stack: the free-item offers replace the 35%. **If any of these discounts
+changes or ends in Shopify admin, the bar's messages must change too**, or switch it off
+in Theme settings > Cart drawer > Show CHAM offer progress. The spend-threshold bar
+(still off) only shows when no CHAM product is in the cart.
+
+Verified: 14 cart combinations on the preview theme, a real mobile add/+/+ run (cream added
+free at 3 masks, bar reads "Free Brightening Cream unlocked"), and 5 combinations on live
+(`t/3`). Test carts emptied.
