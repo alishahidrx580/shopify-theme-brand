@@ -346,7 +346,10 @@ Eight files: `layout/theme.liquid`, `snippets/cart-drawer.liquid`,
   optional), fetched only when the drawer opens. **Pair rule (owner):** CHAM mask in
   cart suggests only The Brightening Cream and vice versa; both in cart, none.
 - Per-line "You save", item properties / bundle components, trust row
-  "Cash on delivery · Free delivery · 100% original".
+  "Pay cash when your order arrives · Free delivery across Pakistan" (changed the
+  same day from "Cash on delivery · Free delivery · 100% original": the owner did not
+  want "100% original" raising the question). It is the setting's default; live
+  settings_data stores no value, so the schema default is what shows.
 - The drawer now refreshes through the Section Rendering API: `/cart/add.js` and
   `/cart/change.js` carry `sections=cart-drawer`, so a cart change is one request.
   The old `/cart?sections=cart` savings fetch is gone. Anything new that changes the
