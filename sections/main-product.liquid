@@ -1258,7 +1258,12 @@ assign price_formatted = current_variant.price | money
     if (stickyBar && header && 'IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-          stickyBar.classList.toggle('is-visible', !en.isIntersecting && en.boundingClientRect.top < 0);
+          var stickyOn = !en.isIntersecting && en.boundingClientRect.top < 0;
+          stickyBar.classList.toggle('is-visible', stickyOn);
+          // The bag reminder bar (snippets/bag-reminder.liquid) sits on top of
+          // this bar on phones, so it needs to know how tall it is.
+          var stickyBottom = window.matchMedia('(max-width: 1023px)').matches;
+          document.documentElement.style.setProperty('--sticky-atc-h', stickyOn && stickyBottom ? stickyBar.offsetHeight + 'px' : '0px');
         });
       }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
       io.observe(header);

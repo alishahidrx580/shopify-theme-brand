@@ -530,3 +530,28 @@ suggestion gone, WhatsApp text lists both lines and PKR 5,857.
 
 Not checked: the WhatsApp chat itself was not opened; the Contact event from the new link
 was not confirmed in Meta; phones shorter than 812px; desktop and dark mode.
+
+### Bag reminder bar on phones — deployed 2026-11-17
+
+`snippets/bag-reminder.liquid` (new), `layout/theme.liquid`, `assets/cart-drawer.js`,
+`config/settings_schema.json`, `sections/main-product.liquid` (the four existing files were
+pulled from live and compared with the last commit right before the push; no admin changes).
+
+- Navy bar fixed to the bottom of the screen below 1024px: "N items in your bag · total",
+  a gold Checkout link (/checkout) and a close button. Shown only while the cart has items
+  and the drawer is closed; never on /cart or desktop. Tapping the text opens the drawer.
+- Count and total come from the drawer markup and update on every `cart-drawer:rendered`.
+- Close hides it for the visit (sessionStorage `bagReminderOff` = item count) until the
+  number of items changes.
+- `html[data-bag-bar]` lifts the WhatsApp button above the bar. On product pages the bar
+  sits above the sticky Add to bag bar: main-product.liquid sets `--sticky-atc-h`.
+- Switch: Theme settings > Cart drawer > Bag reminder (`cart_reminder_enable`, on).
+
+Verified on live (`t/3`, theme 160960577764) at 375x812: hidden with an empty cart and
+while the drawer is open; after add + qty to 2 and closing the drawer, "2 items in your
+bag · PKR 7,438" (matches /cart.js), WhatsApp button clear of it, no horizontal overflow.
+On preview: close button hides it; with the sticky Add to bag bar forced on, the bar sits
+directly above it and the WhatsApp button above both.
+
+Not checked: stacking on a real scroll (IntersectionObserver did not fire in the hidden
+browser pane, so the sticky bar never showed in testing); real phones; dark mode.
