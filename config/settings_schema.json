@@ -389,6 +389,17 @@
         "id": "cart_whatsapp_label",
         "label": "WhatsApp link text",
         "default": "Order on WhatsApp"
+      },
+      {
+        "type": "header",
+        "content": "Bag reminder"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_reminder_enable",
+        "label": "Show a bag reminder bar on phones",
+        "info": "A bar at the bottom of the screen while the bag has items and the cart is closed: item count, total and a Checkout button. The shopper can close it.",
+        "default": true
       }
     ]
   }

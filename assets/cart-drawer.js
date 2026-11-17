@@ -250,11 +250,49 @@
     } catch (err) {}
   });
 
+  // ---- Bag reminder bar (snippets/bag-reminder.liquid) ----
+  // Shown while the cart has items; the drawer's own markup is the source for
+  // the count and total, so the bar never disagrees with the cart. Closing it
+  // hides it until the number of items changes.
+  const bagBar = document.querySelector('[data-bag-reminder]');
+  const BAG_OFF_KEY = 'bagReminderOff';
+
+  function bagCount() {
+    const sync = drawer.querySelector('[data-cart-count-sync]');
+    return parseInt(sync ? sync.getAttribute('data-cart-count-sync') : '0', 10) || 0;
+  }
+
+  function updateBagBar() {
+    if (!bagBar) return;
+    const n = bagCount();
+    const total = drawer.querySelector('.cart-drawer__total-amount');
+    const text = bagBar.querySelector('[data-bag-reminder-text]');
+    if (text && n > 0) {
+      text.textContent = n + (n === 1 ? ' item' : ' items') + ' in your bag' +
+        (total ? ' \u00b7 ' + total.textContent.trim() : '');
+    }
+    let off = '';
+    try { off = sessionStorage.getItem(BAG_OFF_KEY) || ''; } catch (err) {}
+    const show = n > 0 && off !== String(n);
+    bagBar.hidden = !show;
+    document.documentElement.toggleAttribute('data-bag-bar', show);
+  }
+
+  if (bagBar) {
+    bagBar.addEventListener('click', (e) => {
+      if (!e.target.closest('[data-bag-reminder-close]')) return;
+      try { sessionStorage.setItem(BAG_OFF_KEY, String(bagCount())); } catch (err) {}
+      updateBagBar();
+    });
+    updateBagBar();
+  }
+
   // ---- After every server re-render of the drawer (layout/theme.liquid) ----
   const live = drawer.querySelector('[data-cart-live]');
   document.addEventListener('cart-drawer:rendered', () => {
     loadUpsells();
     wireWhatsapp();
+    updateBagBar();
     if (isOpen()) startDispatch();
     if (!live || !isOpen()) return;
     const count = drawer.querySelector('[data-cart-count-sync]');
